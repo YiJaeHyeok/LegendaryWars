@@ -1,0 +1,15 @@
+.tools/
+**/build/
+**/.local/
+**/.gradle/
+**/local.properties
+*.keystore
+*.jks
+*.idsig
+*.apk
+*.aab
+*.xapk
+*.obb
+.env
+.env.*
+outputs/

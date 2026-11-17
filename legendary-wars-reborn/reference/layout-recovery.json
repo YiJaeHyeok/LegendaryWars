@@ -1,0 +1,3169 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "sha256": "062e16b02595cc577527cd0f15c0a9f4d6cb36b6575bedf7cd226e5e0ab28b48",
+    "files": [
+      "assets/MainMenuStack.plist",
+      "assets/HUDS.plist",
+      "assets/ProductionDock.plist",
+      "assets/UnitSelectionDock.plist",
+      "assets/Units.plist",
+      "assets/LWGemCounter.plist",
+      "assets/HudActionSpecial.plist",
+      "assets/mainmenu-background.plist",
+      "assets/mainmenu-foreground.plist",
+      "assets/hud-spritesheet.plist",
+      "assets/unit-selection-spritesheet.plist"
+    ],
+    "method": "Static allowlisted plist parsing only; no original application code, classes, actions, or scripts are instantiated."
+  },
+  "coordinateSystem": {
+    "designSize": [
+      480,
+      320
+    ],
+    "orientation": "landscape",
+    "origin": "bottom-left",
+    "atlasDensity": "SD sourceSize is logical pixels; game-data HD frame.size is approximately twice SD and needs a 0.5 logical-size factor.",
+    "canvas": {
+      "size": [
+        1280,
+        720
+      ],
+      "scale": 2.25,
+      "offset": [
+        100,
+        0
+      ],
+      "formula": "canvasX=100+sourceX*2.25; canvasY=720-sourceY*2.25",
+      "note": "Aspect-preserving 1080x720 content with100px horizontal margins. Extend scenery into margins; anchor HUD to safe viewport."
+    }
+  },
+  "menu": {
+    "sceneOrder": [
+      "sky",
+      "hills",
+      "title",
+      "props"
+    ],
+    "backgrounds": [
+      {
+        "path": "stack.0.children.clouds",
+        "frame": "credits-clouds.png",
+        "frameAvailable": true,
+        "atlas": "mainmenu-foreground",
+        "sourceSize": [
+          568,
+          213
+        ],
+        "sourceColorRect": [
+          0,
+          0,
+          568,
+          213
+        ],
+        "rotated": false,
+        "anchor": [
+          1,
+          0
+        ],
+        "alignment": {
+          "source": "{screen, 100%, 100%, noside, {0}}",
+          "reference": "screen",
+          "horizontal": 1,
+          "vertical": 1,
+          "side": "noside",
+          "insets": [
+            0
+          ],
+          "resolved": false
+        },
+        "z": 2
+      },
+      {
+        "path": "stack.0.children.sky",
+        "frame": "mainmenu-sky.png",
+        "frameAvailable": true,
+        "atlas": "mainmenu-background",
+        "sourceSize": [
+          480,
+          320
+        ],
+        "sourceColorRect": [
+          0,
+          0,
+          480,
+          320
+        ],
+        "rotated": false,
+        "alignment": {
+          "source": "{parent, center, mid, inside, {0,0}}",
+          "reference": "parent",
+          "horizontal": 0.5,
+          "vertical": 0.5,
+          "side": "inside",
+          "insets": [
+            0,
+            0
+          ],
+          "resolved": false
+        },
+        "alignmentIpad": {
+          "source": "{parent, center, mid, noside, {0,0}}",
+          "reference": "parent",
+          "horizontal": 0.5,
+          "vertical": 0.5,
+          "side": "noside",
+          "insets": [
+            0,
+            0
+          ],
+          "resolved": false
+        },
+        "z": -2
+      },
+      {
+        "path": "stack.0.children.sky2",
+        "frame": "mainmenu-sky2.png",
+        "frameAvailable": true,
+        "atlas": "mainmenu-background",
+        "sourceSize": [
+          480,
+          320
+        ],
+        "sourceColorRect": [
+          0,
+          0,
+          480,
+          320
+        ],
+        "rotated": false,
+        "position": [
+          0,
+          320
+        ],
+        "anchor": [
+          0,
+          0
+        ],
+        "alignmentIpad": {
+          "source": "{parent, center, 200%, noside, {0,0}}",
+          "reference": "parent",
+          "horizontal": 0.5,
+          "vertical": 2,
+          "side": "noside",
+          "insets": [
+            0,
+            0
+          ],
+          "resolved": false
+        },
+        "z": -2
+      },
+      {
+        "path": "stack.1.children.bg-hills",
+        "frame": "mainmenu-background-hills.png",
+        "frameAvailable": true,
+        "atlas": "mainmenu-background",
+        "sourceSize": [
+          1024,
+          227
+        ],
+        "sourceColorRect": [
+          0,
+          0,
+          1024,
+          227
+        ],
+        "rotated": false,
+        "positionIpad": [
+          512,
+          390
+        ],
+        "anchor": [
+          0.5,
+          0
+        ],
+        "alignment": {
+          "source": "{parent, center, bot, noside, {0, 0, 0, 0}}",
+          "reference": "parent",
+          "horizontal": 0.5,
+          "vertical": 0,
+          "side": "noside",
+          "insets": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "resolved": false
+        },
+        "alignmentIpad": {
+          "source": "{parent, center, bot, noside, {0, 80, 0, 0}}",
+          "reference": "parent",
+          "horizontal": 0.5,
+          "vertical": 0,
+          "side": "noside",
+          "insets": [
+            0,
+            80,
+            0,
+            0
+          ],
+          "resolved": false
+        },
+        "z": 0
+      }
+    ],
+    "scenes": {
+      "title": {
+        "visuals": [
+          {
+            "path": "stack.2.children.0",
+            "frame": "mainmenu-title-bg-hill.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              828,
+              78
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              828,
+              78
+            ],
+            "rotated": false,
+            "position": [
+              960,
+              0
+            ],
+            "anchor": [
+              1,
+              0
+            ],
+            "alignmentIpad": {
+              "source": "{parent, 100%, 0%, noside, {0}}",
+              "reference": "parent",
+              "horizontal": 1,
+              "vertical": 0,
+              "side": "noside",
+              "insets": [
+                0
+              ],
+              "resolved": false
+            },
+            "z": 0
+          },
+          {
+            "path": "stack.2.children.1",
+            "frame": "mainmenu-title-bg-grass2.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              147,
+              113
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              147,
+              113
+            ],
+            "rotated": false,
+            "position": [
+              350,
+              5
+            ],
+            "anchor": [
+              0.5,
+              0
+            ],
+            "alignmentIpad": {
+              "source": "{parent, 24%, 0%, noside, {0,50}}",
+              "reference": "parent",
+              "horizontal": 0.24,
+              "vertical": 0,
+              "side": "noside",
+              "insets": [
+                0,
+                50
+              ],
+              "resolved": false
+            },
+            "z": 1
+          },
+          {
+            "path": "stack.2.children.2",
+            "frame": "mainmenu-title-pole.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              473,
+              294
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              473,
+              294
+            ],
+            "rotated": false,
+            "alignment": {
+              "source": "{screen, center, mid, noside, {0, -15}}",
+              "reference": "screen",
+              "horizontal": 0.5,
+              "vertical": 0.5,
+              "side": "noside",
+              "insets": [
+                0,
+                -15
+              ],
+              "resolved": false
+            },
+            "alignmentIpad": {
+              "source": "{screen, center, mid, noside, {30, -30}}",
+              "reference": "screen",
+              "horizontal": 0.5,
+              "vertical": 0.5,
+              "side": "noside",
+              "insets": [
+                30,
+                -30
+              ],
+              "resolved": false
+            },
+            "z": 1
+          },
+          {
+            "path": "stack.2.children.3",
+            "frame": "mainmenu-title-logobanner.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              414,
+              124
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              414,
+              124
+            ],
+            "rotated": false,
+            "alignment": {
+              "source": "{screen, center,mid, noside, {0, 48}}",
+              "reference": "screen",
+              "horizontal": 0.5,
+              "vertical": 0.5,
+              "side": "noside",
+              "insets": [
+                0,
+                48
+              ],
+              "resolved": false
+            },
+            "alignmentIpad": {
+              "source": "{screen, center,mid, noside, {-12, 90}}",
+              "reference": "screen",
+              "horizontal": 0.5,
+              "vertical": 0.5,
+              "side": "noside",
+              "insets": [
+                -12,
+                90
+              ],
+              "resolved": false
+            },
+            "z": 2
+          },
+          {
+            "path": "stack.2.children.3.children.leftbottom",
+            "frame": "mainmenu-title-leftbotribbon.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              28,
+              103
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              28,
+              103
+            ],
+            "rotated": false,
+            "position": [
+              4,
+              71
+            ],
+            "positionIpad": [
+              9,
+              142
+            ],
+            "z": -1,
+            "parent": "stack.2.children.3"
+          },
+          {
+            "path": "stack.2.children.3.children.lefttopribbon",
+            "frame": "mainmenu-title-lefttopribbon.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              53,
+              182
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              53,
+              182
+            ],
+            "rotated": false,
+            "position": [
+              21,
+              33
+            ],
+            "positionIpad": [
+              42,
+              66
+            ],
+            "z": 3,
+            "parent": "stack.2.children.3"
+          },
+          {
+            "path": "stack.2.children.3.children.middleribbon",
+            "frame": "mainmenu-banner-mid.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              159,
+              153
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              159,
+              153
+            ],
+            "rotated": false,
+            "position": [
+              210,
+              38
+            ],
+            "positionIpad": [
+              430,
+              79
+            ],
+            "z": -6,
+            "parent": "stack.2.children.3"
+          },
+          {
+            "path": "stack.2.children.3.children.rightbotribbon",
+            "frame": "mainmenu-title-rightbotribbon.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              31,
+              103
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              31,
+              103
+            ],
+            "rotated": false,
+            "position": [
+              412,
+              70
+            ],
+            "positionIpad": [
+              824,
+              140
+            ],
+            "z": -2,
+            "parent": "stack.2.children.3"
+          },
+          {
+            "path": "stack.2.children.3.children.righttopribbon",
+            "frame": "mainmenu-title-righttopribbon.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              56,
+              171
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              56,
+              171
+            ],
+            "rotated": false,
+            "position": [
+              395,
+              40
+            ],
+            "positionIpad": [
+              790,
+              80
+            ],
+            "z": 3,
+            "parent": "stack.2.children.3"
+          },
+          {
+            "path": "stack.2.children.5.children.sword.menuItem.menuItem.normal",
+            "frame": "mainmenu-sword.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              84,
+              192
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              84,
+              192
+            ],
+            "rotated": false,
+            "z": 0
+          },
+          {
+            "path": "stack.2.children.6",
+            "frame": "mainmenu-title-helmet.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              89,
+              96
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              89,
+              96
+            ],
+            "rotated": false,
+            "alignment": {
+              "source": "{screen, right, bot, inside, {76, 6}}",
+              "reference": "screen",
+              "horizontal": 1,
+              "vertical": 0,
+              "side": "inside",
+              "insets": [
+                76,
+                6
+              ],
+              "resolved": false
+            },
+            "alignmentIpad": {
+              "source": "{screen, right, bot, inside, {200, 62}}",
+              "reference": "screen",
+              "horizontal": 1,
+              "vertical": 0,
+              "side": "inside",
+              "insets": [
+                200,
+                62
+              ],
+              "resolved": false
+            },
+            "z": 3
+          },
+          {
+            "path": "stack.2.children.7",
+            "frame": "mainmenu-title-mg-grass1.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              169,
+              94
+            ],
+            "sourceColorRect": [
+              0,
+              12,
+              169,
+              82
+            ],
+            "rotated": false,
+            "position": [
+              280,
+              -4
+            ],
+            "positionIpad": [
+              120,
+              15
+            ],
+            "anchor": [
+              0.5,
+              0
+            ],
+            "z": 1
+          },
+          {
+            "path": "stack.2.children.8",
+            "frame": "mainmenu-title-mg-grass2.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              129,
+              94
+            ],
+            "sourceColorRect": [
+              0,
+              18,
+              129,
+              62
+            ],
+            "rotated": false,
+            "position": [
+              690,
+              15
+            ],
+            "positionIpad": [
+              780,
+              120
+            ],
+            "z": 4
+          },
+          {
+            "path": "stack.2.children.9",
+            "frame": "mainmenu-title-mg-grass3.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              59,
+              94
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              59,
+              60
+            ],
+            "rotated": false,
+            "position": [
+              570,
+              5
+            ],
+            "positionHd": [
+              570,
+              -15
+            ],
+            "positionIpad": [
+              876,
+              15
+            ],
+            "anchor": [
+              0.5,
+              0
+            ],
+            "z": 1
+          },
+          {
+            "path": "stack.2.children.10",
+            "frame": "mode-grass-background2.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              71,
+              95
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              71,
+              95
+            ],
+            "rotated": false,
+            "position": [
+              650,
+              5
+            ],
+            "positionIpad": [
+              840,
+              110
+            ],
+            "anchor": [
+              0.5,
+              0
+            ],
+            "z": 1
+          }
+        ],
+        "controls": [
+          {
+            "id": "credits",
+            "path": "title.menu.credits",
+            "position": [
+              530,
+              320
+            ],
+            "positionHd": [
+              620,
+              320
+            ],
+            "positionIpad": [
+              820,
+              770
+            ],
+            "z": 0,
+            "normalFrame": null,
+            "selectedFrame": null,
+            "polygon": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                20
+              ],
+              [
+                180,
+                110
+              ],
+              [
+                200,
+                110
+              ],
+              [
+                200,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "localBounds": {
+              "x": 0,
+              "y": 0,
+              "width": 200,
+              "height": 110,
+              "evidence": "derived-bounds-of-source-polygon"
+            },
+            "recommendedBounds": {
+              "source": [
+                290,
+                320,
+                200,
+                110
+              ],
+              "canvas": [
+                752.5,
+                -247.5,
+                450,
+                247.5
+              ],
+              "evidence": "derived from source polygon bounds plus recommended parent placement; visually verify before use"
+            }
+          },
+          {
+            "id": "sword",
+            "path": "title.menu.sword",
+            "position": [
+              638,
+              10
+            ],
+            "positionIpad": [
+              798,
+              20
+            ],
+            "z": 0,
+            "normalFrame": "mainmenu-sword.png",
+            "selectedFrame": "mainmenu-sword-on.png",
+            "normalSourceSize": [
+              84,
+              192
+            ],
+            "selectedSourceSize": [
+              84,
+              192
+            ],
+            "polygon": [
+              [
+                14,
+                -3
+              ],
+              [
+                -12,
+                15
+              ],
+              [
+                16,
+                125
+              ],
+              [
+                33,
+                131
+              ],
+              [
+                45,
+                182
+              ],
+              [
+                63,
+                180
+              ],
+              [
+                54,
+                125
+              ],
+              [
+                75,
+                108
+              ],
+              [
+                48,
+                15
+              ]
+            ],
+            "localBounds": {
+              "x": -12,
+              "y": -3,
+              "width": 87,
+              "height": 185,
+              "evidence": "derived-bounds-of-source-polygon"
+            },
+            "recommendedBounds": {
+              "source": [
+                386,
+                7,
+                87,
+                185
+              ],
+              "canvas": [
+                968.5,
+                288,
+                195.75,
+                416.25
+              ],
+              "evidence": "derived from source polygon bounds plus recommended parent placement; visually verify before use"
+            }
+          }
+        ],
+        "compositionWidth": 960,
+        "compositionWidthEvidence": "derived from right-anchored hill position960 and offscreen composition positions; not declared contentSize",
+        "recommendedCompositionOffset": [
+          -240,
+          0
+        ],
+        "offsetEvidence": "derived centering of960-wide scene in480-wide viewport; screen-aligned title logo/pole bypass this shift"
+      },
+      "props": {
+        "visuals": [
+          {
+            "path": "props",
+            "frame": "mainmenu-props.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-foreground",
+            "sourceSize": [
+              905,
+              320
+            ],
+            "sourceColorRect": [
+              0,
+              4,
+              905,
+              316
+            ],
+            "rotated": true,
+            "anchor": [
+              0.5429,
+              0
+            ],
+            "z": 5
+          },
+          {
+            "path": "props.children.grass1",
+            "frame": "mainmenu-title-mg-grass1.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              169,
+              94
+            ],
+            "sourceColorRect": [
+              0,
+              12,
+              169,
+              82
+            ],
+            "rotated": false,
+            "position": [
+              350,
+              -15
+            ],
+            "positionIpad": [
+              20,
+              -45
+            ],
+            "anchor": [
+              0.5,
+              0
+            ],
+            "z": 15,
+            "parent": "props"
+          },
+          {
+            "path": "props.children.grass2",
+            "frame": "mode-grass-foreground.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              158,
+              71
+            ],
+            "sourceColorRect": [
+              1,
+              6,
+              142,
+              65
+            ],
+            "rotated": false,
+            "position": [
+              500,
+              0
+            ],
+            "positionIpad": [
+              1060,
+              -10
+            ],
+            "anchor": [
+              0.5,
+              0
+            ],
+            "z": 15,
+            "parent": "props"
+          },
+          {
+            "path": "props.children.grass3",
+            "frame": "mode-grass-background3.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              82,
+              133
+            ],
+            "sourceColorRect": [
+              0,
+              63,
+              82,
+              51
+            ],
+            "rotated": false,
+            "position": [
+              870,
+              0
+            ],
+            "positionIpad": [
+              1730,
+              0
+            ],
+            "anchor": [
+              0.5,
+              0
+            ],
+            "z": 15,
+            "parent": "props"
+          },
+          {
+            "path": "props.children.grass4",
+            "frame": "mode-grass-background2.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-background",
+            "sourceSize": [
+              71,
+              95
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              71,
+              95
+            ],
+            "rotated": false,
+            "position": [
+              605,
+              39
+            ],
+            "positionIpad": [
+              1215,
+              75
+            ],
+            "anchor": [
+              0.5,
+              0
+            ],
+            "z": 15,
+            "parent": "props"
+          },
+          {
+            "path": "props.children.menu.children.campaign.menuItem.menuItem.menuItem.normal",
+            "frame": "mainmenu-campaign-on.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-foreground",
+            "sourceSize": [
+              149,
+              81
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              149,
+              81
+            ],
+            "rotated": false,
+            "opacity": 0,
+            "z": 0,
+            "parent": "props"
+          },
+          {
+            "path": "props.children.menu.children.mode.menuItem.menuItem.normal",
+            "frame": "mainmenu-mode-on.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-foreground",
+            "sourceSize": [
+              116,
+              123
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              116,
+              123
+            ],
+            "rotated": true,
+            "opacity": 0,
+            "z": 0,
+            "parent": "props"
+          },
+          {
+            "path": "props.children.menu.children.mode-back.menuItem.menuItem.normal",
+            "frame": "mainmenu-mode-on.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-foreground",
+            "sourceSize": [
+              116,
+              123
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              116,
+              123
+            ],
+            "rotated": true,
+            "opacity": 0,
+            "z": 0,
+            "parent": "props"
+          },
+          {
+            "path": "options",
+            "frame": "mainmenu-options.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-foreground",
+            "sourceSize": [
+              717,
+              384
+            ],
+            "sourceColorRect": [
+              0,
+              54,
+              717,
+              330
+            ],
+            "rotated": true,
+            "anchor": [
+              0.5,
+              0
+            ],
+            "alignment": {
+              "source": "{screen, right, bot, noside, {0}}",
+              "reference": "screen",
+              "horizontal": 1,
+              "vertical": 0,
+              "side": "noside",
+              "insets": [
+                0
+              ],
+              "resolved": false
+            },
+            "z": 4
+          },
+          {
+            "path": "options.children.menu.children.optionsBack.menuItem.normal",
+            "frame": "options-back.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-foreground",
+            "sourceSize": [
+              177,
+              73
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              177,
+              73
+            ],
+            "rotated": false,
+            "z": 0,
+            "parent": "options"
+          },
+          {
+            "path": "options.children.crate",
+            "frame": "options-crate-control.png",
+            "frameAvailable": true,
+            "atlas": "mainmenu-foreground",
+            "sourceSize": [
+              197,
+              151
+            ],
+            "sourceColorRect": [
+              1,
+              0,
+              195,
+              151
+            ],
+            "rotated": false,
+            "position": [
+              380,
+              25
+            ],
+            "positionIpad": [
+              800,
+              50
+            ],
+            "anchor": [
+              0,
+              0
+            ],
+            "z": 0,
+            "parent": "options"
+          },
+          {
+            "path": "options.children.crate.children.heading.children.label",
+            "anchor": [
+              0.5,
+              0
+            ],
+            "z": 0,
+            "label": "Enemy Targeting",
+            "parent": "options.children.crate"
+          },
+          {
+            "path": "options.children.crate.children.heading.children.menu.children.auto.menuItem.children.label",
+            "position": [
+              55,
+              15
+            ],
+            "positionIpad": [
+              106,
+              30
+            ],
+            "anchor": [
+              0.5,
+              0.5
+            ],
+            "z": 0,
+            "label": "Automatic",
+            "parent": "options.children.crate"
+          },
+          {
+            "path": "options.children.crate.children.heading.children.menu.children.manual.menuItem.children.label",
+            "position": [
+              55,
+              15
+            ],
+            "positionIpad": [
+              110,
+              30
+            ],
+            "anchor": [
+              0.5,
+              0.5
+            ],
+            "z": 0,
+            "label": "Manual",
+            "parent": "options.children.crate"
+          }
+        ],
+        "controls": [
+          {
+            "id": "campaign",
+            "path": "props.menu.campaign",
+            "position": [
+              547,
+              25
+            ],
+            "positionHd": [
+              529,
+              25
+            ],
+            "positionIpad": [
+              1100,
+              48
+            ],
+            "z": 0,
+            "normalFrame": "mainmenu-campaign-on.png",
+            "selectedFrame": "mainmenu-campaign-on.png",
+            "normalSourceSize": [
+              149,
+              81
+            ],
+            "selectedSourceSize": [
+              149,
+              81
+            ],
+            "polygon": [
+              [
+                0,
+                170
+              ],
+              [
+                0,
+                235
+              ],
+              [
+                85,
+                285
+              ],
+              [
+                135,
+                255
+              ],
+              [
+                190,
+                240
+              ],
+              [
+                190,
+                115
+              ],
+              [
+                135,
+                115
+              ],
+              [
+                90,
+                115
+              ],
+              [
+                78,
+                115
+              ],
+              [
+                72,
+                115
+              ],
+              [
+                50,
+                147
+              ],
+              [
+                0,
+                170
+              ]
+            ],
+            "localBounds": {
+              "x": 0,
+              "y": 115,
+              "width": 190,
+              "height": 170,
+              "evidence": "derived-bounds-of-source-polygon"
+            },
+            "recommendedBounds": {
+              "source": [
+                295.6755,
+                140,
+                190,
+                170
+              ],
+              "canvas": [
+                765.2699,
+                22.5,
+                427.5,
+                382.5
+              ],
+              "evidence": "derived from source polygon bounds plus recommended parent placement; visually verify before use"
+            }
+          },
+          {
+            "id": "facebook",
+            "path": "props.menu.facebook",
+            "position": [
+              574,
+              5
+            ],
+            "z": 0,
+            "normalFrame": null,
+            "selectedFrame": "mainmenu-monster-campaign-on.png",
+            "selectedSourceSize": [
+              184,
+              65
+            ],
+            "relativePolygon": [
+              [
+                0.0537,
+                0.1304
+              ],
+              [
+                0.4919,
+                0.9478
+              ],
+              [
+                0.7607,
+                0.9652
+              ],
+              [
+                0.8064,
+                0.7565
+              ],
+              [
+                0.9569,
+                0.6347
+              ],
+              [
+                0.9892,
+                0.1913
+              ],
+              [
+                0.0537,
+                0.1304
+              ]
+            ],
+            "sourceDisabled": true
+          },
+          {
+            "id": "mode",
+            "path": "props.menu.mode",
+            "position": [
+              464,
+              42
+            ],
+            "positionIpad": [
+              1084,
+              204
+            ],
+            "z": 0,
+            "normalFrame": "mainmenu-mode-on.png",
+            "selectedFrame": "mainmenu-mode-on.png",
+            "normalSourceSize": [
+              116,
+              123
+            ],
+            "selectedSourceSize": [
+              116,
+              123
+            ],
+            "polygon": [
+              [
+                23,
+                68
+              ],
+              [
+                60,
+                150
+              ],
+              [
+                116,
+                122
+              ],
+              [
+                143,
+                35
+              ],
+              [
+                110,
+                51
+              ],
+              [
+                48,
+                0
+              ],
+              [
+                23,
+                68
+              ]
+            ],
+            "localBounds": {
+              "x": 23,
+              "y": 0,
+              "width": 120,
+              "height": 150,
+              "evidence": "derived-bounds-of-source-polygon"
+            },
+            "recommendedBounds": {
+              "source": [
+                235.6755,
+                42,
+                120,
+                150
+              ],
+              "canvas": [
+                630.2699,
+                288,
+                270,
+                337.5
+              ],
+              "evidence": "derived from source polygon bounds plus recommended parent placement; visually verify before use"
+            }
+          },
+          {
+            "id": "mode-back",
+            "path": "props.menu.mode-back",
+            "position": [
+              395,
+              37
+            ],
+            "positionIpad": [
+              986,
+              210
+            ],
+            "z": 0,
+            "normalFrame": "mainmenu-mode-on.png",
+            "selectedFrame": "mode-back-on.png",
+            "normalSourceSize": [
+              116,
+              123
+            ],
+            "selectedSourceSize": [
+              81,
+              199
+            ],
+            "polygon": [
+              [
+                10,
+                75
+              ],
+              [
+                36,
+                188
+              ],
+              [
+                80,
+                134
+              ],
+              [
+                52,
+                0
+              ],
+              [
+                10,
+                75
+              ]
+            ],
+            "localBounds": {
+              "x": 10,
+              "y": 0,
+              "width": 70,
+              "height": 188,
+              "evidence": "derived-bounds-of-source-polygon"
+            },
+            "recommendedBounds": {
+              "source": [
+                153.6755,
+                37,
+                70,
+                188
+              ],
+              "canvas": [
+                445.7699,
+                213.75,
+                157.5,
+                423
+              ],
+              "evidence": "derived from source polygon bounds plus recommended parent placement; visually verify before use"
+            }
+          },
+          {
+            "id": "monsterWars",
+            "path": "props.menu.monsterWars",
+            "position": [
+              630,
+              15
+            ],
+            "positionIpad": [
+              1280,
+              30
+            ],
+            "z": 0,
+            "normalFrame": null,
+            "selectedFrame": "mainmenu-monster-campaign-on.png",
+            "selectedSourceSize": [
+              184,
+              65
+            ],
+            "polygon": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                120
+              ],
+              [
+                150,
+                120
+              ],
+              [
+                150,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "localBounds": {
+              "x": 0,
+              "y": 0,
+              "width": 150,
+              "height": 120,
+              "evidence": "derived-bounds-of-source-polygon"
+            },
+            "recommendedBounds": {
+              "source": [
+                378.6755,
+                15,
+                150,
+                120
+              ],
+              "canvas": [
+                952.0199,
+                416.25,
+                337.5,
+                270
+              ],
+              "evidence": "derived from source polygon bounds plus recommended parent placement; visually verify before use"
+            }
+          }
+        ],
+        "optionControls": [
+          {
+            "id": "leaderboards",
+            "path": "options.menu.leaderboards",
+            "position": [
+              300,
+              55
+            ],
+            "positionIpad": [
+              595,
+              113
+            ],
+            "z": 0,
+            "normalFrame": null,
+            "selectedFrame": "mainmenu-leaderboards-on.png",
+            "selectedSourceSize": [
+              92,
+              71
+            ],
+            "relativePolygon": [
+              [
+                0,
+                0.2676
+              ],
+              [
+                0,
+                0.50704
+              ],
+              [
+                0.17391,
+                0.76056
+              ],
+              [
+                0.3586,
+                0.9295
+              ],
+              [
+                0.55434,
+                1
+              ],
+              [
+                0.84782,
+                1
+              ],
+              [
+                0.95652,
+                0.8591
+              ],
+              [
+                0.95652,
+                0.4291
+              ],
+              [
+                0.7608,
+                0.16901
+              ],
+              [
+                0.4347,
+                -0.0141
+              ],
+              [
+                0.17391,
+                0.0563
+              ],
+              [
+                0,
+                0.2676
+              ]
+            ]
+          },
+          {
+            "id": "medals",
+            "path": "options.menu.medals",
+            "position": [
+              243,
+              230
+            ],
+            "positionIpad": [
+              490,
+              524
+            ],
+            "z": 0,
+            "normalFrame": null,
+            "selectedFrame": "mainmenu-medals-on.png",
+            "selectedSourceSize": [
+              116,
+              105
+            ],
+            "polygon": [
+              [
+                0,
+                0
+              ],
+              [
+                35,
+                50
+              ],
+              [
+                108,
+                -30
+              ],
+              [
+                72,
+                -60
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "localBounds": {
+              "x": 0,
+              "y": -60,
+              "width": 108,
+              "height": 110,
+              "evidence": "derived-bounds-of-source-polygon"
+            }
+          },
+          {
+            "id": "news",
+            "path": "options.menu.news",
+            "position": [
+              70,
+              290
+            ],
+            "positionIpad": [
+              100,
+              710
+            ],
+            "anchor": [
+              0,
+              0
+            ],
+            "z": 0,
+            "normalFrame": null,
+            "selectedFrame": null,
+            "polygon": [
+              [
+                0,
+                0
+              ],
+              [
+                0,
+                25
+              ],
+              [
+                95,
+                25
+              ],
+              [
+                95,
+                0
+              ],
+              [
+                0,
+                0
+              ]
+            ],
+            "localBounds": {
+              "x": 0,
+              "y": 0,
+              "width": 95,
+              "height": 25,
+              "evidence": "derived-bounds-of-source-polygon"
+            }
+          },
+          {
+            "id": "optionsBack",
+            "path": "options.menu.optionsBack",
+            "position": [
+              380,
+              -5
+            ],
+            "positionIpad": [
+              740,
+              0
+            ],
+            "z": 0,
+            "normalFrame": "options-back.png",
+            "selectedFrame": "options-back-on.png",
+            "normalSourceSize": [
+              177,
+              73
+            ],
+            "selectedSourceSize": [
+              177,
+              73
+            ]
+          },
+          {
+            "id": "toOptions",
+            "path": "options.menu.toOptions",
+            "alignment": {
+              "source": "{parent1, 25.104%, 6.771%, noside, {0}}",
+              "reference": "parent1",
+              "horizontal": 0.25104,
+              "vertical": 0.06770999999999999,
+              "side": "noside",
+              "insets": [
+                0
+              ],
+              "resolved": false
+            },
+            "z": 0,
+            "normalFrame": null,
+            "selectedFrame": "mainmenu-options-on.png",
+            "selectedSourceSize": [
+              101,
+              173
+            ]
+          }
+        ],
+        "baseFrame": "mainmenu-props.png",
+        "anchor": [
+          0.5429,
+          0
+        ],
+        "recommendedBasePosition": [
+          240,
+          0
+        ],
+        "recommendedBaseLeft": -251.3245,
+        "placementEvidence": "derived: put the props anchor at screen center, then interpret child positions from sprite lower-left. Runtime StackTransitionLayer default position is unavailable.",
+        "labels": {
+          "campaign": "Campaign",
+          "mode": "Modes",
+          "monsterWars": "Monster Wars",
+          "toOptions": "Options"
+        }
+      }
+    },
+    "uncertainties": [
+      "Cloth force simulation and transition code are not reproduced; cloth textures can be drawn statically.",
+      "Source menu positions include SD, HD and iPad overrides. This recovery retains all explicit variants and recommends SD for the480x320 view.",
+      "Props and options occupy horizontally sliding screens. Their parent placement is runtime behavior, so recommended base placement and clickable rectangles must be visually verified.",
+      "Original button titles are baked into atlas art; semantic labels here are renderer labels, not extracted text strings."
+    ]
+  },
+  "battleHud": {
+    "controls": [
+      {
+        "id": "pause",
+        "path": "HUDS.buttons.pause.children.item",
+        "alignment": {
+          "source": "{screen, RightTop , Inside, {0, 0}}",
+          "resolved": false
+        },
+        "alignmentIpad": {
+          "source": "{screen, RightTop , Inside, {-2, -2}}",
+          "resolved": false
+        },
+        "z": 0,
+        "normalFrame": "hud-pause.png",
+        "selectedFrame": "hud-pause-selected.png",
+        "normalSourceSize": [
+          33,
+          35
+        ],
+        "selectedSourceSize": [
+          33,
+          35
+        ],
+        "visuals": [
+          {
+            "path": "HUDS.buttons.pause.children.item.normal",
+            "frame": "hud-pause.png",
+            "frameAvailable": true,
+            "atlas": "hud-spritesheet",
+            "sourceSize": [
+              33,
+              35
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              33,
+              35
+            ],
+            "rotated": false,
+            "z": 0
+          }
+        ],
+        "placement": {
+          "kind": "source-alignment",
+          "region": "top-right"
+        }
+      },
+      {
+        "id": "spellBook",
+        "path": "HUDS.buttons.spellBook.children.item",
+        "alignment": {
+          "source": "{screen, right, top , inside, {40, 3}}",
+          "reference": "screen",
+          "horizontal": 1,
+          "vertical": 1,
+          "side": "inside",
+          "insets": [
+            40,
+            3
+          ],
+          "resolved": false
+        },
+        "alignmentIpad": {
+          "source": "{screen, right, top , inside, {110, 3}}",
+          "reference": "screen",
+          "horizontal": 1,
+          "vertical": 1,
+          "side": "inside",
+          "insets": [
+            110,
+            3
+          ],
+          "resolved": false
+        },
+        "z": 0,
+        "normalFrame": "icon-spellbook.png",
+        "selectedFrame": "icon-spellbook-open.png",
+        "normalSourceSize": [
+          37,
+          40
+        ],
+        "selectedSourceSize": [
+          62,
+          40
+        ],
+        "visuals": [
+          {
+            "path": "HUDS.buttons.spellBook.children.item.normal",
+            "frame": "icon-spellbook.png",
+            "frameAvailable": true,
+            "atlas": "hud-spritesheet",
+            "sourceSize": [
+              37,
+              40
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              37,
+              40
+            ],
+            "rotated": false,
+            "z": 0
+          }
+        ],
+        "placement": {
+          "kind": "source-alignment",
+          "region": "top-right",
+          "inset": [
+            40,
+            3
+          ]
+        }
+      },
+      {
+        "id": "productionStance",
+        "path": "HUDS.buttons.productionAIToggle",
+        "position": [
+          107,
+          303
+        ],
+        "z": 0,
+        "normalFrame": null,
+        "selectedFrame": null,
+        "visuals": [],
+        "placement": {
+          "kind": "source-position",
+          "point": [
+            107,
+            303
+          ]
+        },
+        "states": [
+          {
+            "value": "advanceRight",
+            "frame": "icon-production-attack.png",
+            "frameAvailable": true
+          },
+          {
+            "value": "formUpRight",
+            "frame": "icon-production-defend.png",
+            "frameAvailable": false
+          }
+        ]
+      },
+      {
+        "id": "group",
+        "path": "HUDS.buttons.group",
+        "anchor": [
+          0,
+          0.5508
+        ],
+        "z": 6,
+        "normalFrame": null,
+        "selectedFrame": null,
+        "visuals": [],
+        "placement": {
+          "kind": "runtime-layout",
+          "sourcePosition": [
+            285,
+            303
+          ],
+          "note": "GroupControl implementation supplies command positions; buttons.group references older missing icon-group frames."
+        }
+      },
+      {
+        "id": "special",
+        "path": "HudActionSpecial",
+        "z": 0,
+        "normalFrame": "icon-special-bg.png",
+        "selectedFrame": "icon-special-bg.png",
+        "normalSourceSize": [
+          69,
+          68
+        ],
+        "selectedSourceSize": [
+          69,
+          68
+        ],
+        "visuals": [
+          {
+            "path": "HudActionSpecial.children.overlay",
+            "frame": "icon-special-glowletters.png",
+            "frameAvailable": true,
+            "atlas": "hud-spritesheet",
+            "sourceSize": [
+              69,
+              68
+            ],
+            "sourceColorRect": [
+              4,
+              3,
+              61,
+              62
+            ],
+            "rotated": false,
+            "anchor": [
+              0,
+              0
+            ],
+            "z": 1
+          },
+          {
+            "path": "HudActionSpecial.children.rays",
+            "frame": "icon-special-rays.png",
+            "frameAvailable": true,
+            "atlas": "hud-spritesheet",
+            "sourceSize": [
+              69,
+              68
+            ],
+            "sourceColorRect": [
+              1,
+              0,
+              67,
+              68
+            ],
+            "rotated": false,
+            "alignment": {
+              "source": "{parent, 50%, 50%, inside, {0}}",
+              "reference": "parent",
+              "horizontal": 0.5,
+              "vertical": 0.5,
+              "side": "inside",
+              "insets": [
+                0
+              ],
+              "resolved": false
+            },
+            "z": 2
+          },
+          {
+            "path": "HudActionSpecial.children.centerglow",
+            "frame": "icon-special-centerglow.png",
+            "frameAvailable": true,
+            "atlas": "hud-spritesheet",
+            "sourceSize": [
+              69,
+              68
+            ],
+            "sourceColorRect": [
+              12,
+              11,
+              45,
+              46
+            ],
+            "rotated": false,
+            "alignment": {
+              "source": "{parent, 50%, 50%, inside, {0}}",
+              "reference": "parent",
+              "horizontal": 0.5,
+              "vertical": 0.5,
+              "side": "inside",
+              "insets": [
+                0
+              ],
+              "resolved": false
+            },
+            "z": 3
+          },
+          {
+            "path": "HudActionSpecial.children.sunfront",
+            "frame": "icon-special-sunfront.png",
+            "frameAvailable": true,
+            "atlas": "hud-spritesheet",
+            "sourceSize": [
+              69,
+              68
+            ],
+            "sourceColorRect": [
+              11,
+              9,
+              47,
+              48
+            ],
+            "rotated": false,
+            "alignment": {
+              "source": "{parent, 50%, 50%, inside, {0}}",
+              "reference": "parent",
+              "horizontal": 0.5,
+              "vertical": 0.5,
+              "side": "inside",
+              "insets": [
+                0
+              ],
+              "resolved": false
+            },
+            "z": 4
+          },
+          {
+            "path": "HudActionSpecial.normal",
+            "frame": "icon-special-bg.png",
+            "frameAvailable": true,
+            "atlas": "hud-spritesheet",
+            "sourceSize": [
+              69,
+              68
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              69,
+              68
+            ],
+            "rotated": false,
+            "z": 0
+          }
+        ],
+        "placement": {
+          "kind": "runtime-layout",
+          "region": "bottom-right",
+          "note": "LWSpecialsDock / LWScrollingDock calculates position; SunStar is a layered circular button."
+        }
+      },
+      {
+        "id": "laneDownButton",
+        "path": "HUDS.docks.dpad.children.laneDownButton",
+        "opacity": 128,
+        "z": 1,
+        "normalFrame": "icon-down.png",
+        "selectedFrame": "icon-down.png",
+        "normalSourceSize": [
+          50,
+          50
+        ],
+        "selectedSourceSize": [
+          50,
+          50
+        ],
+        "visuals": [
+          {
+            "path": "HUDS.docks.dpad.children.laneDownButton.normal",
+            "frame": "icon-down.png",
+            "frameAvailable": true,
+            "atlas": "hud-spritesheet",
+            "sourceSize": [
+              50,
+              50
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              50,
+              50
+            ],
+            "rotated": false,
+            "z": 0
+          }
+        ],
+        "placement": {
+          "kind": "runtime-layout",
+          "region": "bottom-left"
+        }
+      },
+      {
+        "id": "laneUpButton",
+        "path": "HUDS.docks.dpad.children.laneUpButton",
+        "scaleY": -1,
+        "opacity": 128,
+        "z": 7,
+        "normalFrame": "icon-down.png",
+        "selectedFrame": "icon-down.png",
+        "normalSourceSize": [
+          50,
+          50
+        ],
+        "selectedSourceSize": [
+          50,
+          50
+        ],
+        "visuals": [
+          {
+            "path": "HUDS.docks.dpad.children.laneUpButton.normal",
+            "frame": "icon-down.png",
+            "frameAvailable": true,
+            "atlas": "hud-spritesheet",
+            "sourceSize": [
+              50,
+              50
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              50,
+              50
+            ],
+            "rotated": false,
+            "z": 0
+          }
+        ],
+        "placement": {
+          "kind": "runtime-layout",
+          "region": "bottom-left"
+        }
+      },
+      {
+        "id": "setAIAdvance",
+        "path": "HUDS.docks.dpad.children.setAIAdvance",
+        "opacity": 128,
+        "z": 5,
+        "normalFrame": "hud-arrow-right.png",
+        "selectedFrame": "hud-arrow-right-on.png",
+        "normalSourceSize": [
+          33,
+          35
+        ],
+        "selectedSourceSize": [
+          33,
+          35
+        ],
+        "visuals": [
+          {
+            "path": "HUDS.docks.dpad.children.setAIAdvance.normal",
+            "frame": "hud-arrow-right.png",
+            "frameAvailable": true,
+            "atlas": "hud-spritesheet",
+            "sourceSize": [
+              33,
+              35
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              33,
+              35
+            ],
+            "rotated": false,
+            "z": 0
+          }
+        ],
+        "placement": {
+          "kind": "runtime-layout",
+          "region": "bottom-left"
+        }
+      },
+      {
+        "id": "setAIBackward",
+        "path": "HUDS.docks.dpad.children.setAIBackward",
+        "opacity": 128,
+        "z": 3,
+        "normalFrame": "hud-arrow-left.png",
+        "selectedFrame": "hud-arrow-left-on.png",
+        "normalSourceSize": [
+          33,
+          35
+        ],
+        "selectedSourceSize": [
+          33,
+          35
+        ],
+        "visuals": [
+          {
+            "path": "HUDS.docks.dpad.children.setAIBackward.normal",
+            "frame": "hud-arrow-left.png",
+            "frameAvailable": true,
+            "atlas": "hud-spritesheet",
+            "sourceSize": [
+              33,
+              35
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              33,
+              35
+            ],
+            "rotated": false,
+            "z": 0
+          }
+        ],
+        "placement": {
+          "kind": "runtime-layout",
+          "region": "bottom-left"
+        }
+      },
+      {
+        "id": "setAIGuard",
+        "path": "HUDS.docks.dpad.children.setAIGuard",
+        "opacity": 128,
+        "z": 4,
+        "normalFrame": "hud-defense.png",
+        "selectedFrame": "hud-defense-on.png",
+        "normalSourceSize": [
+          33,
+          35
+        ],
+        "selectedSourceSize": [
+          33,
+          35
+        ],
+        "visuals": [
+          {
+            "path": "HUDS.docks.dpad.children.setAIGuard.normal",
+            "frame": "hud-defense.png",
+            "frameAvailable": true,
+            "atlas": "hud-spritesheet",
+            "sourceSize": [
+              33,
+              35
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              33,
+              35
+            ],
+            "rotated": false,
+            "z": 0
+          }
+        ],
+        "placement": {
+          "kind": "runtime-layout",
+          "region": "bottom-left"
+        }
+      }
+    ],
+    "gemCounter": {
+      "path": "LWGemCounter",
+      "position": [
+        125,
+        295
+      ],
+      "positionIpad": [
+        260,
+        717
+      ],
+      "z": 2,
+      "visuals": [
+        {
+          "path": "LWGemCounter.children.backing",
+          "frame": "hud-gems-backing.png",
+          "frameAvailable": true,
+          "atlas": "hud-spritesheet",
+          "sourceSize": [
+            66,
+            35
+          ],
+          "sourceColorRect": [
+            0,
+            0,
+            66,
+            35
+          ],
+          "rotated": false,
+          "z": -1
+        }
+      ],
+      "iconPattern": "hud-gems-side-%@.png"
+    },
+    "meters": {
+      "friendlyCastle": {
+        "path": "HUDS.meters.team0-castleMeters",
+        "frame": "hud-meter-healthbar.png",
+        "frameAvailable": true,
+        "atlas": "hud-spritesheet",
+        "sourceSize": [
+          81,
+          12
+        ],
+        "sourceColorRect": [
+          0,
+          0,
+          81,
+          12
+        ],
+        "rotated": false,
+        "position": [
+          63,
+          308
+        ],
+        "positionIpad": [
+          124,
+          745
+        ],
+        "z": 0,
+        "visuals": [
+          {
+            "path": "HUDS.meters.team0-castleMeters",
+            "frame": "hud-meter-healthbar.png",
+            "frameAvailable": true,
+            "atlas": "hud-spritesheet",
+            "sourceSize": [
+              81,
+              12
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              81,
+              12
+            ],
+            "rotated": false,
+            "position": [
+              63,
+              308
+            ],
+            "positionIpad": [
+              124,
+              745
+            ],
+            "z": 0
+          },
+          {
+            "path": "HUDS.meters.team0-castleMeters.children.backing",
+            "frame": "hud-meter-backing.png",
+            "frameAvailable": true,
+            "atlas": "hud-spritesheet",
+            "sourceSize": [
+              118,
+              35
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              118,
+              35
+            ],
+            "rotated": false,
+            "position": [
+              36,
+              1
+            ],
+            "positionIpad": [
+              74,
+              0
+            ],
+            "z": 1,
+            "parent": "HUDS.meters.team0-castleMeters"
+          },
+          {
+            "path": "HUDS.meters.team0-castleMeters.children.backingbg",
+            "frame": "hud-lifebar-backing.png",
+            "frameAvailable": true,
+            "atlas": "hud-spritesheet",
+            "sourceSize": [
+              176,
+              35
+            ],
+            "sourceColorRect": [
+              12,
+              2,
+              100,
+              31
+            ],
+            "rotated": false,
+            "position": [
+              -22,
+              -17
+            ],
+            "positionIpad": [
+              -48,
+              -35
+            ],
+            "anchor": [
+              0,
+              0
+            ],
+            "z": -1,
+            "parent": "HUDS.meters.team0-castleMeters"
+          }
+        ]
+      },
+      "mana": {
+        "path": "HUDS.meters.manaMeter",
+        "frame": "hud-meter-manabar.png",
+        "frameAvailable": true,
+        "atlas": "hud-spritesheet",
+        "sourceSize": [
+          75,
+          9
+        ],
+        "sourceColorRect": [
+          0,
+          0,
+          75,
+          9
+        ],
+        "rotated": false,
+        "position": [
+          15,
+          300
+        ],
+        "positionIpad": [
+          30,
+          730
+        ],
+        "z": 0,
+        "visuals": [
+          {
+            "path": "HUDS.meters.manaMeter",
+            "frame": "hud-meter-manabar.png",
+            "frameAvailable": true,
+            "atlas": "hud-spritesheet",
+            "sourceSize": [
+              75,
+              9
+            ],
+            "sourceColorRect": [
+              0,
+              0,
+              75,
+              9
+            ],
+            "rotated": false,
+            "position": [
+              15,
+              300
+            ],
+            "positionIpad": [
+              30,
+              730
+            ],
+            "z": 0
+          },
+          {
+            "path": "HUDS.meters.manaMeter.children.boarderBar",
+            "frame": "hud-bar-outline.png",
+            "frameAvailable": true,
+            "atlas": "hud-spritesheet",
+            "sourceSize": [
+              68,
+              22
+            ],
+            "sourceColorRect": [
+              0,
+              2,
+              68,
+              16
+            ],
+            "rotated": false,
+            "position": [
+              39,
+              5
+            ],
+            "positionIpad": [
+              81,
+              10
+            ],
+            "z": 1,
+            "parent": "HUDS.meters.manaMeter"
+          }
+        ]
+      },
+      "enemyCastle": {
+        "path": "HUDS.meters.team1-castleMeters",
+        "frame": "hud-meter-healthbar.png",
+        "frameAvailable": true,
+        "atlas": "hud-spritesheet",
+        "sourceSize": [
+          81,
+          12
+        ],
+        "sourceColorRect": [
+          0,
+          0,
+          81,
+          12
+        ],
+        "rotated": false,
+        "position": [
+          320,
+          160
+        ],
+        "anchor": [
+          1,
+          0.5
+        ],
+        "z": 0,
+        "note": "Template position320,160 is not proof of a global screen HUD; level may override it."
+      }
+    },
+    "productionDock": {
+      "horizontalAlign": "left",
+      "onBottom": true,
+      "z": 12,
+      "slotGeometry": "runtime-calculated, not present in ProductionDock.plist",
+      "iconLogicalSize": [
+        50,
+        50
+      ],
+      "iconSizeEvidence": "derived from100x100 HD unit icons",
+      "miner": {
+        "path": "Units.miney.hud.miningItem",
+        "z": 0,
+        "normalFrame": "icon-miner.png",
+        "selectedFrame": "icon-miner.png",
+        "normalSourceSize": [
+          50,
+          50
+        ],
+        "selectedSourceSize": [
+          50,
+          50
+        ]
+      }
+    },
+    "grouping": {
+      "sourcePosition": [
+        285,
+        303
+      ],
+      "availableFrames": [
+        "icon-group-defense.png",
+        "icon-group-formup-off.png",
+        "icon-group-formup.png",
+        "icon-group-left.png",
+        "icon-group-right.png"
+      ],
+      "note": "Source group template names icon-group.png/icon-group-attack-glow.png which are absent in the supplied atlas. Use available group directional/defense art with reconstructed placement."
+    },
+    "unitSelection": {
+      "maxSlots": 7,
+      "maxColumns": 4,
+      "childrenStartPosition": [
+        50,
+        170
+      ],
+      "label": "choose your heroes",
+      "startLabel": "Start Battle",
+      "roster": [
+        {
+          "id": "knighty",
+          "order": 0,
+          "selectionCost": 10,
+          "unlockRequired": null,
+          "initialUpgrade": null,
+          "initialUpgradePrice": null,
+          "stats": {
+            "hp": 100,
+            "attack": 20,
+            "defense": 1,
+            "speed": 25,
+            "cost": 10,
+            "cooldown": 5,
+            "range": 25
+          },
+          "icon": "icon-knighty.png",
+          "animationPatterns": {
+            "death": {
+              "pattern": "knightydeath_%04d.png",
+              "count": 16,
+              "fps": null
+            },
+            "primary": {
+              "pattern": "knightyattack_%04d.png",
+              "count": 10,
+              "fps": null
+            },
+            "ready": {
+              "pattern": "knightyidle_%04d.png",
+              "count": 5,
+              "fps": 10
+            },
+            "special": {
+              "pattern": "knightyspecial_%04d.png",
+              "count": 13,
+              "fps": null
+            },
+            "walk": {
+              "pattern": "knightywalk_%04d.png",
+              "count": 12,
+              "fps": null
+            }
+          }
+        },
+        {
+          "id": "elfy",
+          "order": 1,
+          "selectionCost": 15,
+          "unlockRequired": 3,
+          "initialUpgrade": null,
+          "initialUpgradePrice": null,
+          "stats": {
+            "hp": 80,
+            "attack": 8,
+            "defense": null,
+            "speed": 25,
+            "cost": 15,
+            "cooldown": 10,
+            "range": 200
+          },
+          "icon": "icon-elfy.png",
+          "animationPatterns": {
+            "death": {
+              "pattern": "elfydeath_%04d.png",
+              "count": 16,
+              "fps": null
+            },
+            "primary": {
+              "pattern": "elfyattack_%04d.png",
+              "count": 18,
+              "fps": null
+            },
+            "ready": {
+              "pattern": "elfyidle_%04d.png",
+              "count": 5,
+              "fps": 10
+            },
+            "special": {
+              "pattern": "elfyspecial_%04d.png",
+              "count": 23,
+              "fps": null
+            },
+            "walk": {
+              "pattern": "elfywalk_%04d.png",
+              "count": 12,
+              "fps": null
+            }
+          }
+        },
+        {
+          "id": "dwarfy",
+          "order": 2,
+          "selectionCost": 25,
+          "unlockRequired": 10,
+          "initialUpgrade": null,
+          "initialUpgradePrice": null,
+          "stats": {
+            "hp": 200,
+            "attack": 30,
+            "defense": 5,
+            "speed": 20,
+            "cost": 25,
+            "cooldown": 15,
+            "range": 35
+          },
+          "icon": "icon-dwarfy.png",
+          "animationPatterns": {
+            "death": {
+              "pattern": "dwarfydeath_%04d.png",
+              "count": 20,
+              "fps": null
+            },
+            "primary": {
+              "pattern": "dwarfyattack_%04d.png",
+              "count": 25,
+              "fps": null
+            },
+            "ready": {
+              "pattern": "dwarfyidle_%04d.png",
+              "count": 5,
+              "fps": 10
+            },
+            "special": {
+              "pattern": "dwarfyspecial_%04d.png",
+              "count": 20,
+              "fps": null
+            },
+            "walk": {
+              "pattern": "dwarfywalk_%04d.png",
+              "count": 12,
+              "fps": null
+            }
+          }
+        },
+        {
+          "id": "faun",
+          "order": 3,
+          "selectionCost": 30,
+          "unlockRequired": 6,
+          "initialUpgrade": null,
+          "initialUpgradePrice": 1,
+          "stats": {
+            "hp": 250,
+            "attack": 10,
+            "defense": 1,
+            "speed": 25,
+            "cost": 30,
+            "cooldown": 20,
+            "range": 150
+          },
+          "icon": "icon-faun.png",
+          "animationPatterns": {
+            "death": {
+              "pattern": "faundeath_%04d.png",
+              "count": 14,
+              "fps": null
+            },
+            "primary": {
+              "pattern": "faunattack_%04d.png",
+              "count": 14,
+              "fps": null
+            },
+            "special": {
+              "pattern": "faunspecial_%04d.png",
+              "count": 14,
+              "fps": null
+            },
+            "ready": {
+              "pattern": "faunidle_%04d.png",
+              "count": 5,
+              "fps": 10
+            },
+            "walk": {
+              "pattern": "faunwalk_%04d.png",
+              "count": 16,
+              "fps": null
+            }
+          }
+        },
+        {
+          "id": "rogue",
+          "order": 4,
+          "selectionCost": 40,
+          "unlockRequired": null,
+          "initialUpgrade": true,
+          "initialUpgradePrice": 1,
+          "stats": {
+            "hp": 275,
+            "attack": 10,
+            "defense": null,
+            "speed": 50,
+            "cost": 40,
+            "cooldown": 22,
+            "range": 200
+          },
+          "icon": "icon-rogue.png",
+          "animationPatterns": {
+            "death": {
+              "pattern": "roguedeath_%04d.png",
+              "count": 15,
+              "fps": null
+            },
+            "primary": {
+              "pattern": "rogueattack_%04d.png",
+              "count": 18,
+              "fps": null
+            },
+            "ready": {
+              "pattern": "rogueidle_%04d.png",
+              "count": 5,
+              "fps": 10
+            },
+            "special": {
+              "pattern": "roguespecial_%04d.png",
+              "count": 26,
+              "fps": null
+            },
+            "walk": {
+              "pattern": "roguewalk_%04d.png",
+              "count": 12,
+              "fps": null
+            }
+          }
+        },
+        {
+          "id": "unicorn",
+          "order": 5,
+          "selectionCost": 50,
+          "unlockRequired": 14,
+          "initialUpgrade": null,
+          "initialUpgradePrice": null,
+          "stats": {
+            "hp": 300,
+            "attack": 30,
+            "defense": 1,
+            "speed": 40,
+            "cost": 50,
+            "cooldown": 25,
+            "range": 100
+          },
+          "icon": "icon-unicorn.png",
+          "animationPatterns": {
+            "death": {
+              "pattern": "unicorndeath_%04d.png",
+              "count": 20,
+              "fps": 14
+            },
+            "primary": {
+              "pattern": "unicornattack_%04d.png",
+              "count": 16,
+              "fps": null
+            },
+            "ready": {
+              "pattern": "unicornidle_%04d.png",
+              "count": 5,
+              "fps": 10
+            },
+            "special": {
+              "pattern": "unicornspecial_%04d.png",
+              "count": 14,
+              "fps": 24
+            },
+            "walk": {
+              "pattern": "unicornwalk_%04d.png",
+              "count": 20,
+              "fps": null
+            }
+          }
+        },
+        {
+          "id": "sprite",
+          "order": 6,
+          "selectionCost": 65,
+          "unlockRequired": null,
+          "initialUpgrade": true,
+          "initialUpgradePrice": 2,
+          "stats": {
+            "hp": 350,
+            "attack": 40,
+            "defense": 5,
+            "speed": 35,
+            "cost": 65,
+            "cooldown": 30,
+            "range": 55
+          },
+          "icon": "icon-sprite.png",
+          "animationPatterns": {
+            "death": {
+              "pattern": "spritedeath_%04d.png",
+              "count": 14,
+              "fps": 14
+            },
+            "primary": {
+              "pattern": "spriteattack_%04d.png",
+              "count": 15,
+              "fps": null
+            },
+            "ready": {
+              "pattern": "spriteidle_%04d.png",
+              "count": 5,
+              "fps": 10
+            },
+            "special": {
+              "pattern": "spritespecial_%04d.png",
+              "count": 15,
+              "fps": null
+            },
+            "walk": {
+              "pattern": "spritewalk_%04d.png",
+              "count": 18,
+              "fps": null
+            }
+          }
+        },
+        {
+          "id": "golem",
+          "order": 7,
+          "selectionCost": 75,
+          "unlockRequired": 21,
+          "initialUpgrade": null,
+          "initialUpgradePrice": null,
+          "stats": {
+            "hp": 450,
+            "attack": 30,
+            "defense": 20,
+            "speed": 25,
+            "cost": 75,
+            "cooldown": 45,
+            "range": 25
+          },
+          "icon": "icon-golem.png",
+          "animationPatterns": {
+            "death": {
+              "pattern": "golemdeath_%04d.png",
+              "count": 12,
+              "fps": 16
+            },
+            "primary": {
+              "pattern": "golemattack_%04d.png",
+              "count": 25,
+              "fps": null
+            },
+            "ready": {
+              "pattern": "golemidle_%04d.png",
+              "count": 5,
+              "fps": 10
+            },
+            "special": {
+              "pattern": "golemspecial_%04d.png",
+              "count": 16,
+              "fps": null
+            },
+            "walk": {
+              "pattern": "golemwalk_%04d.png",
+              "count": 25,
+              "fps": 14
+            }
+          }
+        },
+        {
+          "id": "centaur",
+          "order": 8,
+          "selectionCost": 85,
+          "unlockRequired": null,
+          "initialUpgrade": true,
+          "initialUpgradePrice": 2,
+          "stats": {
+            "hp": 400,
+            "attack": 50,
+            "defense": 5,
+            "speed": 70,
+            "cost": 85,
+            "cooldown": 50,
+            "range": 50
+          },
+          "icon": "icon-centaur.png",
+          "animationPatterns": {
+            "death": {
+              "pattern": "centaurdeath_%04d.png",
+              "count": 15,
+              "fps": 14
+            },
+            "primary": {
+              "pattern": "centaurattack_%04d.png",
+              "count": 16,
+              "fps": 24
+            },
+            "ready": {
+              "pattern": "centauridle_%04d.png",
+              "count": 5,
+              "fps": 10
+            },
+            "special": {
+              "pattern": "centaurspecial_%04d.png",
+              "count": 19,
+              "fps": 24
+            },
+            "walk": {
+              "pattern": "centaurwalk_%04d.png",
+              "count": 13,
+              "fps": null
+            }
+          }
+        },
+        {
+          "id": "healer",
+          "order": 9,
+          "selectionCost": 100,
+          "unlockRequired": null,
+          "initialUpgrade": true,
+          "initialUpgradePrice": 1,
+          "stats": {
+            "hp": 200,
+            "attack": 20,
+            "defense": 1,
+            "speed": 25,
+            "cost": 100,
+            "cooldown": 60,
+            "range": 100
+          },
+          "icon": "icon-healer.png",
+          "animationPatterns": {
+            "death": {
+              "pattern": "healerdeath_%04d.png",
+              "count": 16,
+              "fps": null
+            },
+            "primary": {
+              "pattern": "healerattack_%04d.png",
+              "count": 15,
+              "fps": null
+            },
+            "ready": {
+              "pattern": "healeridle_%04d.png",
+              "count": 5,
+              "fps": 10
+            },
+            "special": {
+              "pattern": "healerspecial_%04d.png",
+              "count": 15,
+              "fps": 10
+            },
+            "walk": {
+              "pattern": "healerwalk_%04d.png",
+              "count": 16,
+              "fps": null
+            }
+          }
+        },
+        {
+          "id": "wizard",
+          "order": 10,
+          "selectionCost": 150,
+          "unlockRequired": 31,
+          "initialUpgrade": null,
+          "initialUpgradePrice": null,
+          "stats": {
+            "hp": 400,
+            "attack": 60,
+            "defense": 1,
+            "speed": 25,
+            "cost": 150,
+            "cooldown": 75,
+            "range": 200
+          },
+          "icon": "icon-wizard.png",
+          "animationPatterns": {
+            "death": {
+              "pattern": "wizarddeath_%04d.png",
+              "count": 14,
+              "fps": null
+            },
+            "primary": {
+              "pattern": "wizardattack_%04d.png",
+              "count": 18,
+              "fps": null
+            },
+            "ready": {
+              "pattern": "wizardidle_%04d.png",
+              "count": 5,
+              "fps": 10
+            },
+            "special": {
+              "pattern": "wizardspecial_%04d.png",
+              "count": 18,
+              "fps": null
+            },
+            "walk": {
+              "pattern": "wizardwalk_%04d.png",
+              "count": 16,
+              "fps": null
+            }
+          }
+        },
+        {
+          "id": "phoenix",
+          "order": 11,
+          "selectionCost": 200,
+          "unlockRequired": 43,
+          "initialUpgrade": null,
+          "initialUpgradePrice": null,
+          "stats": {
+            "hp": 750,
+            "attack": 100,
+            "defense": 1,
+            "speed": 40,
+            "cost": 200,
+            "cooldown": 180,
+            "range": 60
+          },
+          "icon": "icon-phoenix.png",
+          "animationPatterns": {
+            "death": {
+              "pattern": "phoenixdeath_%04d.png",
+              "count": 20,
+              "fps": 16
+            },
+            "primary": {
+              "pattern": "phoenixattack_%04d.png",
+              "count": 13,
+              "fps": null
+            },
+            "ready": {
+              "pattern": "phoenixfly_%04d.png",
+              "count": 11,
+              "fps": null
+            },
+            "special": {
+              "pattern": "phoenixspecial_%04d.png",
+              "count": 16,
+              "fps": 16
+            },
+            "walk": {
+              "pattern": "phoenixfly_%04d.png",
+              "count": 11,
+              "fps": null
+            }
+          }
+        }
+      ]
+    },
+    "mining": {
+      "hp": 20,
+      "speed": 65,
+      "production": {
+        "cooldown": 15,
+        "cost": 5
+      },
+      "duration": 7,
+      "gemsPerTrip": 5,
+      "maxMiners": 1,
+      "idleWithGemDuration": 2,
+      "cooldown": 15,
+      "cost": 0,
+      "note": "Timing fields are static source values; original runtime scheduling is not recovered."
+    },
+    "notes": [
+      "HUDS states it is a reusable template store; individual levels determine which controls appear.",
+      "Attack/defend/group docking and production slots are native runtime layout and cannot be recovered exactly from these plists alone.",
+      "Some historical templates reference absent frames, including icon-production-defend.png and icon-group.png. Do not invent a claim of exact restoration."
+    ]
+  }
+}

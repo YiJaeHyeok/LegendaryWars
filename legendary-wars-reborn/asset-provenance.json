@@ -1,0 +1,3282 @@
+{
+  "sourceApkSha256": "062e16b02595cc577527cd0f15c0a9f4d6cb36b6575bedf7cd226e5e0ab28b48",
+  "sourceObbSha256": "844d16cc494000fa0efe6d0938c68becd7db227559e381b9edc964dd33159d7a",
+  "originalExecutablesIncluded": false,
+  "validation": "ZIP CRC, exact source SHA-256, PNG chunk CRC/dimension/bounds, plist safe subset, WAV chunk bounds, Ogg page CRC/bounds and Vorbis ID, TrueType table bounds",
+  "files": [
+    {
+      "source": "apk",
+      "path": "assets/Units.plist",
+      "sha256": "ca1e353942608e59fa5bd2a0875ce37a06e024bc214b59fca7abdb35c5f050be",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/WorldMap.plist",
+      "sha256": "476f08d0cd4dd7baa7b94cd7d79752e4285d15d028cc1bb13713f4d60d5f6c3c",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/knighty-hd.plist",
+      "sha256": "82b227ccdfa2461cd7bb53bc9a98ae6764cc4c44be1032ab85e9aa1229bf6048",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/knighty-hd.png",
+      "sha256": "d4d4148da138524d056b1fb317bcaae425925e4950bde80e7737953d63b01d77",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 578
+    },
+    {
+      "source": "apk",
+      "path": "assets/knighty-s-hd.plist",
+      "sha256": "11d77eabdca766c0323846a236555b599611c9e20c10fe08794fd2f5d39a2e71",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/knighty-s-hd.png",
+      "sha256": "1078ff2f27f65f2306efee20f059d1c1f1bd2d7356bc7b99f43143a3d1e2b1f8",
+      "use": "unchanged PNG",
+      "width": 508,
+      "height": 940
+    },
+    {
+      "source": "apk",
+      "path": "assets/knighty2-hd.plist",
+      "sha256": "5f3cca24f1ef31796c1bf07a920f69318f4175fba25f0bf5f83632b2701bb328",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/knighty2-hd.png",
+      "sha256": "b652d000d2fe7db8d6ffcdbcb46609ac2f05daba9c7b5526162690bc060b21aa",
+      "use": "unchanged PNG",
+      "width": 1020,
+      "height": 618
+    },
+    {
+      "source": "apk",
+      "path": "assets/knightyAnimations_2.plist",
+      "sha256": "daa4a851e6e6ad9d2ca89ace56d5b7d708f4b75d643146579c04a3731cfcf560",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/knighty3-hd.plist",
+      "sha256": "7dd86fe8c05ac03db16a880aae10afa9b4b0e9506d569b1c4ddf1301e9fc8479",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/knighty3-hd.png",
+      "sha256": "25ae0ca968b5f1a145a59c37d5d28e79c4a993d4da859369b82a0c2f6f7b2541",
+      "use": "unchanged PNG",
+      "width": 1020,
+      "height": 622
+    },
+    {
+      "source": "apk",
+      "path": "assets/knightyAnimations_3.plist",
+      "sha256": "c5432b4539b2f54e0e903028f55acae3f97660a0e12b51c932ed5e0e2c64bf31",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/knighty4-hd.plist",
+      "sha256": "2246537654ec0bf6b5b32a2fefd0dd2cfb0dfbb8320e59b8eef458ea049df29c",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/knighty4-hd.png",
+      "sha256": "d8e68ad32dcb088349b708f08196489532802b96f2eb0c7ec122a49aade093d5",
+      "use": "unchanged PNG",
+      "width": 1020,
+      "height": 714
+    },
+    {
+      "source": "apk",
+      "path": "assets/knightyAnimations_4.plist",
+      "sha256": "1fb5533398a6b730c05a781dba81798de8b7e973e6ee6baadfffb4906c439ef9",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/knighty5-hd.plist",
+      "sha256": "c1df05a13476828c8c6f6e8f699fd2ada677e33ba51474d141cb786551ef8c7a",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/knighty5-hd.png",
+      "sha256": "60ec5f34f7533737b5ad8dfe3ff7ef9fa498ca1db3941de4b9ce74fe8b1be11a",
+      "use": "unchanged PNG",
+      "width": 1002,
+      "height": 738
+    },
+    {
+      "source": "apk",
+      "path": "assets/knightyAnimations_5.plist",
+      "sha256": "7a441cc36f8065c6b1cb2efcff5c0cd898fcd7be56cd583c2aca1b158cd8cc6a",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/elfy-hd.plist",
+      "sha256": "f02c1a74e8a01405a25fe59c9f4f94c6ea3e3c2bb300e8c58880fa0de77bb9b8",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/elfy-hd.png",
+      "sha256": "2d13e589d8842b78740a82d5e76bc0d384159e8114e784222834e2922f7f9af4",
+      "use": "unchanged PNG",
+      "width": 1020,
+      "height": 818
+    },
+    {
+      "source": "apk",
+      "path": "assets/elfy-s-hd.plist",
+      "sha256": "3004b1b238f0f1a0ff6debe7507c223c2a8e123a97618e53b32fda3be77abff5",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/elfy-s-hd.png",
+      "sha256": "1ab436440bad076c8f468d92d3dce37992caea7707f605485cc71790e3255a80",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 586
+    },
+    {
+      "source": "apk",
+      "path": "assets/elfy2-hd.plist",
+      "sha256": "4b9d73aa0f68104c45699d3ecf0f75915c107922463826774c00a9a47923a806",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/elfy2-hd.png",
+      "sha256": "4d404429cbdd32cf82e7d316c3b427e5144d6e4bdca20a7b9d7cc21246fd6d61",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 850
+    },
+    {
+      "source": "apk",
+      "path": "assets/elfyAnimations_2.plist",
+      "sha256": "a520ea024d157209d6d4eb331f0ab7f8e448331762a816b4de9654a3f4eb81c5",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/elfy3-hd.plist",
+      "sha256": "3aa30e4611ac4b62ee9fb90e9c921c5ee3af9e56317a27b4e248f31807f97dae",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/elfy3-hd.png",
+      "sha256": "dfbd6f5e9abdec9a67e17341beef0b0dad2bb0fa0be3f8c915f5ece654c221c5",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 844
+    },
+    {
+      "source": "apk",
+      "path": "assets/elfyAnimations_3.plist",
+      "sha256": "6fd8dbb2f339655196182a16092477886ae4a7ea30cad802118ec8a2d27fb977",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/elfy4-hd.plist",
+      "sha256": "c9a7adbef8b859fed2c313b1050eea2e06b0146460625efaa054dba331731018",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/elfy4-hd.png",
+      "sha256": "7db79b5c561f4e37c5b7b0e028a747a641ac3548446dbac71172e15a9a855e0f",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 924
+    },
+    {
+      "source": "apk",
+      "path": "assets/elfyAnimations_4.plist",
+      "sha256": "5aaf2428ead9d830d3d62eee65d22194a0efb96a95743e61d8b1d430e3cb865f",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/elfy5-hd.plist",
+      "sha256": "be213d754dca43fc2820a5c5269c234e45c02019475bb10bc88afcacb8f53f2d",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/elfy5-hd.png",
+      "sha256": "8b085a146013e9887bfe8056d516a179c5ee1971c27023513400307510452dbd",
+      "use": "unchanged PNG",
+      "width": 1020,
+      "height": 898
+    },
+    {
+      "source": "apk",
+      "path": "assets/elfyAnimations_5.plist",
+      "sha256": "4a4388ab0908f1176969910ad93429fec2463557cfbf2d17eefc6f84f1fffe8c",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/dwarfy-hd.plist",
+      "sha256": "3d819823f4f5ed549d005d56b3fb7d50c73474434ceba58cdcdf0d9bc902910e",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/dwarfy-hd.png",
+      "sha256": "9f1c85f3ee3fe78a1a56907714796f527ad36c3ac36b0a4beb7e3c6f04d4a52f",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 846
+    },
+    {
+      "source": "apk",
+      "path": "assets/dwarfy-s-hd.plist",
+      "sha256": "48cc156202c714c9d9797c8c1101a09b8254a1a97bdbb8ade2b1869842677a8f",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/dwarfy-s-hd.png",
+      "sha256": "d9d2c99cd9fe8bf660ed17a9e65dfd52785705ed211546f65934ca0994619c7b",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 678
+    },
+    {
+      "source": "apk",
+      "path": "assets/dwarfy2-hd.plist",
+      "sha256": "c181beb3fc8add894a424e169d748fd73433d9019dce2b0736cfac598ebc28aa",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/dwarfy2-hd.png",
+      "sha256": "d8b0a12c341da9246f1207000d45aca472466df94df0ded254a127b93e46e7ca",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 944
+    },
+    {
+      "source": "apk",
+      "path": "assets/dwarfyAnimations_2.plist",
+      "sha256": "9e4c3166e6a3ed546c66be58438fd80c27cd71534a9a36b9da30bd2f4be92ae7",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/dwarfy3-hd.plist",
+      "sha256": "b1db53007656612adf3a9c2d6d9ec486424e2857bd2cad319dac8f061a2d8e54",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/dwarfy3-hd.png",
+      "sha256": "e82b199d65878aa5511d2db3af380169cb968f44fc7f9fda669a334e68397c2c",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 936
+    },
+    {
+      "source": "apk",
+      "path": "assets/dwarfyAnimations_3.plist",
+      "sha256": "308ca4ab9bc6d62864b1994fb5133b3242e0ae97a71b02240b8220cb290bbe07",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/dwarfy4-hd.plist",
+      "sha256": "c8bab378e927945cc91d0af873f25c5fc77fb95be411b63ba0f9f6f29754feda",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/dwarfy4-hd.png",
+      "sha256": "58bfd4bd9b54e10200276ed4fd4d91f02654747df3fca3fedbd55334605ce856",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1082
+    },
+    {
+      "source": "apk",
+      "path": "assets/dwarfyAnimations_4.plist",
+      "sha256": "21f88b82df0a2e8fa6c18a2779600e2d67c1a22e0ac3c4d049b14e3c85b643c1",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/dwarfy5-hd.plist",
+      "sha256": "301faf5f93863c7074285cd9b8480bfe2e681259390b32c7f6fb8b02bd006738",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/dwarfy5-hd.png",
+      "sha256": "aacc8368b594ad9eaa4eaaa603ad4f06b90c0101b03967995d1bed190e57d931",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 938
+    },
+    {
+      "source": "apk",
+      "path": "assets/dwarfyAnimations_5.plist",
+      "sha256": "3b73fb09037e8ae081f28ac29b0a138ac95fc3e0f463d0317a99db925467c416",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/wizard-hd.plist",
+      "sha256": "1dd1c1ec9b6842f21accc1af628de25f3eac9085de0578cb93f6d81937081a3a",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/wizard-hd.png",
+      "sha256": "627e54014e5d3878852fc2908851251bf73c4f72e3a18d54d609b99304d48336",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1076
+    },
+    {
+      "source": "apk",
+      "path": "assets/wizard-s-hd.plist",
+      "sha256": "09d9765a3380a85bc4d77fd8ad28d22324d5c269292255ae1698a5a90972cc75",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/wizard-s-hd.png",
+      "sha256": "890b2cabeb8b22420acea8400977576cc4ff025e4cef85f6dcef0f92c63a1af9",
+      "use": "unchanged PNG",
+      "width": 1022,
+      "height": 900
+    },
+    {
+      "source": "apk",
+      "path": "assets/wizard2-hd.plist",
+      "sha256": "8ba1ea6a801efc78ea8d66399350b1a6086f5a8e6419bfc60509bedaa0d70913",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/wizard2-hd.png",
+      "sha256": "4f5bcfe4c5b59997785d2217cba418a0bb9d9a22f42596853852165cbdc63bf7",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/wizardAnimations_2.plist",
+      "sha256": "3fb158e93c3b454d773cefbc33e4ce0ac9a331d7f96c33111658c605ea5b188d",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/wizard3-hd.plist",
+      "sha256": "21f0e7ce0102dd30e472984e74cb9ebfb77be83abfea77bbd0849623f24cc0ee",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/wizard3-hd.png",
+      "sha256": "170b34862bdf5107fc6c0accf8c37234868a44f30290ba46669ce7c3b247334c",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/wizardAnimations_3.plist",
+      "sha256": "76c4a7ea9160375dfc38f627cd7d38d1be6c650c76b252ecf058fd7047136821",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/wizard4-hd.plist",
+      "sha256": "3c069f8474b04514cc006c7d2c53017dfd8fee8534c8e8d83b6130784d0d688c",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/wizard4-hd.png",
+      "sha256": "71688f71303c25fdf0cfaaa6f4bccdff659c4edd4570364516b078389284f21c",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1072
+    },
+    {
+      "source": "apk",
+      "path": "assets/wizardAnimations_4.plist",
+      "sha256": "ae2a938f179ff5fcc56040e47a6601e2fd47f10e3f0770e9dbd0f8798d39cd08",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/wizard5-hd.plist",
+      "sha256": "0cf2cf10e7d79e1cbfd0c9e6a86bb6f9c8af9dfdf2d7c794d1f9dd98bd6e56dd",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/wizard5-hd.png",
+      "sha256": "a3623b9004a724388d8f4bb1fe768138f0608b16fe4827b9fa1bc5ecca0f9991",
+      "use": "unchanged PNG",
+      "width": 850,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/wizardAnimations_5.plist",
+      "sha256": "6417945be05624d8fc833e7b8362d87574d7e2044284b4c107d82ef53d61995b",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/golem-hd.plist",
+      "sha256": "8450a5d415808f1f6fb1192cd5082df53ba3b1bd937e54cc2f9496fa0fb4f986",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/golem-hd.png",
+      "sha256": "a088861814c7217778fba7dd00dbc4a214d697b6d47d707dc31e35aa9aa766ec",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1902
+    },
+    {
+      "source": "apk",
+      "path": "assets/golem2-hd.plist",
+      "sha256": "f3d3fc026ac8abc31899daf74be2a557353e6fd7ac5da987b6cd9de725b05faf",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/golem2-hd.png",
+      "sha256": "8d2e8f7d7349ded9f84aa3e96a37b14de48ab69fa2cc88230df877c5d9ebe982",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 1126
+    },
+    {
+      "source": "apk",
+      "path": "assets/golemAnimations_2.plist",
+      "sha256": "7f9bb2467219790598885bf21399a0404ee784b80813bc6b5008a6eb3c76af66",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/golem3-hd.plist",
+      "sha256": "bc17eccda8dd9bf3d99bac503c38da2a207a50dc2f3db5360095a7765c04078c",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/golem3-hd.png",
+      "sha256": "2170c7629252f16c98f0c7e7dfa55188f88bcd3a6f743753fbb9d1767b310c44",
+      "use": "unchanged PNG",
+      "width": 2040,
+      "height": 1166
+    },
+    {
+      "source": "apk",
+      "path": "assets/golemAnimations_3.plist",
+      "sha256": "54aed7a5b681e35c95e9e3b1beb17d0f276de0ef22ecbc50b64e415192482ce1",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/golem4-hd.plist",
+      "sha256": "85b8eb0f031d1ba73f56e055d637a8bb1a45d1f5dead7e6636e94c80fa1ac1e5",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/golem4-hd.png",
+      "sha256": "d52e816228dbe516904dd52d10f0fd2a3fc42033db5566f7e8c41e13bda99771",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 1120
+    },
+    {
+      "source": "apk",
+      "path": "assets/golemAnimations_4.plist",
+      "sha256": "f20f0eeeef5b178190d7c806a79fe999e47e7637905290107998bdb9697c9e4e",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/golem5-hd.plist",
+      "sha256": "ec412c91e740b258bbb02a3c149fe30ffaf3c6853281e986024d23e7ce70e70d",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/golem5-hd.png",
+      "sha256": "495b9991ab4122757a67c5857583e3039d0b90dadf5bd518a443f8e9c8539b93",
+      "use": "unchanged PNG",
+      "width": 2040,
+      "height": 1148
+    },
+    {
+      "source": "apk",
+      "path": "assets/golemAnimations_5.plist",
+      "sha256": "9f4ad3655098a9b0424f71897036df9bc1b03e5187ebee73ea3034ec0932c4d1",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/unicorn-hd.plist",
+      "sha256": "edaba7aae37fe9caad1714a331f5eea091eefc51d9440896b41ccd43399a9336",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/unicorn-hd.png",
+      "sha256": "7e9f69a27caef05a704cfd79841feeb52639e078a18dd51b7a9fe13d1adef457",
+      "use": "unchanged PNG",
+      "width": 2044,
+      "height": 1032
+    },
+    {
+      "source": "apk",
+      "path": "assets/unicorn-s-hd.plist",
+      "sha256": "65e7357352620f7f4c064c33c41c461af7efac6fcfd855fd75dd5be962f3abe7",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/unicorn-s-hd.png",
+      "sha256": "c15b352fac3b7bdd550b59d9766e52ee1e6b5ea53d87efc3f40aa7e77d7b2197",
+      "use": "unchanged PNG",
+      "width": 1010,
+      "height": 2046
+    },
+    {
+      "source": "apk",
+      "path": "assets/unicorn2-hd.plist",
+      "sha256": "e7638b6f674937a3ac79c964592a3493550965a5ff8ee73756f0d7a0bc118cd2",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/unicorn2-hd.png",
+      "sha256": "3c036de27b3d5d250d1eb1277df41f9ad71ff46a374ce561a8359ca9281cfc00",
+      "use": "unchanged PNG",
+      "width": 2044,
+      "height": 1116
+    },
+    {
+      "source": "apk",
+      "path": "assets/unicornAnimations_2.plist",
+      "sha256": "e399bd97c607194bf14f6c17cccaa39dac218e3dfed29ed4e980a538e839fb3a",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/unicorn3-hd.plist",
+      "sha256": "59a1f1ab1b9c513402e710b081e1d932ed8c60cbcd04d7df9f7593b30126c9a9",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/unicorn3-hd.png",
+      "sha256": "b691453c6db02e0a0eb7c12280eb5dbf00794a5fd91303a31d364182d2dc1ccf",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 2048
+    },
+    {
+      "source": "apk",
+      "path": "assets/unicornAnimations_3.plist",
+      "sha256": "8b13ab1faf578d0654e937a2a26aa03a60337d7c0149467dfe10c8d23e3af7fd",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/unicorn4-hd.plist",
+      "sha256": "f39354faaadbbc23287b08b36fcc7de96b585775e5f3dcf179418e4512c16dbf",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/unicorn4-hd.png",
+      "sha256": "b0d2757725ed6b6900ec24a4f8f0ba42d6efc9d4648004588faab2bd673b1fdf",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 862
+    },
+    {
+      "source": "apk",
+      "path": "assets/unicornAnimations_4.plist",
+      "sha256": "881ea45aa0d87393a14660abab80971188966e14c19cad3ad60d835004ae1710",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/unicorn5-hd.plist",
+      "sha256": "0beae58f1d970c976b359ecfa1015ec74324aac5db3cd67f32ab8ae942a3baff",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/unicorn5-hd.png",
+      "sha256": "b92de1acdc35488fc3f7ae135017d45e4486386fda46f56dc986598cc32f7ec8",
+      "use": "unchanged PNG",
+      "width": 2040,
+      "height": 1212
+    },
+    {
+      "source": "apk",
+      "path": "assets/unicornAnimations_5.plist",
+      "sha256": "489081b26e73a2f4f208355f97ce7160e41a9438d3fc6551f68f4d4847e56e56",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/phoenix-hd.plist",
+      "sha256": "b69f4167240d11a0be7f4431c6ddcdb30c903ba369a84034916d29f6b23aa5fa",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/phoenix-hd.png",
+      "sha256": "b18c35835e69128f9e00a9651e7ca5c8ee720e08d62c4b36f1e7fdbdd91657a5",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 2048
+    },
+    {
+      "source": "apk",
+      "path": "assets/phoenix-s-hd.plist",
+      "sha256": "b6e83f40458f16304e2c51c1c03d29e958f65d22084cfc77a8a9a1a121b1cb6f",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/phoenix-s-hd.png",
+      "sha256": "76c309b1fe708639923ba3117eabc024fa9646af3079ea5495815fa2abb179de",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/phoenix2-hd.plist",
+      "sha256": "e1b9c77e8aa2cddc43429f460a8f22ed426b19f62c63ab63ed7118250a72b660",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/phoenix2-hd.png",
+      "sha256": "84a2a3803caa2288fc2af2308213075d2eeb0eec75b919d54d18353dc12b0e86",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 2048
+    },
+    {
+      "source": "apk",
+      "path": "assets/phoenixAnimations_2.plist",
+      "sha256": "4aa0b6090f5ccb6a76f7af1979f5fe5be2d240be9444d02dc8028c4a2fa2713a",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/phoenix3-hd.plist",
+      "sha256": "798682ca806b3da6a333d43a3d0f99ed0f94733d1c070a8c10e109b32f6e66fc",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/phoenix3-hd.png",
+      "sha256": "777839b2c7f5c50f7dcf11b7f289126b4af9027c91fb27d56c14e9db108f949b",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 2048
+    },
+    {
+      "source": "apk",
+      "path": "assets/phoenixAnimations_3.plist",
+      "sha256": "7e2f9d804def7dbcf44b1cbd2c7ea28701bc5e9588d50863ae92591e2b92a6c7",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/phoenix4-hd.plist",
+      "sha256": "ab75b9ea67a53831e451d8925de7dcfac95930db5291703ddfd965281320e49f",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/phoenix4-hd.png",
+      "sha256": "f8dcf83a9b4f278b8c54a9982ed1e000569af1a16992e6f585340f446da71d63",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/phoenixAnimations_4.plist",
+      "sha256": "1f97b001a51b30ed72fd4f9e19d50452aa7ccaa6e9f1f5ca3a738e2ca1fe8fd4",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/phoenix5-hd.plist",
+      "sha256": "bd7662b7a3e9636d52d4747cdae90d5de7ea92e8e618bbe19f2dd8021fedf6ac",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/phoenix5-hd.png",
+      "sha256": "44c41f09d0f59afe571c4528309ef4ea8bf99e57e0bb5884d5e145608828ba9a",
+      "use": "unchanged PNG",
+      "width": 1426,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/phoenixAnimations_5.plist",
+      "sha256": "17ced54829e053c3e93e3f0237162d288f96db77f26e3d1da8b1451489189800",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/miney-hd.plist",
+      "sha256": "8feba4d477159bb046de850d65f15cbc370ea2157768c8837a8bab373df268aa",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/miney-hd.png",
+      "sha256": "4f18e599f38a03ff58e099f0752484586922dced5273bc27d8ee797ba8cbb6c9",
+      "use": "unchanged PNG",
+      "width": 484,
+      "height": 614
+    },
+    {
+      "source": "apk",
+      "path": "assets/skully-hd.plist",
+      "sha256": "f0a509a15bc29160fd9ab00261566ba06ad7166ec9e897593a1c21506db2ed5b",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/skully-hd.png",
+      "sha256": "5aa4edceddd63ef039a1a1bdbe847ee4a7f864624cd4003d7f4c6710b669f5c0",
+      "use": "unchanged PNG",
+      "width": 1020,
+      "height": 556
+    },
+    {
+      "source": "apk",
+      "path": "assets/skully2-hd.plist",
+      "sha256": "18fc3be032ef460fe724cfbd903fffe2247761f0116f3e90719407d895f90533",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/skully2-hd.png",
+      "sha256": "31326da1a9f17ab7873f186073a092689ccc177f4a1cc9840a56fe95c7fa96b7",
+      "use": "unchanged PNG",
+      "width": 1006,
+      "height": 642
+    },
+    {
+      "source": "apk",
+      "path": "assets/skullyAnimations_2.plist",
+      "sha256": "a3c4426331327d6d8f24b12754eb4dc18dca221fdac94a3784a0c97ae8e269fa",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/skully3-hd.plist",
+      "sha256": "06194230b74c60715fc93cffcd81ac35fac11b20a28627b2f8a981db68550045",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/skully3-hd.png",
+      "sha256": "6bd168e5475660f8605412fbf3118eb31d9cfbf16b18c9a86aa548a447ff1def",
+      "use": "unchanged PNG",
+      "width": 1022,
+      "height": 750
+    },
+    {
+      "source": "apk",
+      "path": "assets/skullyAnimations_3.plist",
+      "sha256": "f90748fb268e1bd2f18869fd56dddb5f68ca773c3383efd6150c6efda652c624",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/skully4-hd.plist",
+      "sha256": "c4f5d3e398323925ddad8f93225b4cd08ba28a235d7bf43e90555bec2357fc47",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/skully4-hd.png",
+      "sha256": "3351914ae0b3a1e97fb38c5b7a46e53b13ae5a3f8a6ea710f79deee050fb07dd",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 778
+    },
+    {
+      "source": "apk",
+      "path": "assets/skullyAnimations_4.plist",
+      "sha256": "d923fb573e9cf7ea71464ff13a6f86f125a1df87ab17a0927f8de7de0b67169c",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/zombie-hd.plist",
+      "sha256": "5f3d876ec8a32f112cb7bf8ffcc61274e28a9374426164c6990b45a40d2209de",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/zombie-hd.png",
+      "sha256": "c70ea06a7035c2d3db0ba8a0f00302a2ddd0cf8894ba20e9cf082b652964999c",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 602
+    },
+    {
+      "source": "apk",
+      "path": "assets/zombie2-hd.plist",
+      "sha256": "0c0035f316dae75523e166926cdaa139623fb1076f7957f8791e2d65d5f1fffa",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/zombie2-hd.png",
+      "sha256": "fd6e773dde905792ef437135b8da020374dfb85d72d896747160db9bc3c91aea",
+      "use": "unchanged PNG",
+      "width": 1022,
+      "height": 784
+    },
+    {
+      "source": "apk",
+      "path": "assets/zombieAnimations_2.plist",
+      "sha256": "70e08303ea31d60bee130a39a60b3f66aa9138ad9e7cc6aef30c6ad64c2ba176",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/zombie3-hd.plist",
+      "sha256": "a571b533151c73510b49772af19b1fba840a459939abdf739c8edb79d7eccf32",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/zombie3-hd.png",
+      "sha256": "1f9a2653760f7afed51c83c8d7c089709c43b81aa48b3d43786b167c96cafc15",
+      "use": "unchanged PNG",
+      "width": 1008,
+      "height": 1022
+    },
+    {
+      "source": "apk",
+      "path": "assets/zombieAnimations_3.plist",
+      "sha256": "9b38ffbbe4a51da3f8febab8e42cae21bf850ac3690a9169acd78f3d25bd5da7",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/zombie4-hd.plist",
+      "sha256": "2ef43e55a78ad1fed145fa9616c755e924a0f743ea3ff1ba97a19cb4be6b1ad7",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/zombie4-hd.png",
+      "sha256": "db26070a931863ef49af7a9a25502ab3d6d80b1a35af2a6cbf624a5ff3590d81",
+      "use": "unchanged PNG",
+      "width": 1022,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/zombieAnimations_4.plist",
+      "sha256": "6eca0a44871d72d0b2774dba9fa6ccf88c1149b042b81bcc2d59ba7b34076e4c",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/wolfy-hd.plist",
+      "sha256": "4e9d5b25f324ac01502c47519045b80d66ef65f6761c8e66d87d8fff4c140ef5",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/wolfy-hd.png",
+      "sha256": "2ac7591adb2a69711e31eda5e9005add8d35ad13d60f84e2f72f9945967c00bf",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1054
+    },
+    {
+      "source": "apk",
+      "path": "assets/wolfy2-hd.plist",
+      "sha256": "17d9e9672d88af009b91ef0522d42824dd1982ae22766726237793bb2dd5a00e",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/wolfy2-hd.png",
+      "sha256": "3b82a187dff376542983470a955a02cdb1f69adfe5c23bab1860ffda10a56076",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1120
+    },
+    {
+      "source": "apk",
+      "path": "assets/wolfyAnimations_2.plist",
+      "sha256": "3061767a78698d5f8adf5fd458fb70655dc6825569c25562bf186fa7f817459e",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/wolfy3-hd.plist",
+      "sha256": "d1588df501e2f6318888099c87e4c62a868b362bab962ea60f2e8e2b81f0ec2a",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/wolfy3-hd.png",
+      "sha256": "39d212bd21059c79ef1fdb3ec2eabde55fa3a162b5807805735450804f233ae2",
+      "use": "unchanged PNG",
+      "width": 512,
+      "height": 2048
+    },
+    {
+      "source": "apk",
+      "path": "assets/wolfyAnimations_3.plist",
+      "sha256": "1069fd426c61f0f30a09f7e95533883f8a111bddcf1cab7f2e8c92141cc074f2",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/wolfy4-hd.plist",
+      "sha256": "151e74ae9e004c45fac5659852753c7360298ec44d50b8d9d7d09c0a1bb3d8c8",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/wolfy4-hd.png",
+      "sha256": "32c30c282363953a9f376712ebd664fa3b1c15c202bfd0f85db8ba326a2dc82a",
+      "use": "unchanged PNG",
+      "width": 1008,
+      "height": 1018
+    },
+    {
+      "source": "apk",
+      "path": "assets/wolfyAnimations_4.plist",
+      "sha256": "6cf2ca4171d12ec2b2b07c8aac8f93e1bc2633969e2619ee328f823023727257",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/vampy-hd.plist",
+      "sha256": "aeded44153ac68a50650debdccbce0cd9d4a5c9e14927d9b3d41285cc3cf371c",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/vampy-hd.png",
+      "sha256": "d9d50c4ecbdc3e6af42bbeb2399e286f99a2bab27d81350dda6fb2c09ad5b244",
+      "use": "unchanged PNG",
+      "width": 512,
+      "height": 1022
+    },
+    {
+      "source": "apk",
+      "path": "assets/vampy2-hd.plist",
+      "sha256": "c2ca69a33819326b8b702056e7875ec236dcc5a82aa94c9ccbb77f330d931a1a",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/vampy2-hd.png",
+      "sha256": "775e69bdf92e3ccc928fd8fb5650347997d55434c2bab2b4b1be44666f8e883d",
+      "use": "unchanged PNG",
+      "width": 1002,
+      "height": 622
+    },
+    {
+      "source": "apk",
+      "path": "assets/vampyAnimations_2.plist",
+      "sha256": "1c7933a9bb066dcb5e0429fa5206b0522b1d895d7f8d40201a681150e385635e",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/vampy3-hd.plist",
+      "sha256": "23d26413af853ec593004d63a10f0d7a752ae7a3bafa559f6244207a683aff99",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/vampy3-hd.png",
+      "sha256": "e01a2fa2ae86ab67454e12da9eb6c9b6b37b90fbfce5e35fdebb7aff6a03d929",
+      "use": "unchanged PNG",
+      "width": 1020,
+      "height": 578
+    },
+    {
+      "source": "apk",
+      "path": "assets/vampyAnimations_3.plist",
+      "sha256": "4229d150ba6cbc6d64ddec6b11da29d5c1f2c4ef0e1cfbe2fbeeee76f2055bdc",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/vampy4-hd.plist",
+      "sha256": "d07327d1712c4d825972de2edd566c80f352c56c61e7668e068dd5878cc63926",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/vampy4-hd.png",
+      "sha256": "8bce7a36c14f2fa66a6e2b4ba33f942b3e0fb7fa5e1ba573203a7122e71ca8ed",
+      "use": "unchanged PNG",
+      "width": 1022,
+      "height": 556
+    },
+    {
+      "source": "apk",
+      "path": "assets/vampyAnimations_4.plist",
+      "sha256": "506c1aaee504c47863e2bc8490440d54ea0d3300d7d5325a7573249db4a9cc40",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/troll-hd.plist",
+      "sha256": "7e1adaf9654acb1fda3046bbdffff6b4a7608abf6c93658ced40d44ae263f146",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/troll-hd.png",
+      "sha256": "3e782bc8bebdf0b5cae1a5502a40e24a3d167931dbc86fe2425d53bc32922f15",
+      "use": "unchanged PNG",
+      "width": 1240,
+      "height": 1018
+    },
+    {
+      "source": "apk",
+      "path": "assets/troll2-hd.plist",
+      "sha256": "465be6c2a1ff260432d6742e7537cb0ab811547839f74f99118095ced52a8ae6",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/troll2-hd.png",
+      "sha256": "2c1f70eb5c39e83afbd67b604f66d46d387ea1e3e2c8673275c061aa088e22ca",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1134
+    },
+    {
+      "source": "apk",
+      "path": "assets/trollAnimations_2.plist",
+      "sha256": "20c3bd82304208817281d9e21b1bf863514895b4288d2701cd5a50e27914a9f3",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/troll3-hd.plist",
+      "sha256": "c9a0e00a8d550072f913f3611220206aa07d675c8859320332753317930e04c8",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/troll3-hd.png",
+      "sha256": "66098c01dd4fddb643f9a6970cd50dace04b5fdf031cdc2693ff5da4c1b260c3",
+      "use": "unchanged PNG",
+      "width": 1020,
+      "height": 1268
+    },
+    {
+      "source": "apk",
+      "path": "assets/trollAnimations_3.plist",
+      "sha256": "d8f7b6dbab59bc4b3c931c1cb8d0e39f99262daaa87f4d28e9f5fbee9324479d",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/troll4-hd.plist",
+      "sha256": "6566c240947a6fc8de5a416dc13db851aaa4355ed1b0fa3f200db3de543d0d7a",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/troll4-hd.png",
+      "sha256": "ac698a49c1151d80bd3a8d2c3559291978710fd4f32e00894497f240581ae562",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1216
+    },
+    {
+      "source": "apk",
+      "path": "assets/trollAnimations_4.plist",
+      "sha256": "c19bd6c907a5ace79e6436314d6ca3e63500907c6bd14f325f50fbb1da8c7d15",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/gargoyle-hd.plist",
+      "sha256": "c9f20e87dbe0e92c460529d592d1e890baa6d75b34062cbe20028a2651105663",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/gargoyle-hd.png",
+      "sha256": "8eecff050c6fc2b4f3cb07c489b1193972da0b081070c691967e047e2493d152",
+      "use": "unchanged PNG",
+      "width": 990,
+      "height": 1150
+    },
+    {
+      "source": "apk",
+      "path": "assets/gargoyle2-hd.plist",
+      "sha256": "19e85e458e05739feb99e920bd0a36c7641c0e22b10edccfac0a581eef9f96ca",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/gargoyle2-hd.png",
+      "sha256": "515e02a8e19ac28dfa83b6fd7dfeaa063992dea7660f9e18d76272e06cab788f",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1194
+    },
+    {
+      "source": "apk",
+      "path": "assets/gargoyleAnimations_2.plist",
+      "sha256": "d7a3ce795b12668681ae7968d75059379a639ba1a19a330e986c820814d66106",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/gargoyle3-hd.plist",
+      "sha256": "3fc0199ec4f1ef71f7903cad450f2fdca04983a44ee6ca6578cf7f81dd1cabcf",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/gargoyle3-hd.png",
+      "sha256": "b5c356b859b3d3bc79f5a2099005e83ac391b39f349e6b23f838d554d2d09343",
+      "use": "unchanged PNG",
+      "width": 1022,
+      "height": 1276
+    },
+    {
+      "source": "apk",
+      "path": "assets/gargoyleAnimations_3.plist",
+      "sha256": "4d05b2323c958a5148dbb2645e110f88132d397faba04f5d89b85ee0051d61f8",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/gargoyle4-hd.plist",
+      "sha256": "76e9564ffa59b41f132f95f058190180771e7810f27966e4bdc7e358e9f6cc6c",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/gargoyle4-hd.png",
+      "sha256": "73cf53c663300d86622722e43f048bdb373c287a3bb16806d6ab8d74adea3387",
+      "use": "unchanged PNG",
+      "width": 1020,
+      "height": 1114
+    },
+    {
+      "source": "apk",
+      "path": "assets/gargoyleAnimations_4.plist",
+      "sha256": "aebb3b3cbbeb0132ca7d23dad1a6b1054d814b6bf6729eb9bb52d7b8bf564449",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/skullyarcher-hd.plist",
+      "sha256": "116a78e4099777adf5a3b1414a8e80ee08f66501e7d72fb1d99611ecc110ba9e",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/skullyarcher-hd.png",
+      "sha256": "d6198c369933834639b1588e839cce6a71aab9d51d1b01d6b986ff42bde07f2a",
+      "use": "unchanged PNG",
+      "width": 512,
+      "height": 860
+    },
+    {
+      "source": "apk",
+      "path": "assets/skullyarcher2-hd.plist",
+      "sha256": "1530af2ccb3e1440e48c4e38fa7fc6c0a89d6af4d9fc795fe4daef238b56c9ca",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/skullyarcher2-hd.png",
+      "sha256": "fce6046eaeba3d433c78704808555911c66549dbae4e6e7938d691479dadd0ef",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 512
+    },
+    {
+      "source": "apk",
+      "path": "assets/skullyarcherAnimations_2.plist",
+      "sha256": "b1acf763de7611b04befe7e4fe11bc927380e4ed0ed273e4b3f632213d6270f9",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/skullyarcher3-hd.plist",
+      "sha256": "81cd3c96cfbe2dfa6197fa2aaee4359cd07d66778da6eb7bef1bdf47aa6a4b6f",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/skullyarcher3-hd.png",
+      "sha256": "7a758e56c27e0e56938b4a168adb10495b62c11b8198e83f7e5281fc8b3dceba",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 512
+    },
+    {
+      "source": "apk",
+      "path": "assets/skullyarcherAnimations_3.plist",
+      "sha256": "94eaa90004185f9c1e0c332612b7293ff8ddce4090199aab0341dce65a879b05",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/skullyarcher4-hd.plist",
+      "sha256": "f5e27669f38e1a543c742278ec51ec785af565eef4e2cb1b2fe919d75b21e118",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/skullyarcher4-hd.png",
+      "sha256": "569490f05cf0b38b9f3a006b152dff96828b76603d89ecdbc8f5f77063a75dda",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 512
+    },
+    {
+      "source": "apk",
+      "path": "assets/skullyarcherAnimations_4.plist",
+      "sha256": "8580cead545292d0b14666d779445a8dca68bd08d058bfe324238758673de208",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/reaper-hd.plist",
+      "sha256": "3f7de721082808594069b59a9f128418ad43d66136a23157ed51286072d3d1f6",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/reaper-hd.png",
+      "sha256": "dc2dd36b671a4d2d0493c5f2bc862f86a7759317b84f78a0a6a3e2992dcbfbef",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/reaper2-hd.plist",
+      "sha256": "0e40ab0377efeaa6fd87d8f6333522c119eb99fae046dde21d7527513b5398d0",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/reaper2-hd.png",
+      "sha256": "2b4e157e733c7225969a80bcb2318e06d8d53e6918b7db70616d74162245f927",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/reaperAnimations_2.plist",
+      "sha256": "f3dcaaf07c936d3e01b21d58cdb42a284750e914e975752b44e247e46f13f84b",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/reaper3-hd.plist",
+      "sha256": "b07765683f6f1977c41187c8b2043d9707c83025b78657e43268a84779b81fbc",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/reaper3-hd.png",
+      "sha256": "f67314f5fd701286f2528835f7eec7b1c3404d37544a76bc1c00686557266135",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/reaper4-hd.plist",
+      "sha256": "b1105b3d59176ead26880bc9528ff878b111c53e60289c1295cba107b547cf40",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/reaper4-hd.png",
+      "sha256": "70e50e89a9d1563109d1d302ed2a1226dbe7d0be6b739e08f8a1825405488e72",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1274
+    },
+    {
+      "source": "apk",
+      "path": "assets/reaperAnimations_4.plist",
+      "sha256": "1f6a53422156aa25d7d2d9ff9a1a9a211a511ff8c1aecc2960c298c77396bc6c",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/faun-hd.plist",
+      "sha256": "814f4277c5498541af633c0a047affa4dc0600ef1970b643f593b0049cfbfe56",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/faun-hd.png",
+      "sha256": "95833cb162c1c1203150e69831548bd3cbb30fcfe7e6ceddbe46ff64e227e68e",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 700
+    },
+    {
+      "source": "apk",
+      "path": "assets/faun2-hd.plist",
+      "sha256": "c21f6a86630d9c4630da85aaacc20ac46dc37aae82d76c85e29e678e96acdecc",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/faun2-hd.png",
+      "sha256": "d5823e63ab903292328dcadffebd45caa6871bf9a30a96f611fca74166f2a888",
+      "use": "unchanged PNG",
+      "width": 1022,
+      "height": 654
+    },
+    {
+      "source": "apk",
+      "path": "assets/faunAnimations_2.plist",
+      "sha256": "decdd2940bc1374db3b0b6c86d90017484bec278f6ca4e31f5825d4acb2ff3d7",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/faun3-hd.plist",
+      "sha256": "ba3f814ec5fd0256c30754315a2469036df39464a7093d7337758352f1bb52f5",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/faun3-hd.png",
+      "sha256": "470177a882457cdf5f7d9db926fff2a8fab3eaed9f75ce42763337cd08fa6cae",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 662
+    },
+    {
+      "source": "apk",
+      "path": "assets/faunAnimations_3.plist",
+      "sha256": "57e27a1afb97cb77e8e96886cc8542d59295e4e9ad94ed7b99c639798fa8dd64",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/faun4-hd.plist",
+      "sha256": "42f42b5475a5f31bfa9115ec80af52c7e02c3c0f37e2d43cba218f9d913b34c5",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/faun4-hd.png",
+      "sha256": "dd7960e9459e54c0ff67d05fa65208b541c35436e3e89a1d2eb500c37980aed6",
+      "use": "unchanged PNG",
+      "width": 1012,
+      "height": 1258
+    },
+    {
+      "source": "apk",
+      "path": "assets/faunAnimations_4.plist",
+      "sha256": "d72fdd3c8f0fda45b6e3f8b4443e7ffd531985e21e6721ffacad20c409cfa433",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/faun5-hd.plist",
+      "sha256": "a6a1a86138232003a71b3f7c4e559d912bfa195cbcbc48ae457824dacd392358",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/faun5-hd.png",
+      "sha256": "d057ad5a3864b9cc0c1b1d20f1445832ef35e86706018bbadcf8f5971d79310b",
+      "use": "unchanged PNG",
+      "width": 1020,
+      "height": 1396
+    },
+    {
+      "source": "apk",
+      "path": "assets/faunAnimations_5.plist",
+      "sha256": "4154fff3b0cb6eb97b6f0195191a5f28929d0595e9572a961ef9cc57692c49a6",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/rogue-hd.plist",
+      "sha256": "75920531261e5363040ed1b4aab8d7eb22e1911a016e74375af2628001723d75",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/rogue-hd.png",
+      "sha256": "7fddc1f4414e4f0f6301aceea01d9df3e467682397ab72b79a5a1d30fc054e5a",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 642
+    },
+    {
+      "source": "apk",
+      "path": "assets/rogue2-hd.plist",
+      "sha256": "b05bf5a787d6039e6608072e29cbf6319327e6e452a5e54b88a477a08a393e18",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/rogue2-hd.png",
+      "sha256": "24be6bf65468c0531ee7f37507cc024a47e4a25fda5be5bd48eec13e4a522794",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 646
+    },
+    {
+      "source": "apk",
+      "path": "assets/rogueAnimations_2.plist",
+      "sha256": "992a0e3048b473830f1bd27e616735872ee2b2944573652939dab0b6736d58a8",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/rogue3-hd.plist",
+      "sha256": "7b52a492141741da64a685ddce0731ada665f25d2578d283bf0ee23bd268f434",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/rogue3-hd.png",
+      "sha256": "76f627ad2b623afe5eacc9c3238efc46afe7b7718224f7cd59efe7352006e816",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 650
+    },
+    {
+      "source": "apk",
+      "path": "assets/rogueAnimations_3.plist",
+      "sha256": "2154f72c17d42fb3f78508c9f7cf35c4d023bbae287b66ac7e61755a27305596",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/rogue4-hd.plist",
+      "sha256": "39ee0679f0ee4bfac60b92b45b8151781e1cd84bb27597252e2d828001b6e69e",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/rogue4-hd.png",
+      "sha256": "e4817c1f4ce39e9bc1614eff4d56b33d914c3e91053cabaae4da9dac07f0c60e",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 758
+    },
+    {
+      "source": "apk",
+      "path": "assets/rogueAnimations_4.plist",
+      "sha256": "7134be782a6dd63896cb20e1f69f50c6edb50fe9552207dced3df033a1ca0c79",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/rogue5-hd.plist",
+      "sha256": "955cbee0d6beac578755595d60bdb086f60a9df9eab0b41d77d11bfabd8ad930",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/rogue5-hd.png",
+      "sha256": "1f45bc71dc6588123add7511e265ca5e3255e7e31c20ad2042081eefe3900ff3",
+      "use": "unchanged PNG",
+      "width": 1006,
+      "height": 984
+    },
+    {
+      "source": "apk",
+      "path": "assets/rogueAnimations_5.plist",
+      "sha256": "506ffc8dc4b2c08d39da4797d183e5702adae5eb770c313707c69e7f976e0600",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/sprite-hd.plist",
+      "sha256": "0a0c33e6dbf83e483378e13c278082693f1e89c2f118bf0e9160c46494ebf266",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/sprite-hd.png",
+      "sha256": "f1ed0f5fbf766c54a51d20132180e4dd9da9e6217cee3fb0bf25124bb3204c0c",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/sprite2-hd.plist",
+      "sha256": "d5c1d926b74f628f89836dbeb3ab38af485eb297a326d5af9352a3fed682a38f",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/sprite2-hd.png",
+      "sha256": "b1166bfb7a98a5edb73e4b4e520dfcde803ef1c9a1af6c1dc254bbdbe0ff8f99",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1168
+    },
+    {
+      "source": "apk",
+      "path": "assets/spriteAnimations_2.plist",
+      "sha256": "ae7cc1a40452983372f2d5492b7b3d64b055fa630ad59faa6ff211777db4fe69",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/sprite3-hd.plist",
+      "sha256": "3409416dae030192cf18fa8b99d61667374de8f6f4c0fcfc59428daf67b0a063",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/sprite3-hd.png",
+      "sha256": "a47dbc60ffc1ddcbb1c835dc91d49aa6dcdc64328af67c65774c6aa90c2e5c64",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1202
+    },
+    {
+      "source": "apk",
+      "path": "assets/spriteAnimations_3.plist",
+      "sha256": "0b12e126e19c6c3541d01f26437c51df743c5d653c038fd7e488fabf302e7606",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/sprite4-hd.plist",
+      "sha256": "90a8da7b8cd8a17cdae51e1d2af33a8100671e8a469f7b000b45a1bc9ea8b3f6",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/sprite4-hd.png",
+      "sha256": "b4b534d2cdbfb6b7ca8a29005888811138e1f87b7e71537ecf022562cca5bf36",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1228
+    },
+    {
+      "source": "apk",
+      "path": "assets/spriteAnimations_4.plist",
+      "sha256": "f9061f99d57729724db46bf3f446d56ed9eeef6848aa12b8ddbd0e231e358426",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/sprite5-hd.plist",
+      "sha256": "8a8a1fb5bf9050217c2dd2663bf4eaf51b6ceda5961a2ca33e36db973b7e07f7",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/sprite5-hd.png",
+      "sha256": "6ad4f6d5767d06eaa6ff882aeca989d1675e438119169d73726f9defde104348",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1334
+    },
+    {
+      "source": "apk",
+      "path": "assets/spriteAnimations_5.plist",
+      "sha256": "b7d6c61725bd4a7d2aa716985b9ceebfc062605b2163b358f5d367a8838dbc62",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/centaur-hd.plist",
+      "sha256": "f0af91043d306b4e885f7dbbb8e5608015f020d994a9f0ced74a1509e3f413ee",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/centaur-hd.png",
+      "sha256": "7571b206a4154fb3e47994710335dcd170e7c8553eb291b678bc1ffd19211cd7",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1906
+    },
+    {
+      "source": "apk",
+      "path": "assets/centaur2-hd.plist",
+      "sha256": "2614395705cb77307463462411680fbc8c3050acc1fa42e8c9339eb6781046ae",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/centaur2-hd.png",
+      "sha256": "d6eb14a016c80423bfc51582d4ecbb929bc6282f93e1dab6c3f7315e0ffd439b",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1948
+    },
+    {
+      "source": "apk",
+      "path": "assets/centaurAnimations_2.plist",
+      "sha256": "f2a133eeed728992706af458074d4fc4670e61dd10bd367bd89e10412a18b3f0",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/centaur3-hd.plist",
+      "sha256": "cf42ff07e7f779a25d8f973c20bf23991168217f41b2a877c874a37d92b3a743",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/centaur3-hd.png",
+      "sha256": "3ccec288a397771bb3a31c948b9b2dd5ed5b9bb1322680295530cecca11e3288",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1960
+    },
+    {
+      "source": "apk",
+      "path": "assets/centaurAnimations_3.plist",
+      "sha256": "ad33c4a94d36fa9a62ef6bcd6284f52ebdf36d0914ac15d4755005e2512c07d0",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/centaur4-hd.plist",
+      "sha256": "a0918d1d04d22c9548701a30db53d869ade6f56492870a1920a4ee7dd4d0d515",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/centaur4-hd.png",
+      "sha256": "1a800df78c64a49ad406719c5a85c959fde11cc3068c37af7c1a3b86b13dec59",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 2046
+    },
+    {
+      "source": "apk",
+      "path": "assets/centaurAnimations_4.plist",
+      "sha256": "c71cd1da2d621e476f47a53f6e694ec8f3c4e8b517132a701fa82fa53f7558f5",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/centaur5-hd.plist",
+      "sha256": "7246e24d281f85e2e55041f46ebde71c4369040974659539c3b16b94b03adf50",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/centaur5-hd.png",
+      "sha256": "0ece35abbe51a9c98d4148b5e48e2b06d0fe835ee4887f973ad096d6f1bab3c5",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 2040
+    },
+    {
+      "source": "apk",
+      "path": "assets/centaurAnimations_5.plist",
+      "sha256": "97731c00fb5ebc9faee3b4be4b89971f65ac19d3b6ba08e45719abfbee475b1b",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/healer-hd.plist",
+      "sha256": "65cd0c068981422d19076e46d575e3571207d025c199108a20130fd6a6e5eeea",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/healer-hd.png",
+      "sha256": "bc51ac506312f06b941398103081937007337b3f39bd3493831c77804bfa38d9",
+      "use": "unchanged PNG",
+      "width": 1022,
+      "height": 776
+    },
+    {
+      "source": "apk",
+      "path": "assets/healer2-hd.plist",
+      "sha256": "e8bb320ee6c02693ce22a6c4b186f6096095cc8e489ac97497f06149ddec52fb",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/healer2-hd.png",
+      "sha256": "5cdbfafb16003683f9e99f245abff9cf2d9669703deda2ddbc9da76f5e98eee0",
+      "use": "unchanged PNG",
+      "width": 1018,
+      "height": 838
+    },
+    {
+      "source": "apk",
+      "path": "assets/healerAnimations_2.plist",
+      "sha256": "35c120de35de6bf91fbc18e4546f6490e214cefbc86657260968c759910448b5",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/healer3-hd.plist",
+      "sha256": "8076d629bfd6ce466cec445d85a52d81e344998bc8dde6e7ccc1ec1ab7e9ca27",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/healer3-hd.png",
+      "sha256": "c668f5d35aeb1b4c479dfe78daaf774ad7844997384a5c9e50cd8cdeb40b9764",
+      "use": "unchanged PNG",
+      "width": 1022,
+      "height": 832
+    },
+    {
+      "source": "apk",
+      "path": "assets/healerAnimations_3.plist",
+      "sha256": "588297dbbd39d77f32c6593331cc2adaf4f9b6ab4df338686e56b9d50a4c44a8",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/healer4-hd.plist",
+      "sha256": "26b1074a35dcbc92af2d807bcb37ae3a49df51e085caea286a9f595620600453",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/healer4-hd.png",
+      "sha256": "127de42e5cd2d429ee7676b3002bcd670669e48b5ac31e9edeb375e0a57bbb08",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/healerAnimations_4.plist",
+      "sha256": "95b78243737367ce47414b2c063bff3bee8d3d67ab16a6fd782f8d697cfdb18d",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/healer5-hd.plist",
+      "sha256": "4a56f97ccdb0af0e5415b0e7c09d819674352e3a3d7b2fcf0002ba34253ec6e9",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/healer5-hd.png",
+      "sha256": "731ccbe14cde72419f403576b9b2808363578e9119749e5ade8e5da1313ce90d",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/healerAnimations_5.plist",
+      "sha256": "46dab3b93ecd6c1eda6354ee8a2bdbe60259b8f06d99d73a69c2a46e1028a20f",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/abo-hd.plist",
+      "sha256": "91f40f156a8cccb9400f282893cd495d56a2a185058c24ee99b6ffa5d0b78900",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/abo-hd.png",
+      "sha256": "a393f2dd8e633df80fa4a225f58af5d93808b470cfd369af9be052f60a8c6c07",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 1162
+    },
+    {
+      "source": "apk",
+      "path": "assets/bonedragon-hd.plist",
+      "sha256": "fb3049f5e9ba15eb035918cded01a17eb8fe539ef25b40df67e654e4ef5679ff",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/bonedragon-hd.png",
+      "sha256": "0761c03021d25b1038488b1ddcf0f28fbdec4cad02df497df6825373043a2832",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/bully-hd.plist",
+      "sha256": "2e4f239bd089560d15e45a377a9f531a4c69f5fde13e6f3bce4941d4420387cf",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/bully-hd.png",
+      "sha256": "678bae22f482b72b136acc19336f6830c27a3f1bc6f57fb75b96486174e0af97",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1420
+    },
+    {
+      "source": "apk",
+      "path": "assets/caty-hd.plist",
+      "sha256": "d30f871b53af7aa0af21615ed4bf418a862172f577dae19349242c5a3ba82503",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/caty-hd.png",
+      "sha256": "66fd6c9051029f893f4d61f005928bf762f1e6ee9dc5d4abc29cec821f31448f",
+      "use": "unchanged PNG",
+      "width": 1010,
+      "height": 606
+    },
+    {
+      "source": "apk",
+      "path": "assets/cerberus_sheetA-hd.plist",
+      "sha256": "3c1cf08eb1651426247c161fb52a2cd2407c3f885a0fb6ff3771a8db5467432c",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/cerberus_sheetA-hd.png",
+      "sha256": "aaf6df350d23b859969290e142193d99db812c272d11ca06b7851cdcdf13968b",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 2040
+    },
+    {
+      "source": "apk",
+      "path": "assets/GrassScene-hd.plist",
+      "sha256": "163a3e6fefe6863d8212622371284a750e7e3704195bef0397c55d7e2b471d6b",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/GrassScene-hd.png",
+      "sha256": "9338b1289df183a84ffe609ca97c9b1705ebcbf11258e85ebec106f4e2adf985",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "source": "apk",
+      "path": "assets/cowy-hd.plist",
+      "sha256": "841e9265ea636b349a8eca9c04249bb5847336104cdd1c3341a104d3089fe573",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/cowy-hd.png",
+      "sha256": "a8d1d8a9c4c87deb23a8c7bd1f0218b499cee0e77ee78fcf9b47ed2d33228033",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1108
+    },
+    {
+      "source": "apk",
+      "path": "assets/cyclops-hd.plist",
+      "sha256": "408bc1c1707c204788cc6bc3030c76a5cd3bff16f02271d1c01f70ba2692d7eb",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/cyclops-hd.png",
+      "sha256": "d7d7b607535a58149e31ead657d4155c175a3cbde900fa38c685f36d864975a7",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/darkmagma_sheetA-hd.plist",
+      "sha256": "4804a51b34598e0e9256c8f5cde4a0332b08d42d176dabf1d3f11dfeafcc7192",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/darkmagma_sheetA-hd.png",
+      "sha256": "c367b8d2d52956fe52e58be76e12b45ea6e3a76e26b3261f45e24ae663586874",
+      "use": "unchanged PNG",
+      "width": 2040,
+      "height": 1998
+    },
+    {
+      "source": "apk",
+      "path": "assets/deadknight-hd.plist",
+      "sha256": "326b7ec4e9641362ac38f6ac92724e56cd677b574ff2b8f5349bdd8098c4c79a",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/deadknight-hd.png",
+      "sha256": "4f8efb4ff68e88f505017a52b66a4dbf4ea0ed06b0bf97bb54c965334b5362de",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 512
+    },
+    {
+      "source": "apk",
+      "path": "assets/deadknight2-hd.plist",
+      "sha256": "51c39ed29577f054ce94da96e41e91759c0b414b4f992bef147f5da6d122ae4b",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/deadknight2-hd.png",
+      "sha256": "45b8bc6792ec490734e9cc05dbfd6cb93348f4f85db732083441a1f2267303ab",
+      "use": "unchanged PNG",
+      "width": 1022,
+      "height": 640
+    },
+    {
+      "source": "apk",
+      "path": "assets/deadknightAnimations_2.plist",
+      "sha256": "37a884003da022cb9cf9740aef897109659c1cc2b208aff72b8aeac5875c3da7",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/deadknight3-hd.plist",
+      "sha256": "c54cf3d05453e863f4fb7403f3539d4742741aca1ec8ab58d6d2f434f0adbf4e",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/deadknight3-hd.png",
+      "sha256": "860379eda339788de998bd0a45a576465dd2eff1c51ed9e2666050df3835cf2d",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 730
+    },
+    {
+      "source": "apk",
+      "path": "assets/deadknightAnimations_3.plist",
+      "sha256": "e3a0189c8bcc2d5601a8b69dea7cb4fb5de8913985f0aacda7800702c6ad45fb",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/deadknight4-hd.plist",
+      "sha256": "058eba3e7bf17e7ec94f7198fa038b0433539fa16bcf8aee0df74837effc11c8",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/deadknight4-hd.png",
+      "sha256": "b68855e1fe335f38bb36351290af0ed2b5ff1ea855fb99d8a50a817a2277cf69",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 666
+    },
+    {
+      "source": "apk",
+      "path": "assets/deadknightAnimations_4.plist",
+      "sha256": "ecd54b9a4219832ae60b13b7bb1f6dbdf664de6426cd139ee5d0e2ca52cfb8b9",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/evilcrate-hd.plist",
+      "sha256": "76b8a1db9bbeb0074bb875d6ea14f272ba40db94e5fb03d38ff49cc6a336cd9e",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/evilcrate-hd.png",
+      "sha256": "a2c6ca1b59d297220a98dfa80e59ceddcf9e27a5a67f7a9f7cd5798910bfe575",
+      "use": "unchanged PNG",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/dragon-hd.plist",
+      "sha256": "13e35b25b8777ab17501514fe2a68695911cfdd79ceafb0442d25ba6fdbe8154",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/dragon-hd.png",
+      "sha256": "1505849b08b30209570f9166dd3287c099d9ac6be27c5a73d5508e56ca70bbf2",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 1090
+    },
+    {
+      "source": "apk",
+      "path": "assets/castle-default-spritesheet-hd.plist",
+      "sha256": "f3405a1e3abc610b937613a2518c612a98ed59153c3e570e7fbdc287a17c0656",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/castle-default-spritesheet-hd.png",
+      "sha256": "0d9b977d8265ee4683c6dd1a20b485954c6ff95624be0f83176dec5b12267854",
+      "use": "unchanged PNG",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/fairy-hd.plist",
+      "sha256": "fc025989fd641078bf8dc27ea9c21d5a212ced7c3e073e779753d4352f9e80dd",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/fairy-hd.png",
+      "sha256": "d512baa8299a6493fa69416abfeccd0b793ec9e1ea10fcb70b8063ec5f868842",
+      "use": "unchanged PNG",
+      "width": 504,
+      "height": 602
+    },
+    {
+      "source": "apk",
+      "path": "assets/gargoyleboss-hd.plist",
+      "sha256": "eb7bc50b6835b35ba5b80b4654f355434f969e58b096898c9bf65d7e20ed80d7",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/gargoyleboss-hd.png",
+      "sha256": "3c68da17abca0a195a13bdd4a8682e65ed096d15937e1bcd05716e1468c435e8",
+      "use": "unchanged PNG",
+      "width": 2038,
+      "height": 1178
+    },
+    {
+      "source": "apk",
+      "path": "assets/lich-hd.plist",
+      "sha256": "3273dee07201a766d4db16062aaef2eb7ce7fef743aafab459539ade9b9ce2d3",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/lich-hd.png",
+      "sha256": "c4b462d92b854ac1d94f1273ef1d3c0cb1b381b563bafb52e387abc7503a3767",
+      "use": "unchanged PNG",
+      "width": 1020,
+      "height": 800
+    },
+    {
+      "source": "apk",
+      "path": "assets/goby-hd.plist",
+      "sha256": "992d53a9cfaa6f347610e720f1852735cb54b6dde2908885b37a73affb22fd4c",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/goby-hd.png",
+      "sha256": "b39caf3c0aa668e9a8103c328a177fbd267f6adf5e5864da0edbf1731a3f5f42",
+      "use": "unchanged PNG",
+      "width": 510,
+      "height": 1022
+    },
+    {
+      "source": "apk",
+      "path": "assets/icedragon-hd.plist",
+      "sha256": "1a059cd04d9e7403330bae66b4fbd6bc0b5f0c05e31113d3f1e1cb93ce95c933",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/icedragon-hd.png",
+      "sha256": "a08517f88531d877a988bd557e1d842fbe435a5aa3e5f08e9ad118a23e538205",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 1180
+    },
+    {
+      "source": "apk",
+      "path": "assets/impy-hd.plist",
+      "sha256": "00318418164aad2839f9c0c2b34605e01494a2df6fb2a48ea4036a8d06d04618",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/impy-hd.png",
+      "sha256": "63298ccbe2bcdb26e784194b7e5b7ee3efc02a59fcff889d8bcb4c49da51be84",
+      "use": "unchanged PNG",
+      "width": 512,
+      "height": 690
+    },
+    {
+      "source": "apk",
+      "path": "assets/impy2-hd.plist",
+      "sha256": "2774206892d16640eed5edf844604cdb0f6663b58f0f95e64681c9a2ad839da8",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/impy2-hd.png",
+      "sha256": "7444c11f0999a10e854f9ae322ba1de8c3185729909dae211060eac0a4b90fc6",
+      "use": "unchanged PNG",
+      "width": 488,
+      "height": 924
+    },
+    {
+      "source": "apk",
+      "path": "assets/impyAnimations_2.plist",
+      "sha256": "fe58e078aec6fb44178281c4a55be9bb1df67e5ae4012516edd944d077c20a33",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/impy3-hd.plist",
+      "sha256": "863f03d7b52e5755c7ba5b2fc39dff92fd6901a13741283c049d38e5140ff1eb",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/impy3-hd.png",
+      "sha256": "06b849aaab65d2f194cd4836feb4e7207bcd5371a5e941036c515470109748bc",
+      "use": "unchanged PNG",
+      "width": 1018,
+      "height": 572
+    },
+    {
+      "source": "apk",
+      "path": "assets/impyAnimations_3.plist",
+      "sha256": "8ac4285bb81796a5dda13c4fd41591b94815c2fbddb90b8800b5dd9a9f903708",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/impy4-hd.plist",
+      "sha256": "9c1dba78ce8aa94430c800402440d37b878eeedfbd36714833a18e7dfb9410d7",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/impy4-hd.png",
+      "sha256": "84395617332e0296fef13e26b1ea93c42073aebc1d1e05793d4efb2b27670d5c",
+      "use": "unchanged PNG",
+      "width": 972,
+      "height": 560
+    },
+    {
+      "source": "apk",
+      "path": "assets/impyAnimations_4.plist",
+      "sha256": "13664ffd522ea9ad058c8a22ce60283656a2f64e3b592596e2c26f41774a5e58",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/lich2-hd.plist",
+      "sha256": "c97814b0206e2ba0bc7247fc21cb5e29aa1d172d81b22bb1e792fcb38d49ec0d",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/lich2-hd.png",
+      "sha256": "950091193cf1a63ad904bf0cba009d8abd4a12053b02a3aa554e9b69d9d41518",
+      "use": "unchanged PNG",
+      "width": 1018,
+      "height": 806
+    },
+    {
+      "source": "apk",
+      "path": "assets/lichAnimations_2.plist",
+      "sha256": "34394d5a525882fe18a41d59298b7c72c1d314b33594ec8b39e64c0c0f156ca2",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/lich3-hd.plist",
+      "sha256": "18b171c67ecb462e3e1b6ee2d12f94a4f199489a9adaf858205c42df90690bb8",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/lich3-hd.png",
+      "sha256": "ac0e2bd4e75ddba6ec3b4d969439f6a3c29f0a16c21a62e42e066587e725672c",
+      "use": "unchanged PNG",
+      "width": 1010,
+      "height": 862
+    },
+    {
+      "source": "apk",
+      "path": "assets/lichAnimations_3.plist",
+      "sha256": "d902a0b9156c3f4a4c872e33d152de3dc8b46ed5d06f43842e2651eea2bf2cc0",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/lich4-hd.plist",
+      "sha256": "0725f262c0976426a907416f47ddfc1b8b6dab08e3d7b4ca66987ba1ca40e028",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/lich4-hd.png",
+      "sha256": "d6fa47e87f2199366082e5c5e3255899ea41e28e3c42fc288a53a86c73e55ebb",
+      "use": "unchanged PNG",
+      "width": 1014,
+      "height": 834
+    },
+    {
+      "source": "apk",
+      "path": "assets/lichAnimations_4.plist",
+      "sha256": "26f6db3f63b97319a59522e37b2968529823bff0567dbbd45978017352eb0cfd",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/magmadragon-hd.plist",
+      "sha256": "d4e1a81e1ebd3d599d32932259abe1ae548aa22a9631d1489cb4d1617cb9b5ad",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/magmadragon-hd.png",
+      "sha256": "39965c350b1700747acdd0dc0354ebe4ec661696820817b01fca0ec331dc8a68",
+      "use": "unchanged PNG",
+      "width": 2038,
+      "height": 1116
+    },
+    {
+      "source": "apk",
+      "path": "assets/mantis-hd.plist",
+      "sha256": "b38f2f5ac8cdf4df731ca9fae6a512e01c5a0f772bc0b9990eaf2bba74b65967",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/mantis-hd.png",
+      "sha256": "b854132b65ba6a228dfbcd56b79455db68bd219fa3182f66ff11449465dd2e33",
+      "use": "unchanged PNG",
+      "width": 2012,
+      "height": 904
+    },
+    {
+      "source": "apk",
+      "path": "assets/medusa-hd.plist",
+      "sha256": "e9ea900f63232e6fd29f10b8a3615d4147e9f8b1055f038373679bd66829f79f",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/medusa-hd.png",
+      "sha256": "b6365c0ce3f602b3b72e4a8d82992c1abbffe71b5b9ff1ebf1f3cb0d9ea19183",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1440
+    },
+    {
+      "source": "apk",
+      "path": "assets/medusa2-hd.plist",
+      "sha256": "8754598291ac3bef2f1677abd48b549b0059f30bd908afc45a6fc982ac206012",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/medusa2-hd.png",
+      "sha256": "5d952dbaf59251550b0e7298bdcd61b7e5ccd3d699b96c0bd45fa0235d523e1b",
+      "use": "unchanged PNG",
+      "width": 1510,
+      "height": 1014
+    },
+    {
+      "source": "apk",
+      "path": "assets/medusaAnimations_2.plist",
+      "sha256": "15ea4abaa213f336a3e3762aa9a3e93a5beb02c06934484948570beeab148e88",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/medusa3-hd.plist",
+      "sha256": "d26a1589cae1a3686f4eec81625faa911f4ebacb39c28e7ff000c7c3853f8c59",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/medusa3-hd.png",
+      "sha256": "a4658c086e93331557f760404d544501148d84492b0d3092e64732a0f6cb1e65",
+      "use": "unchanged PNG",
+      "width": 1022,
+      "height": 1554
+    },
+    {
+      "source": "apk",
+      "path": "assets/medusaAnimations_3.plist",
+      "sha256": "df66fd43dced8722573b4e3eb8671199831ab713e458355029a1f9223d679684",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/medusa4-hd.plist",
+      "sha256": "764238414306c04c38970c9a4ca98be812972c6517c3f9b2a55598dffec9656c",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/medusa4-hd.png",
+      "sha256": "ce2d70ae0f2f06f8e8b28a1c821ad96ff5fc098a2e329a317d16be1dcf1357ad",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1448
+    },
+    {
+      "source": "apk",
+      "path": "assets/medusaAnimations_4.plist",
+      "sha256": "cd000c566c6ae1c6562d25ab253329ddb3de357931f62441464628835a1df8b4",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/mineycow-hd.plist",
+      "sha256": "281696ff08e6f81a552e738449d0799974cf62fa773b86ae3dbd364cc82cc289",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/mineycow-hd.png",
+      "sha256": "fa00ff72cdf340501d99184d854a8754440719dda1d9732cf6227edf25bdfcfd",
+      "use": "unchanged PNG",
+      "width": 502,
+      "height": 600
+    },
+    {
+      "source": "apk",
+      "path": "assets/mummy-hd.plist",
+      "sha256": "095de624adafde1e30de4e4c811d3140d1acfaa97816da6ad7031a17c7191d5b",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/mummy-hd.png",
+      "sha256": "aef0f896b17f62c66463449e145a77921f27a785ed2731485f9c3d2902ee557f",
+      "use": "unchanged PNG",
+      "width": 1022,
+      "height": 618
+    },
+    {
+      "source": "apk",
+      "path": "assets/necro-hd.plist",
+      "sha256": "93c5df05b95b691c16da6a8aea0bc859aab736d9cc664621a87aa2ef0fa94dd2",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/necro-hd.png",
+      "sha256": "c9231b7c80273f3b6e845470beaf112809fdbc9dfda3ad9bd3a664be2044e599",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/necro2-hd.plist",
+      "sha256": "19bfa707821415743cfe1a493bc067607f037fcb53ea9e719e34615c3917c462",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/necro2-hd.png",
+      "sha256": "46c53923ba1aa06f6c94735714f18b71a885344d3e414d3c1ee022a3c6455218",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1172
+    },
+    {
+      "source": "apk",
+      "path": "assets/necroAnimations_2.plist",
+      "sha256": "b359e63f272f0b59e8fb5c3aef5689e3079c89c343f68b0ff0742babfd264574",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/necro3-hd.plist",
+      "sha256": "43b8fd158b4fb4eddd3194a0da27876baeb1ff3571ca9237b49716eaa175e192",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/necro3-hd.png",
+      "sha256": "cbd5f60404ebb395a12b510759a63b8838724730891c7d9c736e961999a0ed53",
+      "use": "unchanged PNG",
+      "width": 1022,
+      "height": 1104
+    },
+    {
+      "source": "apk",
+      "path": "assets/necroAnimations_3.plist",
+      "sha256": "0f2ad3295279b0acfcdc8d84e9b016b1dd0cdb65fc3333ed1545e6411cdfb409",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/necro4-hd.plist",
+      "sha256": "448869c3d8f9e457d0e26f667028eb2bc5387d5e3f728f04875ec239cb25b107",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/necro4-hd.png",
+      "sha256": "431b7e9bbd3b1e2922d0443c4d6a3ed4ee747c137cd327c61cc4eeb6e62d3021",
+      "use": "unchanged PNG",
+      "width": 1020,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/necroAnimations_4.plist",
+      "sha256": "d8875c6eaaa58c930344141e133c12b5299580e7022ccae065f9bbc177e9dad4",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/crystaldragon-hd.plist",
+      "sha256": "560f5d2e1dfdcaf737368974ccf6d07bdfae735d801ebeab53bc4cb3d8297ae7",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/crystaldragon-hd.png",
+      "sha256": "735cf2c4e28b5a6fa6d12a03ad1914f6da63f864d7b2c2eb92fcb3989b7a1987",
+      "use": "unchanged PNG",
+      "width": 1550,
+      "height": 1472
+    },
+    {
+      "source": "apk",
+      "path": "assets/reaperboss-hd.plist",
+      "sha256": "72ba1958a77683b27550bc87866fe31637df94ae8af95be5c3029bf973720e74",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/reaperboss-hd.png",
+      "sha256": "fd79128e25c94962db24c6a71ff7b55541e9f61c63fa19d88c4fd6947c2ce06b",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 2048
+    },
+    {
+      "source": "apk",
+      "path": "assets/sanddragon-hd.plist",
+      "sha256": "76f147ceaf01c826a7f2a3352f2882abdf0bfec65d7fa198edb8fcbfe4f32b90",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/sanddragon-hd.png",
+      "sha256": "e924bca7e2bea34464608fcf9882ca2438358ac691f51af8c8f40b3859d392a7",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/shopkeepy-hd.plist",
+      "sha256": "d17d77b99e35a06a74d5ec7530c55e9862c7438e21176630644713ad04568943",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/shopkeepy-hd.png",
+      "sha256": "69e13f7b5dd9474a8e72604585e5e3d5d639d41fd7ac1687732e850aee18a3dd",
+      "use": "unchanged PNG",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "source": "apk",
+      "path": "assets/skullyboss-hd.plist",
+      "sha256": "453c1496ce2cb0c6e52479fe3d2fd2cc81aa9fa35c1d046444e8aec04ec0b304",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/skullyboss-hd.png",
+      "sha256": "43014f3529467b51a3acee7c86386d6e24cb9ebf730176c5434f87a1e7590ac2",
+      "use": "unchanged PNG",
+      "width": 1020,
+      "height": 1584
+    },
+    {
+      "source": "apk",
+      "path": "assets/spidey-hd.plist",
+      "sha256": "d092657bbc166e45d2f15eee296baef9e6b83db9753d5361238f531daea41ed0",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/spidey-hd.png",
+      "sha256": "163776b46c6bdd2b820722305fc827c27c68cf4945cdab71d7f0a3929af1d6f2",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1108
+    },
+    {
+      "source": "apk",
+      "path": "assets/spidey2-hd.plist",
+      "sha256": "7202c9499fe7abcb7092424e96932ca91b30d964054c3821d4a23459c5d23061",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/spidey2-hd.png",
+      "sha256": "2393b98935505b08bfd594d757e0c09435cf90f09a93a0e518d0f71aca1bd118",
+      "use": "unchanged PNG",
+      "width": 512,
+      "height": 2044
+    },
+    {
+      "source": "apk",
+      "path": "assets/spideyAnimations_2.plist",
+      "sha256": "e0bed3be2ce942b8b42087fa5856248e98893960ef86602c579c06dda1994fc2",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/spidey3-hd.plist",
+      "sha256": "2e1756eada4e18b26843b699aaca38f6de8173ea229bb7a76f70f313186f251b",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/spidey3-hd.png",
+      "sha256": "c9cca830d5b43786c18daeefb5cbdc3f979f07304adb1be03bd77e0ca49e980e",
+      "use": "unchanged PNG",
+      "width": 1022,
+      "height": 1322
+    },
+    {
+      "source": "apk",
+      "path": "assets/spideyAnimations_3.plist",
+      "sha256": "b6d2637463903d4f2bae0ca7dfe0f81c5df8f1a774cc6e3b2729ba72d7bfd0b1",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/spidey4-hd.plist",
+      "sha256": "e690f2bc5c3e78aff641515b1d45284c959f6070b7649aca84aae3d43b3e1a46",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/spidey4-hd.png",
+      "sha256": "cf12d5fa9d38bb145c1790f490b139b4ec35803a22080b16d5573de1e7316cd1",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1144
+    },
+    {
+      "source": "apk",
+      "path": "assets/spideyAnimations_4.plist",
+      "sha256": "99f968a81aefafb887085b7dfed53e08437d11ccafdcc9b0b3c716f5248de341",
+      "use": "parsed data only"
+    },
+    {
+      "source": "apk",
+      "path": "assets/spideyboss-hd.plist",
+      "sha256": "14f43fb17e88adfd460eafbb11beedc0b18e979d6a768e77cdef578af1afca14",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/spideyboss-hd.png",
+      "sha256": "11eb7c2fd750e6b67c2c303821ce454f5a34d69fd51fbb1908f37af1a68a05f9",
+      "use": "unchanged PNG",
+      "width": 2044,
+      "height": 1084
+    },
+    {
+      "source": "apk",
+      "path": "assets/vampyboss-hd.plist",
+      "sha256": "eaced521cc7afe21c3af2a0febaad35c80d6f4cbaedadff844453a3f83e5ea76",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/vampyboss-hd.png",
+      "sha256": "dc7f0a921430c538257e4eaf572b9b9ed76a2be5c8fed9b49faaca5c10d92eea",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1106
+    },
+    {
+      "source": "apk",
+      "path": "assets/wolfyboss-hd.plist",
+      "sha256": "82c4ccc9844ba4d72c2537a75f0edd438b7a2f9d614d079e78ce3a1931e857cb",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/wolfyboss-hd.png",
+      "sha256": "f43d607f0a86ff5efc752b3a59864cd64b4c8b551c33cccf2d2e193b9c9472b1",
+      "use": "unchanged PNG",
+      "width": 2042,
+      "height": 1210
+    },
+    {
+      "source": "apk",
+      "path": "assets/mainmenu-background-hd.plist",
+      "sha256": "4f05718a8cf49efc90a290368a3a1fae6c25570ebe288df8fefe2634c7718567",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/mainmenu-background-hd.png",
+      "sha256": "42e10b54b190efbea00536bcde793d154a326225b471d9fc25dc10a89bac9606",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "source": "apk",
+      "path": "assets/mainmenu-foreground-hd.plist",
+      "sha256": "3f14649f20b25fdf1af7caeeed27d1e7eb4cff8c63a2556d02c6a342576555e1",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/mainmenu-foreground-hd.png",
+      "sha256": "f0986fb21a97599b7735067e18ddce3379157977c64090d820041ec60b30a7e5",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "source": "apk",
+      "path": "assets/worldmapsheet1.plist",
+      "sha256": "eb98e5009d1e9f384844e7c87d0af43a1e652d3b49c0cd4fb42257cc80e9eb51",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/worldmapsheet1.png",
+      "sha256": "707e1820605c477d59c8b2daf6135cdc9df48faa75981faefa06e49803661b7c",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/worldmapsheet2.plist",
+      "sha256": "754b391460744bcedc8673df366e529973e33e9ca8d7fa6d503c67cced213d7e",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/worldmapsheet2.png",
+      "sha256": "d89c2e4268116d3b6aa25c89be6ed7bc6dec21436db4c5802eff9e69ed0fe84d",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/worldmapsheet3-hd.plist",
+      "sha256": "be916cd708263d390bceffe76590ac33474cc490a4380795c6d21af60c495d2e",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/worldmapsheet3-hd.png",
+      "sha256": "f81d053a23ee1c9fd78788e6eabb95d472a274662aff8c8a7b936b5377e001ba",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/armory-shopdesk-hd.plist",
+      "sha256": "949b7512464c7d5db6c7d1b5884e22e22390f7e4e48c3c8304ea64198bd8424b",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/armory-shopdesk-hd.png",
+      "sha256": "d957dc93bd3867b984b54875d897ae339e8c317cad0b2d798c89398b3ebb5b21",
+      "use": "unchanged PNG",
+      "width": 2040,
+      "height": 1432
+    },
+    {
+      "source": "apk",
+      "path": "assets/armory-units-spritesheet1-hd.plist",
+      "sha256": "e0bd89af15e6deaa109efd1be1daf34daf05c37faa0a6a48f102b8750ece115d",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/armory-units-spritesheet1-hd.png",
+      "sha256": "b1f26e49071b63284ce01c2672a5b0bba3f1d0acec14b4c632dfd32b180cfa11",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1988
+    },
+    {
+      "source": "apk",
+      "path": "assets/unit-selection-spritesheet-hd.plist",
+      "sha256": "d23b2f0150181925de06cb49bc40d9ee6be4d778f2763b79b396b3be0e0a7e5e",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/unit-selection-spritesheet-hd.png",
+      "sha256": "0439b50eb8ae896a57f7567b49baefc7b73873b5f4df0c3d41f4bea6298f51d2",
+      "use": "unchanged PNG",
+      "width": 1004,
+      "height": 1010
+    },
+    {
+      "source": "apk",
+      "path": "assets/hud-spritesheet-hd.plist",
+      "sha256": "7c64be4463cd34d328405177d7aec9824c8025f411297ac687133bff1a067e88",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/hud-spritesheet-hd.png",
+      "sha256": "53716e824a0607ae0801e6769c9b7e92d742843206d7391f524a746701a81862",
+      "use": "unchanged PNG",
+      "width": 1018,
+      "height": 840
+    },
+    {
+      "source": "apk",
+      "path": "assets/GrassSceneScrolling-hd.plist",
+      "sha256": "820adf2f22b909c2d26b6f2b584d6f4c60ca4171bf71c311a4e9ea555320f999",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/GrassSceneScrolling-hd.png",
+      "sha256": "c31fecac21f744b63576f8834aa80352467f9beec9c689203132a965b47c66f1",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "source": "apk",
+      "path": "assets/castle-grass-spritesheet-hd.plist",
+      "sha256": "f3405a1e3abc610b937613a2518c612a98ed59153c3e570e7fbdc287a17c0656",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/castle-grass-spritesheet-hd.png",
+      "sha256": "0d9b977d8265ee4683c6dd1a20b485954c6ff95624be0f83176dec5b12267854",
+      "use": "unchanged PNG",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/SnowScene-hd.plist",
+      "sha256": "b683df6612c006f6a30cfebf5497683b8530d97c002bcca8a7302c77e22899da",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/SnowScene-hd.png",
+      "sha256": "fbb966ca556fe2b4b24dc71576d000742509aac2dc1f0123786fec9b074c2bdd",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "source": "apk",
+      "path": "assets/SnowSceneScrolling-hd.plist",
+      "sha256": "12313084174c84cf02f71b94170d7c5203f4e34bc41333c0707d84bbf4a08289",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/SnowSceneScrolling-hd.png",
+      "sha256": "47a8f2e886028ef53e8e306327a9f68dcdf134d017314f10dc765528c1675caf",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/castle-snow-spritesheet-hd.plist",
+      "sha256": "3ae2916ccd5ab8493ce8b669b12d1e4f989f3de631760100e8c1ce56c6c396db",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/castle-snow-spritesheet-hd.png",
+      "sha256": "d20a4eb7be3234cf008acc884e0b109a1181b64dffd38415015c1ec3265e7860",
+      "use": "unchanged PNG",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/DesertScene-hd.plist",
+      "sha256": "1a30998e2baf136504ffe4c14d6bc3f55b27e7fc437a3e05cdb73964c74d4609",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/DesertScene-hd.png",
+      "sha256": "87571519dcdcd13850d9065b4cb4fb20a9e03221f47f44f46c1bac25a87d921b",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "source": "apk",
+      "path": "assets/DesertSceneScrolling-hd.plist",
+      "sha256": "40eca8a2eafd9277bffc31f4be6b820307959598050d0014d1b536bcaad80dae",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/DesertSceneScrolling-hd.png",
+      "sha256": "25e84369be72de39cf1a713d704d973029ba1fb84b36c0da212bb24dd73d6986",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/castle-desert-spritesheet-hd.plist",
+      "sha256": "cd9cd7fc412145b9d72e5eaeed85832c514ca84567d75043beea20657244cced",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/castle-desert-spritesheet-hd.png",
+      "sha256": "fdcdd717037b94c1ddc8fb5891dab32845a384eed67a8a1c964f9b4597f2f78c",
+      "use": "unchanged PNG",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/SwampScene-hd.plist",
+      "sha256": "db1196e754b7a9e6aeae56be25a7640c4e54aee9b39c5667f29f640c8bd584ff",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/SwampScene-hd.png",
+      "sha256": "6fada975d3467071e4a6cbbbf8ecc285eeae2ed7da08566e94f8592d2d755ef8",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "source": "apk",
+      "path": "assets/SwampSceneScrolling-hd.plist",
+      "sha256": "541b72efdf3f10006a8b90db61fb5606eeabb8142aa21a87405591bf94a239e6",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/SwampSceneScrolling-hd.png",
+      "sha256": "550bd989a371249813f69b871b52d6475f9000bf2d1ecaf22cf32794e14e3260",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "source": "apk",
+      "path": "assets/castle-swamp-spritesheet-hd.plist",
+      "sha256": "9c8be8753dd5c471187230d47997a540846bedba077973d85883bcadb8ae0b1f",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/castle-swamp-spritesheet-hd.png",
+      "sha256": "fe95e3f1063b29f46389e5c257e9218c7da556ae67e35fbe8ba75b16991820b6",
+      "use": "unchanged PNG",
+      "width": 512,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/VolcanoScene-hd.plist",
+      "sha256": "8120a8c86f358b3a09bf66eeb185d050c81292ffd55cacb36bb43c1ec0c12b57",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/VolcanoScene-hd.png",
+      "sha256": "89e60b4b365befb64be2548b4028f8b62af976285de821028e375a9bcb057621",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "source": "apk",
+      "path": "assets/VolcanoSceneScrolling-hd.plist",
+      "sha256": "ab61d0327b7672a6266ab82fd9fd0d325d6f8c9107ebcb4f56af39327a69f2bb",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/VolcanoSceneScrolling-hd.png",
+      "sha256": "ec815fe3ec849f9111745090b6306b2c40bf70e768a9eebffeb3d7f95396438f",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/castle-volcano-spritesheet-hd.plist",
+      "sha256": "88eafc840bafcdec303163a8a9d0cb4cdb068d9363bd3122593bc9cad74da929",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/castle-volcano-spritesheet-hd.png",
+      "sha256": "a626a36a217a0384b2ff9d892b712dcdf73df9c15ed2230798f9a9ccca50dd67",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/NetherworldScene-hd.plist",
+      "sha256": "39164581cabce1a4445e836d27bb3ba43e2b356f44d6a9cf9eb5111d25308771",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/NetherworldScene-hd.png",
+      "sha256": "205a2878b38b74251ca01f7d108269c70b6d93980439d06a0702d92bb14fb4a2",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 1525
+    },
+    {
+      "source": "apk",
+      "path": "assets/NetherworldSceneScrolling-hd.plist",
+      "sha256": "ccd723c08bd810274cbe978d664ba5dba3c537dd686b017172f12b2391ed5034",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/NetherworldSceneScrolling-hd.png",
+      "sha256": "46e449c33357bfa2bb1eacfe22a8cd7c6261fdd3fd56fbc226295bec0fef2e7b",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/castle-netherworld-spritesheet-hd.plist",
+      "sha256": "c89015d3b0591cd42714f299858e116405ea4790a8fa612664e2411932c589d0",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/castle-netherworld-spritesheet-hd.png",
+      "sha256": "781483799643c19b39790f424ca45dcac8a2ba9dbf768f82a935b7a01f98d212",
+      "use": "unchanged PNG",
+      "width": 508,
+      "height": 970
+    },
+    {
+      "source": "apk",
+      "path": "assets/SkyhavenSceneScrolling-hd.plist",
+      "sha256": "8b8f44f9a1a7f2339f6561e0c1817c8b686f37db1cc10f5bef1572c7c0bfb418",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/SkyhavenSceneScrolling-hd.png",
+      "sha256": "05033e4268a761c10e4793d35864243647715d9b2dcd42a99b882d43c59578d9",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 1024
+    },
+    {
+      "source": "apk",
+      "path": "assets/SkyhavenSceneScrolling2-hd.plist",
+      "sha256": "aada534fdf6df95257d3e8021c456c000cf8f19c968fa4a8df0a4bcfba3dae9a",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/SkyhavenSceneScrolling2-hd.png",
+      "sha256": "2820cd757ef68f64411fe9f6291275e1bf8f0fb0ba67538a3c7d536dd081eea1",
+      "use": "unchanged PNG",
+      "width": 1138,
+      "height": 416
+    },
+    {
+      "source": "apk",
+      "path": "assets/armory-spritesheet-hd.plist",
+      "sha256": "cd1d5f06e47ba4526ce07a61939f33b288df6beeee1170353b202138ad310be4",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/armory-spritesheet-hd.png",
+      "sha256": "c0cd43241f030b555f9743619d495e6c5544ce2b47c9259a47a78e700d2280c1",
+      "use": "unchanged PNG",
+      "width": 2000,
+      "height": 1162
+    },
+    {
+      "source": "apk",
+      "path": "assets/armory-units-spritesheet2-hd.plist",
+      "sha256": "eb2da68cd94cc1c130d154deb76a82ebcf366a173ebdc7c411e098b020ff3a26",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/armory-units-spritesheet2-hd.png",
+      "sha256": "36e58377f537b72f5b5301eacdb4595ef36393e2250d5b5cf1b678a8bb256e3f",
+      "use": "unchanged PNG",
+      "width": 2048,
+      "height": 1178
+    },
+    {
+      "source": "apk",
+      "path": "assets/armory-units-spritesheet3-hd.plist",
+      "sha256": "1b9598e4d195c00ce35a3b89b97338ffe4d54b03b25be90b784d3a7caeef2dd1",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/armory-units-spritesheet3-hd.png",
+      "sha256": "4853edb256d5db2903211ea72d09d259ec30dbfeb81c49f7c2511237b3d42880",
+      "use": "unchanged PNG",
+      "width": 2042,
+      "height": 1162
+    },
+    {
+      "source": "apk",
+      "path": "assets/scrollnode-vertical-spritesheet-hd.plist",
+      "sha256": "f8de7b680c1a79152099c61a1469ee90a0fbc33c2ce035ae225800ce82c489ab",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/scrollnode-vertical-spritesheet-hd.png",
+      "sha256": "d93e2c7ec8ae443d17c1a8600f99622d8674b91ed497fce28d171c5517491cff",
+      "use": "unchanged PNG",
+      "width": 1024,
+      "height": 512
+    },
+    {
+      "source": "apk",
+      "path": "assets/scrollnode-horizontal-spritesheet-hd.plist",
+      "sha256": "bb87ddbd83e7799cbd74f9cdb911f0c60a5297e472529b6089267ea75b0d4a27",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/scrollnode-horizontal-spritesheet-hd.png",
+      "sha256": "3e305d3df0f2aac5f7eae9c5f0d3d97ec954dab1997fdea4b35fb5b37cf4262e",
+      "use": "unchanged PNG",
+      "width": 998,
+      "height": 544
+    },
+    {
+      "source": "apk",
+      "path": "assets/fx-spritesheet-hd.plist",
+      "sha256": "683d127fd37075fa72d6e9d945c891f77ae576cfac5cf5efdd23fe963048553f",
+      "use": "parsed data only"
+    },
+    {
+      "source": "obb",
+      "path": "assets/fx-spritesheet-hd.png",
+      "sha256": "2d0ec2d6a3dc88f7836f0a8e8c3e2abc8fa0210775c5296007a52ca3512d714a",
+      "use": "unchanged PNG",
+      "width": 942,
+      "height": 1016
+    },
+    {
+      "source": "obb",
+      "path": "assets/Armory.wav",
+      "sha256": "457a3acf25ded6d8295f994036cb25d00bf4948f8def52f288e86e2d9230afbf",
+      "use": "validated WAV"
+    },
+    {
+      "source": "obb",
+      "path": "assets/mono_Upgrade_tier.wav",
+      "sha256": "a1143d3d805faf87df697a2e176cf691cb8ad678dfa5994de9ebf69b3a4fb09d",
+      "use": "validated WAV"
+    },
+    {
+      "source": "obb",
+      "path": "assets/TitleScreen.mp3",
+      "outputPath": "audio/TitleScreen.ogg",
+      "sha256": "20fc3c9eaabdf203b46a55ddcbe0787dc426812e7d16618205244a2d0e0f7a7e",
+      "use": "validated Ogg Vorbis",
+      "pages": 30,
+      "codec": "vorbis"
+    },
+    {
+      "source": "obb",
+      "path": "assets/Overworld.mp3",
+      "outputPath": "audio/Overworld.ogg",
+      "sha256": "fa277b2862b2f770fcf2bd5b28dd74b70b8f2dfac01604ffd5e172c62cba1f16",
+      "use": "validated Ogg Vorbis",
+      "pages": 26,
+      "codec": "vorbis"
+    },
+    {
+      "source": "obb",
+      "path": "assets/Armory.mp3",
+      "outputPath": "audio/Armory.ogg",
+      "sha256": "f8668526d6ea091098c30644d79952b20766ee8f1e08073353601e5f1f63044d",
+      "use": "validated Ogg Vorbis",
+      "pages": 29,
+      "codec": "vorbis"
+    },
+    {
+      "source": "obb",
+      "path": "assets/GrassLevel.mp3",
+      "outputPath": "audio/GrassLevel.ogg",
+      "sha256": "fd82f3b0e3d317b8fe349b6135a8c647f57c73ec63dd1313a018ca54875b2f15",
+      "use": "validated Ogg Vorbis",
+      "pages": 111,
+      "codec": "vorbis"
+    },
+    {
+      "source": "obb",
+      "path": "assets/SnowLevel.mp3",
+      "outputPath": "audio/SnowLevel.ogg",
+      "sha256": "3e4557183a624b75304390971e7bcf3b1857c8b4a8b3684ec4bbf288401380ff",
+      "use": "validated Ogg Vorbis",
+      "pages": 257,
+      "codec": "vorbis"
+    },
+    {
+      "source": "obb",
+      "path": "assets/DesertLevel.mp3",
+      "outputPath": "audio/DesertLevel.ogg",
+      "sha256": "e071b45576ace0732e7d2e2153ec3aca81eda17ae0104ab38241d5573bbe301c",
+      "use": "validated Ogg Vorbis",
+      "pages": 84,
+      "codec": "vorbis"
+    },
+    {
+      "source": "obb",
+      "path": "assets/SwampLevel.mp3",
+      "outputPath": "audio/SwampLevel.ogg",
+      "sha256": "1ba08ad482a61d94b3459bd2591cc73dcc120f740c6f09b94871c07f4b06b63b",
+      "use": "validated Ogg Vorbis",
+      "pages": 117,
+      "codec": "vorbis"
+    },
+    {
+      "source": "obb",
+      "path": "assets/VolcanoLevel.mp3",
+      "outputPath": "audio/VolcanoLevel.ogg",
+      "sha256": "6cd5592bfe668c65bede520a877ac379b55e8dc917899c80ade072dee02eb3e5",
+      "use": "validated Ogg Vorbis",
+      "pages": 99,
+      "codec": "vorbis"
+    },
+    {
+      "source": "obb",
+      "path": "assets/Netherworld_Level.mp3",
+      "outputPath": "audio/Netherworld_Level.ogg",
+      "sha256": "4fc8160164c48f72865b255718805a8e14070cdcee759149471d6b648e39324a",
+      "use": "validated Ogg Vorbis",
+      "pages": 216,
+      "codec": "vorbis"
+    },
+    {
+      "source": "obb",
+      "path": "assets/SkyHaven.mp3",
+      "outputPath": "audio/SkyHaven.ogg",
+      "sha256": "ee0fa76e9d988b0ca8d3c6c04af2e4b968cfc3a2f777517f669b90f9b5aac5d1",
+      "use": "validated Ogg Vorbis",
+      "pages": 134,
+      "codec": "vorbis"
+    },
+    {
+      "source": "apk",
+      "path": "assets/Livingst.ttf",
+      "outputPath": "fonts/Livingst.ttf",
+      "sha256": "061a907624250670754380fe46d3552fccf19ca8cca6060575509a748a17f0a8",
+      "use": "validated TrueType",
+      "tables": 15
+    },
+    {
+      "source": "apk",
+      "path": "assets/Museo-700.ttf",
+      "outputPath": "fonts/Museo-700.ttf",
+      "sha256": "178d9174d208f7fc6fc76d8e39de14551b47a106ca9542def4dba0c40c615e91",
+      "use": "validated TrueType",
+      "tables": 15
+    }
+  ],
+  "warnings": [
+    "Rejected invalid frame: wizard5-hd/wizarddeath5_0012.png (Atlas out of bounds)",
+    "Unused/nonstandard frame omitted: unicorn4-hd/laser.pngOLD",
+    "Rejected invalid frame: healer4-hd/fairydeath_0008.png (Atlas out of bounds)",
+    "Rejected invalid frame: healer4-hd/healerdeath4_0015.png (Atlas out of bounds)",
+    "Rejected invalid frame: healer5-hd/fairydeath_0008.png (Atlas out of bounds)",
+    "Rejected invalid frame: healer5-hd/healerdeath5_0016.png (Atlas out of bounds)",
+    "Rejected invalid frame: fairy-hd/fairydeath_0008.png (Atlas out of bounds)",
+    "Rejected invalid frame: lich-hd/lichdeath_0014.png (Atlas out of bounds)",
+    "Rejected invalid frame: lich2-hd/lichdeath2_0014.png (Atlas out of bounds)",
+    "Rejected invalid frame: lich3-hd/lichdeath3_0014.png (Atlas out of bounds)",
+    "Rejected invalid frame: lich4-hd/lichdeath4_0014.png (Atlas out of bounds)",
+    "Rejected invalid frame: medusa-hd/medusadeath_0015.png (Atlas out of bounds)",
+    "Rejected invalid frame: necro-hd/necrodeath_0015.png (Atlas out of bounds)",
+    "Rejected invalid frame: necro2-hd/necrodeath2_0015.png (Atlas out of bounds)",
+    "Rejected invalid frame: necro3-hd/necrodeath3_0013.png (Atlas out of bounds)",
+    "Rejected invalid frame: necro4-hd/necrodeath4_0013.png (Atlas out of bounds)",
+    "Rejected invalid frame: SwampScene-hd/campfire.png (Atlas out of bounds)",
+    "Rejected invalid frame: castle-swamp-spritesheet-hd/evilcastle.png (Atlas out of bounds)"
+  ]
+}

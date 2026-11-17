@@ -1,0 +1,190 @@
+0037f8cc push       {r4, r5, r6, fp, lr}
+0037f8d0 add        fp, sp, #0xc
+0037f8d4 sub        sp, sp, #4
+0037f8d8 mov        r5, r1
+0037f8dc mov        r4, r0
+0037f8e0 mov        r1, #0
+0037f8e4 mov        r0, r5
+0037f8e8 bl         #0x582954
+0037f8ec mov        r6, r0
+0037f8f0 mov        r0, r5
+0037f8f4 mov        r1, #0
+0037f8f8 bl         #0x58297c
+0037f8fc orrs       r0, r0, r6
+0037f900 bne        #0x37f920
+0037f904 mov        r0, #0x3f800000
+0037f908 mov        r1, r5
+0037f90c bl         #0x582340
+0037f910 mov        r1, r0
+0037f914 mov        r0, r4
+0037f918 bl         #0x582720
+0037f91c b          #0x37f934
+0037f920 mov        r0, r5
+0037f924 mov        r1, #0x3f800000
+0037f928 bl         #0x582344
+0037f92c mov        r1, r4
+0037f930 bl         #0x582588
+0037f934 sub        sp, fp, #0xc
+0037f938 pop        {r4, r5, r6, fp, pc}
+0037f93c push       {r4, r5, r6, fp, lr}
+0037f940 add        fp, sp, #0xc
+0037f944 sub        sp, sp, #4
+0037f948 mov        r5, r1
+0037f94c ldr        r1, [pc, #0x60] ; literal=0x448ea4 float=6.29598e-39
+0037f950 mov        r6, r2
+0037f954 ldr        r2, [pc, #0x5c] ; literal=0xffe4b330 float=nan
+004e94e8 ldr        r0, [pc, #0x974] ; literal=0xfff2b350 float=nan
+004e94ec add        r2, r0, r4
+004e94f0 mov        r0, r6
+004e94f4 bl         #0x162e38
+004e94f8 mov        r4, r0
+004e94fc cmp        r4, #0
+004e9500 bne        #0x4e9528
+004e9504 ldr        r0, [pc, #0x95c] ; literal=0x2df2ec float=4.21974e-39
+004e9508 ldr        r1, [pc, #0x95c] ; literal=0xffe54b84 float=nan
+004e950c mov        r2, #0x1700000
+004e9510 orr        r2, r2, #0x40000000
+004e9514 add        r0, pc, r0
+004e9518 ldr        r1, [r1, r0]
+004e951c ldr        r0, [r5, r0]
+004e9520 bl         #0x162e38
+004e9524 mov        r4, r0
+004e9528 ldr        r0, [pc, #0x940] ; literal=0x2df2d0 float=4.2197e-39
+004e952c ldr        r8, [pc, #0x940] ; literal=0xffe54b8c float=nan
+004e9530 add        r0, pc, r0
+004e9534 ldr        r1, [r8, r0]
+004e9538 mov        r0, r4
+004e953c bl         #0x162e38
+004e9540 mov        r1, #0
+004e9544 mov        r5, r0
+004e9548 bl         #0x582968
+004e954c mov        r6, r0
+004e9550 mov        r0, r5
+004e9554 mov        r1, #0
+004e9558 bl         #0x58297c
+004e955c orrs       r0, r0, r6
+004e9560 beq        #0x4e9598
+004e9564 ldrh       r0, [r7, #4]
+004e9568 bl         #0x5824dc
+004e956c mov        r5, r0
+004e9570 ldr        r0, [pc, #0x910] ; literal=0x2df28c float=4.21961e-39
+004e9574 add        r0, pc, r0
+004e9578 ldr        r1, [r8, r0]
+004e957c mov        r0, r4
+004e9580 bl         #0x162e38
+004e9584 mov        r1, r0
+004e9588 mov        r0, r5
+004e958c bl         #0x582720
+004e9590 str        r0, [r7, #8]
+004e9594 b          #0x4e95e0
+004e9598 ldr        r0, [pc, #0x8d8] ; literal=0x2df264 float=4.21955e-39
+00483bd0 mov        r0, #0x154
+00483bd4 str        r6, [sp, #0x1c]
+00483bd8 ldrh       r0, [r8, r0]
+00483bdc bl         #0x5824d4
+00483be0 ldr        r1, [r8, #0xa4]
+00483be4 bl         #0x37f8cc
+00483be8 bl         #0x582a10
+00483bec ldr        r1, [r8, #0x34]
+00483bf0 cmp        r1, #0
+00483bf4 beq        #0x483c5c
+00483bf8 mov        r1, #0x64
+00483bfc sub        r7, r1, r0, lsr #1
+00483c00 mov        r0, #0xff
+00483c04 orr        r0, r0, #0xff00
+00483c08 and        r0, r7, r0
+00483c0c bl         #0x5824d4
+00483c10 ldr        r1, [pc, #0x328] ; literal=0x344be8 float=4.80268e-39
+00483c14 mov        r5, r0
+00483c18 add        r4, pc, r1
+00483c1c b          #0x483c7c
+00483c20 ldr        r0, [r8, #0x2c]
+00483c24 mov        r1, #0
+00483c28 str        r1, [sp, #0xc]
+00483c2c cmp        r0, #0
+00483c30 beq        #0x483c50
+00483c34 ldr        r1, [pc, #0x2fc] ; literal=0x344bc0 float=4.80262e-39
+00483c38 ldr        r2, [pc, #0x2fc] ; literal=0xffe515bc float=nan
+00483c3c mov        r3, sl
+00483c40 add        r1, pc, r1
+00483c44 ldr        r1, [r2, r1]
+00483c48 mov        r2, r8
+00483c4c bl         #0x162e38
+00483c50 ldr        r0, [sp, #0xc]
+00483c54 sub        sp, fp, #0x18
+00483c58 pop        {r4, r5, r6, r7, r8, sl, fp, pc}
+00483c5c rsb        r7, r0, #0x64
+00483c60 mov        r0, #0xff
+00483c64 orr        r0, r0, #0xff00
+00483c68 and        r0, r7, r0
+00483c6c bl         #0x5824d4
+00483c70 ldr        r1, [pc, #0x2d0] ; literal=0x344b88 float=4.80254e-39
+00483c74 mov        r5, r0
+00483c78 add        r4, pc, r1
+00483c7c ldr        r0, [pc, #0x2ac] ; literal=0xffe515b8 float=nan
+00483c80 ldr        r1, [r0, r4]
+00483c84 mov        r0, sl
+00483c88 bl         #0x162e38
+00483c8c bl         #0x5824d4
+00483c90 cmp        r7, #0x19
+00483c94 mov        r1, #0x2c80000
+00483c98 mov        r6, r0
+00483c9c movle      r5, #0x1c80000
+00483ca0 orr        r1, r1, #0x40000000
+00483ca4 orrle      r5, r5, #0x40000000
+00483ca8 mov        r0, r5
+00483cac bl         #0x582720
+00483cb0 mov        r1, r0
+00483cb4 mov        r0, r6
+00483cb8 bl         #0x582588
+00483cbc bl         #0x164a64
+00483cc0 bl         #0x582a10
+00483cc4 mov        r2, r0
+00488f38 ldr        r6, [r5, #0x98]
+00488f3c str        r0, [sp, #8]
+00488f40 cmp        r1, #1
+00488f44 bne        #0x488f8c
+00488f48 ldr        r7, [r5, #0x94]
+00488f4c mov        r1, #0
+00488f50 mov        r0, r7
+00488f54 bl         #0x582940
+00488f58 mov        r4, r0
+00488f5c mov        r0, r7
+00488f60 mov        r1, #0
+00488f64 bl         #0x58297c
+00488f68 orrs       r0, r0, r4
+00488f6c bne        #0x488f8c
+00488f70 ldrb       r0, [r5, #0x156]
+00488f74 cmp        r0, #0
+00488f78 beq        #0x488f8c
+00488f7c mov        r0, r6
+00488f80 mov        r1, r7
+00488f84 bl         #0x582344
+00488f88 mov        r6, r0
+00488f8c mov        r0, r6
+00488f90 mov        r1, #0
+00488f94 bl         #0x582918
+00488f98 mov        r7, r8
+00488f9c cmp        r0, #0
+00488fa0 bne        #0x488fb4
+00488fa4 mov        r0, r8
+00488fa8 mov        r1, r6
+00488fac bl         #0x37f8cc
+00488fb0 mov        r7, r0
+00488fb4 ldr        r6, [r5, #0x54]
+00488fb8 mov        r1, #0
+004c8d10 bl         #0x581860
+004c8d14 mov        r4, r0
+004c8d18 mov        r7, r1
+004c8d1c mov        r0, r4
+004c8d20 mov        r1, r7
+004c8d24 mov        sl, r5
+004c8d28 bl         #0x582290
+004c8d2c ldr        r1, [r8, #0x94]
+004c8d30 bl         #0x37f8cc
+004c8d34 ldr        r1, [r8, #0x160]
+004c8d38 mov        r7, r0
+004c8d3c cmp        r1, #0
+004c8d40 beq        #0x4c8d60
+004c8d44 ldr        r0, [pc, #0xd4] ; literal=0x2ffab4 float=4.4062e-39
+004c8d48 ldr        r2, [pc, #0xd4] ; literal=0xffe538f8 float=nan

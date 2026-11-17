@@ -1,0 +1,67 @@
+{
+  "evidence_id": "ev_cc202a775de6468e81579dc7066ff4e5c323c185574d198b529214bc9526a34c",
+  "subject": {
+    "name": "legendary-wars-offline.apk",
+    "digest": {
+      "sha256": "a4285b47ad6d1290abcc9c6e7e2c766eab001231fe90673c8dc566442f5b4744"
+    },
+    "format": "apk",
+    "architecture": null
+  },
+  "normalized_result": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1",
+      "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+      "worker_count": 1,
+      "heap_limit_mib": 2048
+    },
+    "package_name": "com.legendary.offline",
+    "version_name": "0.2.0",
+    "version_code": "2",
+    "min_sdk": "26",
+    "target_sdk": "35",
+    "permissions": [],
+    "manifest": {
+      "status": "complete",
+      "text": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:versionCode=\"2\"\r\n    android:versionName=\"0.2.0\"\r\n    android:compileSdkVersion=\"35\"\r\n    android:compileSdkVersionCodename=\"15\"\r\n    package=\"com.legendary.offline\"\r\n    platformBuildVersionCode=\"35\"\r\n    platformBuildVersionName=\"15\">\r\n    <uses-sdk\r\n        android:minSdkVersion=\"26\"\r\n        android:targetSdkVersion=\"35\"/>\r\n    <uses-feature\r\n        android:name=\"android.hardware.touchscreen\"\r\n        android:required=\"false\"/>\r\n    <application\r\n        android:theme=\"@style/GameTheme\"\r\n        android:label=\"Legendary Wars Offline\"\r\n        android:icon=\"@drawable/app_icon\"\r\n        android:debuggable=\"false\"\r\n        android:allowBackup=\"false\"\r\n        android:supportsRtl=\"true\"\r\n        android:fullBackupContent=\"false\"\r\n        android:usesCleartextTraffic=\"false\">\r\n        <activity\r\n            android:name=\"com.legendary.offline.MainActivity\"\r\n            android:exported=\"true\"\r\n            android:screenOrientation=\"landscape\"\r\n            android:configChanges=\"screenSize|orientation|keyboardHidden\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\"/>\r\n                <category android:name=\"android.intent.category.LAUNCHER\"/>\r\n            </intent-filter>\r\n        </activity>\r\n    </application>\r\n</manifest>",
+      "reported_total_bytes": null
+    },
+    "components": {
+      "status": "complete",
+      "items": [
+        {
+          "kind": "activity",
+          "declared_name": "com.legendary.offline.MainActivity",
+          "name": "com.legendary.offline.MainActivity",
+          "exported": true,
+          "exported_default": true,
+          "permission": null,
+          "permission_source": "none",
+          "intent_filter_count": 1,
+          "actions": [
+            "android.intent.action.MAIN"
+          ],
+          "categories": [
+            "android.intent.category.LAUNCHER"
+          ],
+          "foreground_service_type": null,
+          "authorities": null,
+          "target_activity": null
+        }
+      ],
+      "limitations": []
+    },
+    "class_count": 11,
+    "resource_count": 207,
+    "signature_verification": "not_performed"
+  },
+  "limitations": [
+    "Static decompiler observations do not establish runtime behavior; the APK is never executed.",
+    "Method signatures use provider display types; DEX prototypes come from frozen JADX metadata. Display names may be aliases, and overload indices are local to this engine and artifact.",
+    "Class inventories use parsed metadata before code generation, including synthetic members that may be omitted from decompiled source. Source positions remain unknown.",
+    "Incoming reference totals count JADX using nodes. Direct invoke entries within a using method report raw DEX code-unit offsets and method indexes, but coverage is limited to those nodes and directly matched invokes; it does not establish every possible dynamic or reflective call site.",
+    "Manifest summaries are parsed once by REA's bridge from the exact root AndroidManifest.xml resource, using namespace-aware XML attributes; decoded XML is retained. APK signatures, split APKs, native libraries and Android runtime capture are not verified by this provider."
+  ]
+}
