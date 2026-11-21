@@ -99,6 +99,17 @@ public final class OriginalEngineTest {
         b.essence=50;ok(b.specialReady(),"special button active with sufficient essence");
         ok(b.special(),"special activates when ready");
         List<String> sfx=b.drainSfx();ok(sfx.contains("spawn")&&sfx.contains("special"),"battle emits SFX keys for spawn and special");
+        // 6. Vertical lane-change walk animation & tutorial offscreen archer / camera follow
+        BattlePlan tut=new BattlePlan();tut.mode="tutorial";tut.width=1700;
+        BattlePlan.Spawn tHero=new BattlePlan.Spawn();tHero.type=0;tHero.unit="u0";tHero.id="knighty";tHero.team=0;tHero.lane=1;tHero.x=720;tHero.plot=true;tut.spawns.add(tHero);
+        BattlePlan.Spawn tArch=new BattlePlan.Spawn();tArch.type=8;tArch.unit="u8";tArch.id="skully";tArch.team=1;tArch.lane=1;tArch.x=1150;tArch.ai="hunt";tut.spawns.add(tArch);
+        combatSpecs.get(8).primaryByTier=new UnitSpec.Attack[]{new UnitSpec.Attack()};combatSpecs.get(8).primaryByTier[0].range=500;
+        b=new OriginalBattle(combatSpecs,0,new Progress(),tut,new int[0]);ticks(b,.25);
+        BattleEngine.Actor th=b.actors.get(0),ta=b.actors.get(1);
+        b.selectActor(th);b.moveSelected(th.x,2);b.update(1.0/60);
+        ok(th.moving,"vertical lane change sets moving=true so walk animation plays");
+        ok(!ta.attacking&&th.hp==100,"off-screen tutorial enemy must walk onto screen before attacking");
+        th.x=920;b.moveSelected(1020,1);ticks(b,1.0);ok(b.camera>490,"tutorial camera follows hero toward right edge");
         System.out.println("PASS "+count+" original scenario/economy/migration assertions");
     }
     private static String csv(int n,int value){StringBuilder b=new StringBuilder();for(int i=0;i<n;i++){if(i>0)b.append(',');b.append(value);}return b.toString();}

@@ -32,6 +32,20 @@ public final class RecoveredScenarioTest {
         if(b.state==BattleEngine.VICTORY){System.out.println("Tutorial input strategy "+strategy+" won with HP="+hero.hp);break;}
         }
         ok(b.state==BattleEngine.VICTORY&&b.kills>0,"fresh recovered tutorial is winnable through movement/targeting state="+b.state+" elapsed="+b.elapsed+" hp="+hero.hp+" kills="+b.kills+" actors="+b.actors.size()+" cue="+(b.cue==null?"none":b.cue.text));
+        // Casual player check: simply tap nearest visible enemy and press special when ready (no lane-dodge bot)
+        OriginalBattle casual=new OriginalBattle(d.specs,0,new Progress(),d.plans.get(0),new int[0]);step(casual,.3);
+        BattleEngine.Actor cHero=casual.selected;
+        for(int tick=0;tick<15000&&casual.state==BattleEngine.PLAYING;tick++){
+            if(casual.cue!=null){casual.acknowledge();continue;}
+            if(tick%20==0){
+                BattleEngine.Actor target=null;double nearest=Double.MAX_VALUE;
+                for(BattleEngine.Actor a:casual.actors)if(a.enemy&&a.hp>0&&a.x>=casual.camera&&a.x<=casual.camera+568){double dist=Math.abs(a.x-cHero.x);if(dist<nearest){nearest=dist;target=a;}}
+                if(target!=null){casual.target(target);if(nearest<70&&casual.specialReady())casual.special();}
+            }
+            casual.update(1.0/60);
+        }
+        System.out.println("Casual tutorial player result: state="+casual.state+" HP="+cHero.hp+" kills="+casual.kills);
+        ok(casual.state==BattleEngine.VICTORY&&cHero.hp>=30,"casual player can beat tutorial comfortably without frame-perfect dodging");
         Progress p=new Progress();p.stars[0]=3;b=new OriginalBattle(d.specs,1,p,d.plans.get(1),new int[]{0});
         ok(!b.hireMiner(),"mining tutorial action waits for source switch, preventing early-input softlock");step(b,2);
         ok(b.hireMiner(),"source mining event is emitted after its switch arms");step(b,20);b.collectGems();step(b,2.2);
