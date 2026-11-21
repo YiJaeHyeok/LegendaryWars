@@ -15,10 +15,12 @@ public final class OriginalBattle extends BattleEngine {
     private final Map<Integer,Boolean> switches=new HashMap<>();
     private final Map<String,Integer> flags=new HashMap<>();
     private final ArrayDeque<BattlePlan.Cue> messages=new ArrayDeque<>();
+    private final ArrayDeque<String> sfxQueue=new ArrayDeque<>();
     private final double[] minerTimers=new double[8];
     private final Random random=new Random(0x4c574152L);
     private final List<BattlePlan.Event> scriptEvents=new ArrayList<>();
     private double minerCooldown,freeze,chatEnd=-1,lastActivity;
+    private boolean lastSpecialReady;
     public OriginalBattle(List<UnitSpec>s,int stage,Progress progress,BattlePlan plan,int[]loadout){
         super(s,stage,progress);this.plan=plan;this.loadout=loadout.clone();
         gems=plan.initialGems;essence=0;miners=0;order=0;
@@ -27,33 +29,70 @@ public final class OriginalBattle extends BattleEngine {
         spawned=new boolean[plan.spawns.size()];repeats=new int[spawned.length];cued=new boolean[plan.cues.size()];commanded=new boolean[plan.commands.size()];ended=new boolean[plan.outcomes.size()];
         scriptEvents.addAll(plan.spawns);scriptEvents.addAll(plan.commands);scriptEvents.addAll(plan.cues);scriptEvents.addAll(plan.outcomes);
     }
+    private void pushSfx(String key){if(key!=null&&sfxQueue.size()<16)sfxQueue.addLast(key);}
+    public List<String> drainSfx(){if(sfxQueue.isEmpty())return Collections.emptyList();ArrayList<String> out=new ArrayList<>(sfxQueue);sfxQueue.clear();return out;}
     @Override public int totalWaves(){return plan.waves.size();}
     @Override public boolean unlocked(int type){return type>=0&&type<specs.size()&&specs.get(type).hero&&progress.highestUnlocked()>=specs.get(type).unlock&&(specs.get(type).moonstonePrice==0||progress.purchased[type]);}
     private boolean selectedInLoadout(int type){for(int t:loadout)if(t==type)return true;return false;}
     @Override public boolean spawn(int type,int lane){
         if(paused||cue!=null&&"chat".equals(cue.kind)||state!=PLAYING||!selectedInLoadout(type)||!unlocked(type)||lane<0||lane>2||cooldowns[type]>0||actors.size()>=160||!eventReady("hudEvent:"+specs.get(type).id))return false;
         UnitSpec s=specs.get(type);if(gems<s.cost)return false;gems-=s.cost;cooldowns[type]=s.cooldown;
-        Actor a=make(type,false,lane,195,1,0,0,progress.gear[type]);a.goal=order>0?plan.width-150:order<0?195:Double.NaN;a.retreat=order<0;actors.add(a);selected=a;selectedType=type;emit("hudEvent:"+s.id);return true;
+        Actor a=make(type,false,lane,195,1,0,0,progress.gear[type]);a.goal=order>0?plan.width-150:order<0?195:Double.NaN;a.retreat=order<0;a.ai=order==0?"guard":"attack";actors.add(a);selected=a;selectedType=type;emit("hudEvent:"+s.id);pushSfx("spawn");return true;
     }
     @Override public boolean hireMiner(){
         if(paused||state!=PLAYING||chatting()||!plan.mining||miners>=1||minerCooldown>0||!eventReady("hudEvent:mining"))return false;
-        minerTimers[miners++]=0;minerCooldown=15;emit("hudEvent:mining");emit("hudEvent:miney");return true;
+        minerTimers[miners++]=0;minerCooldown=15;emit("hudEvent:mining");emit("hudEvent:miney");pushSfx("miner");return true;
     }
-    @Override public void collectGems(){if(paused||chatting()||state!=PLAYING)return;int old=gems;for(Gem g:gemsOnField)gems=Math.min(9999,gems+g.value);gemsOnField.clear();if(gems!=old)emit("gemAmountChanged:");}
+    @Override public void collectGems(){if(paused||chatting()||state!=PLAYING)return;int old=gems;for(Gem g:gemsOnField)gems=Math.min(9999,gems+g.value);gemsOnField.clear();if(gems!=old){emit("gemAmountChanged:");pushSfx("gem");}}
     public void selectActor(Actor a){if(a!=null&&!a.enemy&&a.hp>0&&a.selectable){selected=a;selectedType=a.type;emit("levelSelectedUnitEvent:");}}
-    public void moveSelected(double x,int lane){if(paused||chatting()||state!=PLAYING||lane<0||lane>2)return;double goal=Math.max(scrollSpeed>0?camera+45:90,Math.min(right()-45,x));for(Actor a:actors)if(!a.enemy&&a.hp>0&&(a==selected||selected==null&&(selectedType<0||a.type==selectedType))){a.retreat=false;a.goal=goal;a.lane=lane;a.target=null;if(!a.usingSpecial){a.attackActive=false;a.attacking=false;}}}
+    public void moveSelected(double x,int lane){if(paused||chatting()||state!=PLAYING||lane<0||lane>2)return;double goal=Math.max(scrollSpeed>0?camera+45:90,Math.min(right()-45,x));for(Actor a:actors)if(!a.enemy&&a.hp>0&&(a==selected||selected==null&&(selectedType<0||a.type==selectedType))){a.retreat=false;a.goal=goal;a.homeX=goal;a.lane=lane;a.target=null;a.savedAi=null;if(!a.usingSpecial){a.attackActive=false;a.attacking=false;}}}
     public void target(Actor enemy){if(paused||chatting()||state!=PLAYING||enemy==null||!enemy.enemy||enemy.untargetable||enemy.hp<=0)return;for(Actor a:actors)if(!a.enemy&&a.hp>0&&(a==selected||selected==null&&(selectedType<0||a.type==selectedType))){a.retreat=false;a.target=enemy;a.lane=enemy.lane;a.goal=enemy.x;}}
-    public void commandOrder(int value){if(paused||chatting()||state!=PLAYING)return;order=value;for(Actor a:actors)if(!a.enemy&&a.hp>0&&(selectedType<0||a.type==selectedType)){a.target=null;a.retreat=value<0;a.goal=value<0?195:value>0?plan.width-150:Double.NaN;if(value<0){a.attackActive=false;a.attacking=false;}}}
+    public void commandOrder(int value){if(paused||chatting()||state!=PLAYING)return;order=value;for(Actor a:actors)if(!a.enemy&&a.hp>0&&(selectedType<0||a.type==selectedType)){a.target=null;a.savedAi=null;a.retreat=value<0;a.ai=value<0?"retreat":value==0?"guard":"attack";if(value==0)a.homeX=a.x;a.goal=value<0?195:value>0?plan.width-150:Double.NaN;if(value<0){a.attackActive=false;a.attacking=false;}}}
+    /** Native FormUpAI rally: group friendly units around the selected unit or vanguard. */
+    public void formUp(){
+        if(paused||chatting()||state!=PLAYING)return;
+        double rallyX=Double.NaN;
+        if(selected!=null&&!selected.enemy&&selected.hp>0)rallyX=selected.x;
+        else{for(Actor a:actors)if(!a.enemy&&a.hp>0&&a.selectable){if(Double.isNaN(rallyX)||a.x>rallyX)rallyX=a.x;}}
+        selected=null;selectedType=-1;order=0;
+        if(Double.isNaN(rallyX))return;
+        rallyX=Math.max(195,Math.min(right()-120,rallyX));
+        int slot=0;
+        for(Actor a:actors)if(!a.enemy&&a.hp>0&&a.selectable){
+            a.retreat=false;a.target=null;a.savedAi=null;a.ai="guard";a.lane=slot%3;
+            double offset=(slot/3)*26;a.homeX=Math.max(160,rallyX-offset);a.goal=a.homeX;slot++;
+        }
+        pushSfx("click");
+    }
+    public boolean specialReady(){
+        if(paused||chatting()||state!=PLAYING||selected==null||selected.hp<=0||selected.usingSpecial||selected.specialTime>0||selected.stunTime>0)return false;
+        return essence>=specs.get(selected.type).specialCost;
+    }
     public boolean special(){
-        if(paused||chatting()||state!=PLAYING||selected==null||selected.hp<=0||selected.usingSpecial||selected.specialTime>0)return false;UnitSpec s=specs.get(selected.type);if(essence<s.specialCost)return false;
-        essence-=s.specialCost;selected.specialTime=s.profile(selected.tier,true).interval/UnitSpec.scale(1,selected.haste);selected.animationAge=0;selected.usingSpecial=true;selected.attackActive=true;selected.attackAge=0;selected.hitIndex=0;selected.specialHits.clear();
+        if(!specialReady())return false;
+        UnitSpec s=specs.get(selected.type);
+        essence-=s.specialCost;UnitSpec.Attack sp=s.profile(selected.tier,true);
+        selected.specialTime=sp.interval/UnitSpec.scale(1,selected.haste);selected.animationAge=0;selected.usingSpecial=true;selected.attackActive=true;selected.attackAge=0;selected.hitIndex=0;selected.specialHits.clear();
+        if(sp.selfBuff!=null)applySelfOrAuraBuff(selected,sp.selfBuff);
+        pushSfx("special");
         return true;
     }
     @Override public boolean castSpell(int kind){
         if(kind<0||kind>2||paused||chatting()||state!=PLAYING||spellCooldowns[kind]>0)return false;
         spellCooldowns[kind]=new double[]{45,60,75}[kind];spellFlash=.5;
-        if(kind==2)freeze=5;
-        else for(Actor a:actors)if(a.enemy&&a.hp>0){double x=a.x-camera;if(x>=0&&x<=570)damage(null,a,kind==0?90:200);}
+        if(kind==2){
+            freeze=5;
+            UnitSpec.BuffDef ice=new UnitSpec.BuffDef();ice.name="ice";ice.status="freeze";ice.duration=5;ice.stun=5;
+            for(Actor a:actors)if(a.enemy&&a.hp>0)applyBuff(null,a,ice);
+            pushSfx("spellIce");
+        }else if(kind==1){
+            UnitSpec.BuffDef burn=new UnitSpec.BuffDef();burn.name="Fire";burn.status="burn";burn.duration=4;burn.dps=8;
+            for(Actor a:actors)if(a.enemy&&a.hp>0){double x=a.x-camera;if(x>=0&&x<=570){damage(null,a,180,UnitSpec.MAGIC,false);if(a.hp>0)applyBuff(null,a,burn);}}
+            pushSfx("spellFire");
+        }else{
+            for(Actor a:actors)if(a.enemy&&a.hp>0){double x=a.x-camera;if(x>=0&&x<=570)damage(null,a,90,UnitSpec.RANGED,false);}
+            pushSfx("spellArrows");
+        }
         return true;
     }
     public void acknowledge(){if(cue!=null){chatEnd=elapsed;cue=null;if(!messages.isEmpty())cue=messages.removeFirst();}}
@@ -68,6 +107,87 @@ public final class OriginalBattle extends BattleEngine {
     public boolean miningReady(){return !paused&&!chatting()&&state==PLAYING&&plan.mining&&miners<1&&minerCooldown<=0&&eventReady("hudEvent:mining");}
     public int flag(String id){return flags.getOrDefault(id,0);}
     private double right(){return plan.mode.equals("scrolling")?camera+570:plan.width;}
+    public void applyBuff(Actor source,Actor target,UnitSpec.BuffDef def){
+        if(target==null||target.hp<=0||def==null)return;
+        UnitSpec ts=specs.get(target.type);
+        boolean beneficial=def.hps>0||def.hasteScalor>0||def.speedScalor>0||def.attackScalor>0||def.defenseScalor>0||def.lifeDrainPercent>0;
+        if(!beneficial&&ts.buffImmune)return;
+        boolean isCharm="confuse".equals(def.status)||"charm".equals(def.name);
+        if(isCharm&&ts.charmImmune)return;
+        if(def.chance<1&&random.nextDouble()>def.chance)return;
+        double dur=Math.max(def.duration,def.stun);
+        if(dur<=0)return;
+        for(Buff existing:target.buffs){
+            if(existing.name.equals(def.name)){existing.remaining=Math.max(existing.remaining,dur);existing.source=source;recomputeStats(target);return;}
+        }
+        Buff b=new Buff(def.name,def.status,dur);
+        b.dps=def.dps;b.hps=def.hps;b.stun=def.stun>0||"freeze".equals(def.status)||"stone".equals(def.status)||"web".equals(def.status)||"pancake".equals(def.status);
+        b.root=def.root;b.fear="fear".equals(def.status);b.charm=isCharm;
+        b.speedScalor=def.speedScalor;b.hasteScalor=def.hasteScalor;b.attackScalor=def.attackScalor;b.defenseScalor=def.defenseScalor;b.rangeScalor=def.rangeScalor;b.lifeDrainPercent=def.lifeDrainPercent;
+        b.source=source;
+        target.buffs.add(b);
+        if(b.stun&&!target.usingSpecial){target.attackActive=false;target.attacking=false;}
+        recomputeStats(target);
+    }
+    private void applySelfOrAuraBuff(Actor caster,UnitSpec.BuffDef def){
+        if(def.auraRadius>0){
+            for(Actor a:actors)if(a.hp>0&&a.enemy==(def.friendlyAura?caster.enemy:!caster.enemy)&&Math.abs(a.x-caster.x)<=def.auraRadius)applyBuff(caster,a,def);
+        }else applyBuff(caster,caster,def);
+    }
+    private void recomputeStats(Actor a){
+        double spdMod=0,hstMod=0,atkMod=0,defMod=0,rngMod=0,drain=0,maxStun=0;
+        boolean root=false,fear=false,charm=false;String tag="";
+        for(Buff b:a.buffs){
+            spdMod+=b.speedScalor;hstMod+=b.hasteScalor;atkMod+=b.attackScalor;defMod+=b.defenseScalor;rngMod+=b.rangeScalor;drain+=b.lifeDrainPercent;
+            if(b.stun)maxStun=Math.max(maxStun,b.remaining);
+            root|=b.root;fear|=b.fear;charm|=b.charm;
+            if(!b.status.isEmpty())tag=b.status;
+            else if(tag.isEmpty()&&(b.hps>0||b.hasteScalor>0||b.attackScalor>0))tag="buff";
+        }
+        a.speed=Math.max(0,UnitSpec.scale(a.baseSpeed,spdMod));
+        a.haste=a.baseHaste+hstMod;
+        a.attack=Math.max(0,UnitSpec.scale(a.baseAttack,atkMod));
+        a.defense=Math.max(0,UnitSpec.scale(a.baseDefense,defMod));
+        a.range=Math.max(0,UnitSpec.scale(a.baseRange,rngMod));
+        a.lifeDrain=Math.max(0,Math.min(1,drain));
+        a.stunTime=maxStun;a.rooted=root;a.feared=fear;a.charmed=charm;
+        a.enemy=charm?!a.baseEnemy:a.baseEnemy;
+        a.statusTag=tag;
+    }
+    private void updateBuffs(Actor a,double dt){
+        if(a.buffs.isEmpty())return;
+        boolean changed=false;
+        for(Iterator<Buff> it=a.buffs.iterator();it.hasNext();){
+            Buff b=it.next();
+            if(b.dps>0&&a.hp>0){
+                a.hp-=b.dps*dt;
+                if(a.hp<=0){a.hp=0;a.animationAge=0;dead(a);break;}
+            }
+            if(b.hps>0&&a.hp>0)a.hp=Math.min(a.maxHp,a.hp+b.hps*dt);
+            b.remaining-=dt;
+            if(b.remaining<=0){it.remove();changed=true;}
+        }
+        if(changed)recomputeStats(a);
+        else{
+            double maxStun=0;for(Buff b:a.buffs)if(b.stun)maxStun=Math.max(maxStun,b.remaining);
+            a.stunTime=maxStun;
+        }
+    }
+    private void wakeOnHit(Actor victim,Actor attacker){
+        if(attacker==null||attacker==victim||attacker.hp<=0||attacker.enemy==victim.enemy)return;
+        // Native 0x4836e4: callsForHelp -> wakes nearby guarding allies within 180u
+        for(Actor ally:actors){
+            if(ally==victim||ally.hp<=0||ally.enemy!=victim.enemy||ally.untargetable||ally.retreat)continue;
+            if("guard".equals(ally.ai)&&Math.abs(ally.x-victim.x)<=180){
+                ally.savedAi="guard";ally.ai="hunt";ally.hunt=true;ally.target=attacker;ally.lane=attacker.lane;ally.goal=attacker.x;
+            }
+        }
+        // Native 0x483970: GuardAI & AdvanceAI switch to temporary HuntAI (saving nextAIObject) when hurt
+        if(!victim.retreat&&("guard".equals(victim.ai)||"attack".equals(victim.ai))){
+            if(victim.savedAi==null)victim.savedAi=victim.ai;
+            victim.ai="hunt";victim.hunt=true;victim.target=attacker;victim.lane=attacker.lane;victim.goal=attacker.x;
+        }
+    }
     @Override public void update(double dt){
         if(paused||state!=PLAYING||!Double.isFinite(dt)||dt<=0)return;
         if(cue!=null&&"chat".equals(cue.kind))return;
@@ -81,17 +201,35 @@ public final class OriginalBattle extends BattleEngine {
         for(Iterator<Gem>it=gemsOnField.iterator();it.hasNext();){Gem g=it.next();g.age+=dt;if(g.age>=3.5){gems=Math.min(9999,gems+g.value);emit("gemAmountChanged:");it.remove();}}
         for(Actor a:actors){
             if(a.matchScroll){a.x+=scrollSpeed*dt;if(!Double.isNaN(a.goal))a.goal+=scrollSpeed*dt;}
-            double animationDt=UnitSpec.scale(dt,a.haste);a.age+=dt;a.animationAge+=animationDt;a.flash=Math.max(0,a.flash-dt);a.specialTime=Math.max(0,a.specialTime-dt);double laneDelta=a.lane-a.laneVisual;a.laneVisual+=Math.signum(laneDelta)*Math.min(Math.abs(laneDelta),a.speed*dt/45);
+            double animationDt=UnitSpec.scale(dt,a.haste);a.age+=dt;a.animationAge+=animationDt;a.flash=Math.max(0,a.flash-dt);a.specialTime=Math.max(0,a.specialTime-dt);
+            a.hitStun=Math.max(0,a.hitStun-dt);
+            double laneDelta=a.lane-a.laneVisual;a.laneVisual+=Math.signum(laneDelta)*Math.min(Math.abs(laneDelta),Math.max(10,a.speed)*dt/45);
             if(a.hp<=0){if(a.deathAge==0)dead(a);a.deathAge+=dt;continue;}
-            if(a.enemy&&freeze>0){a.moving=false;continue;}
+            updateBuffs(a,dt);
+            if(a.hp<=0){a.deathAge+=dt;continue;}
+            if((a.enemy&&freeze>0)||a.stunTime>0){a.moving=false;a.attacking=false;continue;}
+            if(a.hitStun>0&&!a.usingSpecial){a.moving=false;continue;}
+            if(a.feared){a.attacking=false;a.attackActive=false;a.goal=a.baseEnemy?plan.width-80:120;move(a,dt);continue;}
             a.attackClock=Math.max(0,a.attackClock-dt);
             if(a.attackActive){a.attackAge+=animationDt;UnitSpec.Attack profile=specs.get(a.type).profile(a.tier,a.usingSpecial);
-                if(a.usingSpecial&&profile.type.equals("moveForwardAttack")){a.x=Math.max(scrollSpeed>0?camera+40:40,Math.min(right()-40,a.x+(a.faceLeft?-1:1)*UnitSpec.scale(a.speed,profile.speedScalor)*dt));for(Actor t:actors)if(t.hp>0&&!t.untargetable&&t.enemy!=a.enemy&&t.lane==a.lane&&Math.abs(t.x-a.x)<=profile.range&&a.specialHits.add(t))damage(a,t,UnitSpec.roll(UnitSpec.scale(specs.get(a.type).specialDamage,a.attackScalor),random.nextDouble(),false));}
+                if(a.usingSpecial&&profile.type.equals("moveForwardAttack")){a.x=Math.max(scrollSpeed>0?camera+40:40,Math.min(right()-40,a.x+(a.faceLeft?-1:1)*UnitSpec.scale(a.speed,profile.speedScalor)*dt));for(Actor t:actors)if(t.hp>0&&!t.untargetable&&t.enemy!=a.enemy&&t.lane==a.lane&&Math.abs(t.x-a.x)<=profile.range&&a.specialHits.add(t)){int dtCode=profile.damageType>=0?profile.damageType:specs.get(a.type).damageType;damage(a,t,UnitSpec.roll(UnitSpec.scale(specs.get(a.type).specialDamage,a.attackScalor),random.nextDouble(),false),dtCode,false);for(UnitSpec.BuffDef bd:profile.buffs)applyBuff(a,t,bd);}}
                 while(a.hitIndex<profile.times.length&&a.attackAge+1e-9>=profile.times[a.hitIndex])impact(a,profile,a.hitIndex++);if(a.attackAge>=profile.interval){a.attackActive=false;a.usingSpecial=false;a.pending=null;a.pendingCastle=false;}}
             if(a.retreat){move(a,dt);a.attacking=false;continue;}
-            Actor target=a.target!=null&&a.target.hp>0?a.target:null;double nearest=target==null?Double.MAX_VALUE:Math.abs(a.x-target.x);
+            Actor target=a.target!=null&&a.target.hp>0&&a.target.enemy!=a.enemy?a.target:null;
+            if(a.target!=null&&target==null){
+                a.target=null;
+                // Native HuntAI::currentTargetLost (0x4c9e10): restore savedAi when temporary hunt target dies
+                if(a.savedAi!=null){a.ai=a.savedAi;a.savedAi=null;a.hunt="hunt".equals(a.ai);if("guard".equals(a.ai)&&!Double.isNaN(a.homeX))a.goal=a.homeX;}
+            }
+            double nearest=target==null?Double.MAX_VALUE:Math.abs(a.x-target.x);
             if(target==null)for(Actor t:actors)if(t.hp>0&&!t.untargetable&&t.enemy!=a.enemy&&t.lane==a.lane){double d=Math.abs(t.x-a.x);if(d<nearest){nearest=d;target=t;}}
-            if(a.hunt&&target==null){double best=Double.MAX_VALUE;for(Actor t:actors)if(t.hp>0&&!t.untargetable&&t.enemy!=a.enemy){double d=Math.abs(t.x-a.x)+Math.abs(t.lane-a.lane)*45;if(d<best){best=d;target=t;}}if(target!=null){a.lane=target.lane;a.goal=target.x;nearest=Math.abs(a.x-target.x);}}
+            if((a.hunt||"hunt".equals(a.ai))&&target==null){
+                double limit=a.huntLimit>0?a.huntLimit:(a.savedAi!=null?220:Double.MAX_VALUE);
+                double best=limit;
+                for(Actor t:actors)if(t.hp>0&&!t.untargetable&&t.enemy!=a.enemy){double d=Math.abs(t.x-a.x)+Math.abs(t.lane-a.lane)*45;if(d<best){best=d;target=t;}}
+                if(target!=null){a.lane=target.lane;a.goal=target.x;nearest=Math.abs(a.x-target.x);}
+                else if(a.savedAi!=null){a.ai=a.savedAi;a.savedAi=null;a.hunt="hunt".equals(a.ai);if("guard".equals(a.ai)&&!Double.isNaN(a.homeX))a.goal=a.homeX;}
+            }
             boolean inRange=target!=null&&target.lane==a.lane&&Math.abs(target.laneVisual-a.laneVisual)<.25&&nearest<=a.range+15;
             boolean atCastle=(!a.enemy&&plan.enemyHp>0||a.enemy&&plan.playerCastle)&&Math.abs((a.enemy?80:plan.width-80)-a.x)<=a.range+30;
             a.attacking=inRange||atCastle;a.moving=false;
@@ -100,14 +238,16 @@ public final class OriginalBattle extends BattleEngine {
         }
         zones();
         for(Iterator<Actor>it=actors.iterator();it.hasNext();){Actor a=it.next();if(a.deathAge>1.4||a.collected||scrollSpeed>0&&a.x<camera-100)it.remove();}
-        for(Iterator<Shot>it=shots.iterator();it.hasNext();){Shot s=it.next();s.age+=dt;if(s.age>=s.duration){if(s.target!=null&&s.target.hp>0&&Math.abs(s.target.laneVisual-s.lane)<.35&&Math.abs(s.target.x-s.to)<=35)damage(s.source,s.target,s.damage);it.remove();}}
-        if(plan.playerCastle&&playerCastle<=0){emit("die:castle-team0");emit("destroyed:castle-team0");state=DEFEAT;}
-        else if(plan.enemyHp>0&&enemyCastle<=0){emit("die:castle-team1");emit("destroyed:castle-team1");state=VICTORY;}
-        if(plan.tutorial()){boolean live=false;for(Actor a:actors)if(a.plot&&a.hp>0&&!a.enemy)live=true;if(!live&&elapsed>1)state=DEFEAT;}
+        for(Iterator<Shot>it=shots.iterator();it.hasNext();){Shot s=it.next();s.age+=dt;if(s.age>=s.duration){if(s.target!=null&&s.target.hp>0&&Math.abs(s.target.laneVisual-s.lane)<.35&&Math.abs(s.target.x-s.to)<=35){damage(s.source,s.target,s.damage,s.damageType,s.critical);for(UnitSpec.BuffDef bd:s.buffs)applyBuff(s.source,s.target,bd);pushSfx("arrowHit");}it.remove();}}
+        if(plan.playerCastle&&playerCastle<=0){emit("die:castle-team0");emit("destroyed:castle-team0");state=DEFEAT;pushSfx("defeat");}
+        else if(plan.enemyHp>0&&enemyCastle<=0){emit("die:castle-team1");emit("destroyed:castle-team1");state=VICTORY;pushSfx("victory");}
+        if(plan.tutorial()){boolean live=false;for(Actor a:actors)if(a.plot&&a.hp>0&&!a.enemy)live=true;if(!live&&elapsed>1){state=DEFEAT;pushSfx("defeat");}}
         schedule();
-        if(state==PLAYING&&elapsed>15&&kills>0&&plan.outcomes.isEmpty()&&allFiniteSpawnsDone()&&noEnemies()&&!plan.tutorial()&&plan.enemyHp<=0&&messages.isEmpty()&&cue==null)state=VICTORY;
+        if(state==PLAYING&&elapsed>15&&kills>0&&plan.outcomes.isEmpty()&&allFiniteSpawnsDone()&&noEnemies()&&!plan.tutorial()&&plan.enemyHp<=0&&messages.isEmpty()&&cue==null){state=VICTORY;pushSfx("victory");}
+        boolean spNow=specialReady();if(spNow&&!lastSpecialReady)pushSfx("specialReady");lastSpecialReady=spNow;
     }
     private void move(Actor a,double dt){
+        if(a.rooted||a.speed<=0){a.moving=false;return;}
         if(Double.isNaN(a.goal)){if(a.enemy&&!a.ai.equals("guard"))a.goal=80;else return;}
         double d=a.goal-a.x;if(Math.abs(d)<2){a.goal=Double.NaN;a.moving=false;return;}
         a.faceLeft=d<0;a.x+=Math.signum(d)*Math.min(Math.abs(d),a.speed*dt);if(scrollSpeed<=0)a.x=Math.max(40,Math.min(plan.width-40,a.x));else if(a.matchScroll)a.x=Math.max(camera+40,Math.min(right()-40,a.x));a.moving=true;
@@ -115,26 +255,61 @@ public final class OriginalBattle extends BattleEngine {
     private void zones(){
         for(Actor a:actors)if(a.hp>0&&!a.collected)for(BattlePlan.Zone z:a.zones){if(z.once&&a.usedZones.contains(z))continue;for(Actor t:actors)if(t!=a&&t.hp>0&&!t.collected&&Math.abs(t.laneVisual-a.laneVisual)<.3&&t.x>=a.x+z.left&&t.x<=a.x+z.left+z.width){
             if(z.flag!=null&&(z.actor==null?!t.enemy:t.scriptId!=null&&z.actor.equals(t.scriptId))){flags.put(z.flag,flags.getOrDefault(z.flag,0)+z.amount);emit("flag:");a.collected=true;a.usedZones.add(z);break;}
-            if(z.damage>0&&t.enemy!=a.enemy){damage(null,t,z.damage);a.usedZones.add(z);if(z.once)break;}
+            if(z.damage>0&&t.enemy!=a.enemy){damage(null,t,z.damage,UnitSpec.NEUTRAL,false);a.usedZones.add(z);if(z.once)break;}
         }}
     }
     private Actor make(int type,boolean enemy,int lane,double x,double hp,double attack,double speed,int tier){
         UnitSpec s=specs.get(type);int h=Progress.hero(type)?progress.stats[type][1]:0,d=Progress.hero(type)?progress.stats[type][0]:0;
         UnitSpec.Attack profile=s.profile(tier,false);double defense=s.defense+(!enemy&&Progress.hero(type)?progress.stats[type][2]*s.defenseUpgrade:0);
-        Actor a=new Actor(type,enemy,lane,x,(s.hp+(!enemy?h*s.hpUpgrade:0))*hp,UnitSpec.scale(s.attack+(!enemy?d*s.attackUpgrade:0),attack),defense,UnitSpec.scale(s.speed,speed),profile.range,profile.interval);a.tier=tier;a.faceLeft=enemy;a.laneVisual=lane;return a;
+        Actor a=new Actor(type,enemy,lane,x,(s.hp+(!enemy?h*s.hpUpgrade:0))*hp,UnitSpec.scale(s.attack+(!enemy?d*s.attackUpgrade:0),attack),defense,UnitSpec.scale(s.speed,speed),profile.range,profile.interval);
+        a.tier=tier;a.faceLeft=enemy;a.laneVisual=lane;a.huntLimit=s.huntLimit;return a;
     }
     private void impact(Actor a,UnitSpec.Attack profile,int index){
-        UnitSpec spec=specs.get(a.type);double amount=UnitSpec.roll(a.usingSpecial?UnitSpec.scale(spec.specialDamage,a.attackScalor):a.attack,random.nextDouble(),random.nextDouble()<spec.critChance);
-        if(a.usingSpecial||profile.area){double range=UnitSpec.scale(profile.range,a.rangeScalor);for(Actor t:actors)if(t.hp>0&&t.enemy==(profile.heal?a.enemy:!a.enemy)&&(profile.allLanes||t.lane==a.lane)&&Math.abs(t.x-a.x)<=range){if(profile.heal)t.hp=Math.min(t.maxHp,t.hp+amount);else damage(a,t,amount);}return;}
-        if(a.pending!=null&&a.pending.hp>0){double speed=index<profile.projectiles.length?profile.projectiles[index]:0;if(speed>0){Shot shot=new Shot(a.x,a.pending.x,a.lane,a.enemy,a.type);shot.source=a;shot.target=a.pending;shot.damage=amount;shot.duration=Math.max(.01,Math.abs(shot.to-shot.from)/speed);shots.add(shot);}else if(a.pending.lane==a.lane&&Math.abs(a.pending.laneVisual-a.laneVisual)<.25&&Math.abs(a.x-a.pending.x)<=a.range+15)damage(a,a.pending,amount);}
-        else if(a.pendingCastle){if(a.enemy)playerCastle=Math.max(0,playerCastle-amount);else enemyCastle=Math.max(0,enemyCastle-amount);}
+        UnitSpec spec=specs.get(a.type);
+        boolean crit=random.nextDouble()<spec.critChance;
+        double amount=UnitSpec.roll(a.usingSpecial?UnitSpec.scale(spec.specialDamage,a.attackScalor):a.attack,random.nextDouble(),crit);
+        int dtCode=profile.damageType>=0?profile.damageType:spec.damageType;
+        if(a.usingSpecial||profile.area){
+            double range=UnitSpec.scale(profile.range,a.rangeScalor);
+            for(Actor t:actors)if(t.hp>0&&t.enemy==(profile.heal?a.enemy:!a.enemy)&&(profile.allLanes||t.lane==a.lane)&&Math.abs(t.x-a.x)<=range){
+                if(profile.heal)t.hp=Math.min(t.maxHp,t.hp+amount);
+                else{damage(a,t,amount,dtCode,crit);for(UnitSpec.BuffDef bd:profile.buffs)applyBuff(a,t,bd);}
+            }
+            return;
+        }
+        if(a.pending!=null&&a.pending.hp>0){
+            double speed=index<profile.projectiles.length?profile.projectiles[index]:0;
+            if(speed>0){
+                Shot shot=new Shot(a.x,a.pending.x,a.lane,a.enemy,a.type);shot.source=a;shot.target=a.pending;shot.damage=amount;shot.damageType=dtCode;shot.critical=crit;shot.buffs=profile.buffs;
+                shot.duration=Math.max(.01,Math.abs(shot.to-shot.from)/speed);shots.add(shot);
+                pushSfx(dtCode==UnitSpec.MAGIC?"magic":"ranged");
+            }else if(a.pending.lane==a.lane&&Math.abs(a.pending.laneVisual-a.laneVisual)<.25&&Math.abs(a.x-a.pending.x)<=a.range+15){
+                damage(a,a.pending,amount,dtCode,crit);
+                for(UnitSpec.BuffDef bd:profile.buffs)applyBuff(a,a.pending,bd);
+                pushSfx(dtCode==UnitSpec.MAGIC?"magic":"melee");
+            }
+        }else if(a.pendingCastle){
+            if(a.enemy)playerCastle=Math.max(0,playerCastle-amount);else enemyCastle=Math.max(0,enemyCastle-amount);
+            pushSfx("melee");
+        }
     }
-    private void damage(Actor attacker,Actor target,double amount){
-        if(target.hp<=0)return;target.hp-=UnitSpec.mitigate(amount,target.defense,!target.attacking&&!target.moving);target.flash=.15;lastActivity=elapsed;
-        if(target.hp<=0){target.animationAge=0;dead(target);}
+    private void damage(Actor attacker,Actor target,double amount,int damageType,boolean critical){
+        if(target.hp<=0)return;
+        UnitSpec ts=specs.get(target.type);
+        double mitigated=UnitSpec.mitigate(amount,target.defense,!target.attacking&&!target.moving);
+        double dealt=UnitSpec.applyTypeMatchup(mitigated,damageType,ts.armorType);
+        target.hp-=dealt;target.flash=.15;lastActivity=elapsed;
+        if(attacker!=null&&attacker.hp>0&&attacker.lifeDrain>0&&dealt>0)attacker.hp=Math.min(attacker.maxHp,attacker.hp+dealt*attacker.lifeDrain);
+        if(target.hp>0){
+            // Hit stun (flinch) on critical hit or heavy hit >= 25% maxHp, respecting buffImmune and active specials
+            if(!ts.buffImmune&&!target.usingSpecial&&target.stunTime<=0&&(critical||dealt>=target.maxHp*.25))target.hitStun=Math.max(target.hitStun,.18);
+            wakeOnHit(target,attacker);
+        }else{
+            target.animationAge=0;dead(target);
+        }
     }
     private void dead(Actor a){
-        if(a.deathAge==0){a.deathAge=.000001;if(a.enemy){kills++;essence=Math.min(100,essence+Math.max(1,specs.get(a.type).reward));boolean explicit=false;for(BattlePlan.Command c:plan.commands)if(c.type.equals("flag")&&c.id.equals("monstersKilled"))explicit=true;if(!explicit)flags.put("monstersKilled",kills);}if(a.plot&&!a.enemy)state=DEFEAT;
+        if(a.deathAge==0){a.deathAge=.000001;if(a.enemy){kills++;essence=Math.min(100,essence+Math.max(1,specs.get(a.type).reward));boolean explicit=false;for(BattlePlan.Command c:plan.commands)if(c.type.equals("flag")&&c.id.equals("monstersKilled"))explicit=true;if(!explicit)flags.put("monstersKilled",kills);pushSfx("enemyDeath");}else pushSfx("heroDeath");if(a.plot&&!a.enemy){state=DEFEAT;pushSfx("defeat");}
             String type=specs.get(a.type).id;for(String event:new String[]{"destroyed","die","controllerDie"}){if(a.scriptId!=null)emit(event+":"+a.scriptId);if(!type.equals(a.scriptId))emit(event+":"+type);emit(event+":");}
         }
     }
@@ -151,7 +326,7 @@ public final class OriginalBattle extends BattleEngine {
             if(s.unit.equals("goodcastle")||s.unit.equals("evilcastle")){spawned[i]=true;continue;}
             if(s.unit.equals("miney")&&s.team==0&&s.zones.isEmpty()&&plan.mining){hireMiner();spawned[i]=true;continue;}
             double x=Double.isNaN(s.x)?(s.left?camera+60:right()-60):s.x+(scrollSpeed>0?camera:0);
-            Actor a=make(s.type,s.team!=0,Math.max(0,Math.min(2,s.lane)),x,s.hp,s.attack,s.speed,s.tier);a.scriptId=s.id;a.sprite=s.sprite;a.plot=s.plot;a.hunt=s.hunt;a.sizeScale=s.scale;a.ai=s.ai;a.haste=s.haste;a.attackScalor=s.attack;a.rangeScalor=s.range;a.range=UnitSpec.scale(a.range,s.range);a.interval/=UnitSpec.scale(1,s.haste);a.hp+=s.addHp*s.hp;a.maxHp=a.hp;
+            Actor a=make(s.type,s.team!=0,Math.max(0,Math.min(2,s.lane)),x,s.hp,s.attack,s.speed,s.tier);a.scriptId=s.id;a.sprite=s.sprite;a.plot=s.plot;a.hunt=s.hunt;a.sizeScale=s.scale;a.ai=s.ai;a.haste=a.baseHaste=s.haste;a.attackScalor=s.attack;a.rangeScalor=s.range;a.range=a.baseRange=UnitSpec.scale(a.range,s.range);a.interval/=UnitSpec.scale(1,s.haste);a.hp+=s.addHp*s.hp;a.maxHp=a.hp;
             a.selectable=s.selectable;a.untargetable=s.untargetable;a.zones.addAll(s.zones);
             if(a.enemy&&!a.ai.equals("guard"))a.goal=s.left?right()-80:camera+80;actors.add(a);if(!a.enemy&&(a.plot||a.ai.equals("marchRight")))selected=a;
             if(w!=null&&w.repeat&&repeats[i]<100)repeats[i]++;else spawned[i]=true;wave=Math.max(wave,s.wave+1);
@@ -167,7 +342,7 @@ public final class OriginalBattle extends BattleEngine {
         }
         for(int i=0;i<plan.cues.size();i++)if(!cued[i]){BattlePlan.Cue c=plan.cues.get(i);double at=activation(c.trigger);if(at<0||elapsed<at+c.time)continue;cued[i]=true;messages.add(c);}
         if(cue==null&&!messages.isEmpty())cue=messages.removeFirst();
-        for(int i=0;i<plan.outcomes.size();i++)if(!ended[i]){BattlePlan.Outcome o=plan.outcomes.get(i);double at=activation(o.trigger);if(at>=0&&elapsed>=at+o.time){ended[i]=true;state=o.victory?VICTORY:DEFEAT;}}
+        for(int i=0;i<plan.outcomes.size();i++)if(!ended[i]){BattlePlan.Outcome o=plan.outcomes.get(i);double at=activation(o.trigger);if(at>=0&&elapsed>=at+o.time){ended[i]=true;state=o.victory?VICTORY:DEFEAT;pushSfx(o.victory?"victory":"defeat");}}
     }
     private double activation(BattlePlan.Trigger t){
         if(t==null)return 0;String key=t.key();Double known=triggered.get(key);if(known!=null)return known;

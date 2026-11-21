@@ -31,6 +31,7 @@ public final class GameData {
             double interval=u.optDouble("interval",1);
             UnitSpec spec=new UnitSpec(u.getString("id"),u.getDouble("hp"),u.getDouble("attack"),u.getDouble("defense"),u.getDouble("speed"),u.getInt("cost"),u.getDouble("cooldown"),u.getDouble("range"),interval,u.getBoolean("hero"),u.getInt("unlock"));
             spec.hitDelay=u.optDouble("hitDelay",.3);spec.specialCost=u.optInt("specialCost",10);spec.specialDamage=u.optDouble("specialDamage",40);spec.reward=u.optInt("reward",5);spec.healer=u.optBoolean("healer");spec.moonstonePrice=u.optInt("moonstonePrice");spec.critChance=u.optDouble("critChance");
+            spec.damageType=u.optInt("damageType",UnitSpec.MELEE);spec.armorType=u.optInt("armorType",UnitSpec.MELEE);spec.buffImmune=u.optBoolean("buffImmune");spec.charmImmune=u.optBoolean("charmImmune");spec.huntLimit=u.optDouble("huntLimit",0);
             JSONObject up=u.optJSONObject("upgrades");if(up!=null){JSONObject a=up.optJSONObject("attackPoints"),h=up.optJSONObject("hitPoints"),d=up.optJSONObject("defensePoints");if(a!=null)spec.attackUpgrade=a.optDouble("upgradeAmount",1);if(h!=null)spec.hpUpgrade=h.optDouble("upgradeAmount",5);if(d!=null)spec.defenseUpgrade=d.optDouble("upgradeAmount",1);}spec.gearCost=u.optInt("gearCost",1);
             JSONArray variants=u.getJSONArray("variants");spec.primaryByTier=new UnitSpec.Attack[variants.length()];spec.specialByTier=new UnitSpec.Attack[variants.length()];for(int j=0;j<variants.length();j++){spec.primaryByTier[j]=attack(variants.getJSONObject(j).optJSONObject("primaryCombat"));spec.specialByTier[j]=attack(variants.getJSONObject(j).optJSONObject("specialCombat"));}
             specs.add(spec);
@@ -39,7 +40,25 @@ public final class GameData {
         JSONArray campaign=json.getJSONObject("campaign").getJSONArray("levels");if(campaign.length()!=73)throw new IOException("Campaign data incomplete");
         for(int i=0;i<campaign.length();i++)plans.add(plan(campaign.getJSONObject(i)));
     }
-    private UnitSpec.Attack attack(JSONObject o){UnitSpec.Attack a=new UnitSpec.Attack();if(o==null){a.times=new double[0];a.projectiles=new double[0];return a;}a.interval=Math.max(.05,o.optDouble("interval",1));a.range=Math.max(0,o.optDouble("range",30));a.type=o.optString("type","attack");a.allLanes=o.optBoolean("hitAllLanes");a.speedScalor=o.optDouble("speedScalor");JSONArray hits=o.optJSONArray("hits");int n=hits==null?0:hits.length();a.times=new double[n];a.projectiles=new double[n];for(int i=0;i<n;i++){JSONObject h=hits.optJSONObject(i);a.times[i]=h.optDouble("time");a.projectiles[i]=h.optDouble("projectileSpeed");a.heal|=h.optBoolean("heal");a.area|=h.optBoolean("area");}return a;}
+    private UnitSpec.BuffDef buffDef(JSONObject o){
+        if(o==null)return null;
+        UnitSpec.BuffDef b=new UnitSpec.BuffDef();
+        b.name=o.optString("name","buff");b.status=o.optString("status","");b.duration=Math.max(0,o.optDouble("duration",0));
+        b.chance=Math.max(0,Math.min(1,o.optDouble("chance",1)));b.dps=Math.max(0,o.optDouble("dps",0));b.hps=Math.max(0,o.optDouble("hps",0));
+        b.stun=Math.max(0,o.optDouble("stun",0));b.root=o.optBoolean("root");b.speedScalor=o.optDouble("speedScalor",0);b.hasteScalor=o.optDouble("hasteScalor",0);
+        b.attackScalor=o.optDouble("attackScalor",0);b.defenseScalor=o.optDouble("defenseScalor",0);b.rangeScalor=o.optDouble("rangeScalor",0);
+        b.lifeDrainPercent=o.optDouble("lifeDrainPercent",0);b.selfBuff=o.optBoolean("selfBuff");b.friendlyAura=o.optBoolean("friendlyAura");b.auraRadius=Math.max(0,o.optDouble("auraRadius",0));
+        return b;
+    }
+    private UnitSpec.Attack attack(JSONObject o){
+        UnitSpec.Attack a=new UnitSpec.Attack();if(o==null){a.times=new double[0];a.projectiles=new double[0];return a;}
+        a.interval=Math.max(.05,o.optDouble("interval",1));a.range=Math.max(0,o.optDouble("range",30));a.type=o.optString("type","attack");a.allLanes=o.optBoolean("hitAllLanes");a.speedScalor=o.optDouble("speedScalor");a.stallStun=Math.max(0,o.optDouble("stallStun",0));
+        String dt=o.optString("damageType","");if("melee".equals(dt))a.damageType=UnitSpec.MELEE;else if("ranged".equals(dt))a.damageType=UnitSpec.RANGED;else if("magic".equals(dt))a.damageType=UnitSpec.MAGIC;else if("siege".equals(dt))a.damageType=UnitSpec.SIEGE;
+        JSONArray hits=o.optJSONArray("hits");int n=hits==null?0:hits.length();a.times=new double[n];a.projectiles=new double[n];for(int i=0;i<n;i++){JSONObject h=hits.optJSONObject(i);a.times[i]=h.optDouble("time");a.projectiles[i]=h.optDouble("projectileSpeed");a.heal|=h.optBoolean("heal");a.area|=h.optBoolean("area");}
+        JSONArray bs=o.optJSONArray("buffs");if(bs!=null&&bs.length()>0){a.buffs=new UnitSpec.BuffDef[bs.length()];for(int i=0;i<bs.length();i++)a.buffs[i]=buffDef(bs.optJSONObject(i));}
+        a.selfBuff=buffDef(o.optJSONObject("selfBuff"));
+        return a;
+    }
     public String label(int type){return units.get(type).optString("label",specs.get(type).id);}
     public String spriteAtlas(int region,String frame){String key=region+":"+frame;if(spriteSheets.containsKey(key))return spriteSheets.get(key);String prefix=new String[]{"Grass","Snow","Desert","Swamp","Volcano","Netherworld","Skyhaven"}[region];String found=null;for(String name:new String[]{prefix+"Scene-hd",prefix+"SceneScrolling-hd",prefix+"SceneScrolling2-hd"}){JSONObject a=atlases.optJSONObject(name);if(a!=null&&a.optJSONObject("frames").has(frame)){found=name;break;}}if(found==null){Iterator<String> keys=atlases.keys();while(keys.hasNext()){String name=keys.next();if(atlases.optJSONObject(name).optJSONObject("frames").has(frame)){found=name;break;}}}spriteSheets.put(key,found);return found;}
     public JSONObject variant(int type,int tier){

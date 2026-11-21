@@ -1,6 +1,5 @@
 package com.legendary.offline;
 
-import android.content.Context;
 import android.graphics.*;
 import android.view.*;
 import java.util.*;
@@ -12,18 +11,18 @@ public final class WarView extends View {
     private static final int GOLD=0xffe7c478,IVORY=0xfff5ecd5,INK=0xff102225,MUTED=0xffb4c2b3;
     private static final String[] REGIONS={"Grasslands","Frostburn","Desert","Swamp","Volcano","Netherworld","Skyhaven"};
     private static final String[] SCENES={"Grass","Snow","Desert","Swamp","Volcano","Netherworld","Skyhaven"};
-    private static final int[] GROUND={0xff59784a,0xff718b9e,0xffb49a63,0xff526b60,0xff705348};
+    private static final String[] BATTLE_TRACKS={"GrassLevel","SnowLevel","DesertLevel","SwampLevel","VolcanoLevel","Netherworld_Level","SkyHaven"};
     public final Progress progress;
     private final MainActivity activity;private final GameData data;private final Artwork art;
     private final Paint p=new Paint(Paint.ANTI_ALIAS_FLAG);private Typeface serif=Typeface.create("serif",Typeface.BOLD),sans=Typeface.create("sans-serif",Typeface.NORMAL);
     private final ArrayList<Button> buttons=new ArrayList<>();
     private final RectF box=new RectF();
-    private BattleEngine battle;
+    private OriginalBattle battle;
     private int screen,region,selectedUnit,selectedLane=1,codexTier=1,reward,pressed=-1,speed=1;
     private boolean active=true,music=true;
     private float scale=1,offsetX,offsetY;private long lastNanos;private double clock;
-    private String notice="";private double noticeUntil;
-    private int homeStage,pendingStage,lastMusicScreen=-1;private final LinkedHashSet<Integer> loadout=new LinkedHashSet<>();private boolean spellBook,dragging;private float downX,downY,lastDragX;
+    private String notice="",lastMusicTrack="";private double noticeUntil;
+    private int homeStage,pendingStage;private final LinkedHashSet<Integer> loadout=new LinkedHashSet<>();private boolean spellBook,dragging;private float downX,downY,lastDragX;
 
     public WarView(MainActivity activity,GameData data,Progress progress){
         super(activity);this.activity=activity;this.data=data;this.progress=progress;art=new Artwork(activity.getAssets(),data);
@@ -52,10 +51,18 @@ public final class WarView extends View {
     }
     @Override protected void onDraw(Canvas canvas){
         super.onDraw(canvas);long now=System.nanoTime();double dt=lastNanos==0?0:Math.min(.05,(now-lastNanos)/1e9);lastNanos=now;
-        if(active){clock+=dt;if(screen==BATTLE&&battle!=null){for(int i=0;i<speed;i++)battle.update(dt);if(battle.state==BattleEngine.VICTORY){int gain=battle.claimReward();if(gain>0){reward=gain;activity.save(progress);}}}}
+        if(active){
+            clock+=dt;
+            if(screen==BATTLE&&battle!=null){
+                for(int i=0;i<speed;i++)battle.update(dt);
+                for(String key:battle.drainSfx())activity.sfx(key);
+                if(battle.state==BattleEngine.VICTORY){int gain=battle.claimReward();if(gain>0){reward=gain;activity.save(progress);}}
+            }
+        }
         float w=getWidth(),h=getHeight();scale=Math.min(w/1280f,h/720f);offsetX=(w-1280*scale)/2;offsetY=(h-720*scale)/2;
         canvas.drawColor(0xff0b1419);canvas.save();canvas.translate(offsetX,offsetY);canvas.scale(scale,scale);canvas.clipRect(0,0,1280,720);buttons.clear();
-        if(lastMusicScreen!=screen){String track=screen==HOME||screen==OPTIONS||screen==MODES?"TitleScreen":screen==ARMORY?"Armory":screen==BATTLE?new String[]{"GrassLevel","SnowLevel","DesertLevel","SwampLevel","VolcanoLevel","Netherworld_Level","SkyHaven"}[data.plans.get(battle.stage).region]:"Overworld";activity.musicTrack(data.json.optJSONObject("music").optString(track));lastMusicScreen=screen;}
+        String trackKey=screen==HOME||screen==OPTIONS||screen==MODES?"TitleScreen":screen==ARMORY?"Armory":screen==BATTLE&&battle!=null?BATTLE_TRACKS[data.plans.get(battle.stage).region]:"Overworld";
+        if(!trackKey.equals(lastMusicTrack)){activity.musicTrack(data.json.optJSONObject("music").optString(trackKey));lastMusicTrack=trackKey;}
         switch(screen){case HOME:originalHome(canvas);break;case MAP:sourceMap(canvas);break;case ARMORY:originalArmory(canvas);break;case BATTLE:originalBattle(canvas);break;case CODEX:originalCodex(canvas);break;case LOADOUT:loadout(canvas);break;case OPTIONS:options(canvas);break;case MODES:modes(canvas);break;default:help(canvas);}
         if(clock<noticeUntil){panel(canvas,360,105,560,52,0xf21a2e30,GOLD);text(canvas,notice,640,138,20,IVORY,true,false);}
         canvas.restore();if(active)postInvalidateOnAnimation();
@@ -74,7 +81,7 @@ public final class WarView extends View {
         int fill=enabled?(primary?(down?0xff8b6e3d:0xffb58c46):(down?0xff34483e:0xed1b3031)):0xc5202b2b;
         panel(c,x,y,w,h,fill,enabled?(primary?0xfff2d99b:0xff728574):0xff52625b);
         if(enabled)art.draw(c,"scrollnode-vertical-spritesheet-hd",down?"scrollnode-vertical-button-selected2-blue.png":"scrollnode-vertical-button-normal2-blue.png",x,y,w,h);
-        text(c,label,x+w/2,y+h/2+7,h<46?17:21,enabled?GOLD:0xff8a968d,true,false);
+        text(c,label,x+w/2,y+h/2+7,h<46?16:20,enabled?GOLD:0xff8a968d,true,false);
         if(enabled)buttons.add(new Button(id,x,y,w,h,action,param));
     }
     private void header(Canvas c,String title,String subtitle){
@@ -84,29 +91,6 @@ public final class WarView extends View {
         art.fit(c,"mainmenu-foreground-hd","main-menu-gems-diamond.png",1076,27,42,38);
         text(c,String.valueOf(progress.gems),1132,56,26,GOLD,false,false);
     }
-    private void home(Canvas c){
-        art.draw(c,"mainmenu-background-hd","mainmenu-sky2.png",0,0,1280,720);
-        art.draw(c,"mainmenu-background-hd","mainmenu-background-hills.png",0,330,1280,300);
-        p.setShader(new LinearGradient(0,350,0,720,new int[]{0x00112224,0xff101f24},null,Shader.TileMode.CLAMP));c.drawRect(0,0,1280,720,p);p.setShader(null);
-        art.fit(c,"mainmenu-background-hd","mainmenu-title-logobanner.png",70,80,720,240);
-        art.fit(c,"mainmenu-background-hd","mainmenu-title-helmet.png",340,25,140,125);
-        text(c,"레전다리아의 전설을 다시",430,342,27,IVORY,true,true);
-        text(c,"성을 지키고, 영웅을 모아 어둠을 몰아내세요.",430,382,20,0xffd3dbcb,true,false);
-        int[] heroes={0,1,2,4,3};
-        for(int i=0;i<heroes.length;i++){int unit=heroes[i];float x=130+i*140;art.actor(c,unit,tier(unit),"ready",clock+i*.3,x,635,unit==4?.92f:1.12f,false);}
-        art.draw(c,"mainmenu-background-hd","mode-grass-foreground.png",0,645,1280,95);
-        panel(c,850,173,360,421,0xd9182a2e,0xffa5905c);
-        text(c,"모험은 계속된다",1030,223,28,GOLD,true,true);
-        int cleared=0;for(int n:progress.stars)if(n>0)cleared++;
-        text(c,"캠페인  "+cleared+" / 50",1030,255,18,MUTED,true,false);
-        button(c,"모험 시작",880,285,300,68,1,MAP,true,true);
-        button(c,"영웅의 무기고",880,370,300,58,1,ARMORY,true,false);
-        button(c,"유닛 도감",880,445,300,58,1,CODEX,true,false);
-        button(c,"플레이 방법",880,521,176,46,1,HELP,true,false);
-        button(c,music?"음악 켬":"음악 끔",1067,521,113,46,60,0,true,false);
-        text(c,"LEGENDARY WARS  ·  OFFLINE",40,690,16,0xffd1d7be,false,false);
-        text(c,"Original artwork · Reconstructed gameplay",990,690,14,0xffa8b9ac,true,false);
-    }
     private void worldMap(Canvas c){
         for(int row=0;row<4;row++)for(int col=0;col<4;col++){
             String atlas=col==3?"worldmapsheet3-hd":row<2?"worldmapsheet1":"worldmapsheet2";
@@ -114,131 +98,8 @@ public final class WarView extends View {
         }
         rect(c,0,0,1280,720,0x55112420);
     }
-    private void map(Canvas c){
-        worldMap(c);header(c,"레전다리아 지도","5개 지역 · 50개 전투");
-        for(int i=0;i<5;i++)button(c,REGIONS[i],48+i*240,113,224,50,10,i,true,region==i);
-        panel(c,104,196,1072,369,0xc4142a2b,0xffa99564);
-        text(c,REGIONS[region],640,237,29,GOLD,true,true);
-        for(int i=0;i<9;i++){
-            float[] a=node(i),b=node(i+1);line(c,a[0],a[1],b[0],b[1],0xff526c58,6);
-        }
-        for(int i=0;i<10;i++){
-            int stage=region*10+i;float[] pos=node(i);boolean open=stage<=progress.highestUnlocked();
-            p.setStyle(Paint.Style.FILL);p.setColor(open?0xffe3c781:0xff435950);c.drawCircle(pos[0],pos[1],34,p);
-            p.setStyle(Paint.Style.STROKE);p.setStrokeWidth(3);p.setColor(open?0xffffe5a8:0xff849183);c.drawCircle(pos[0],pos[1],38,p);p.setStyle(Paint.Style.FILL);
-            text(c,open?String.format(Locale.US,"%02d",stage+1):"•",pos[0],pos[1]+9,25,open?INK:0xff9ca797,true,true);
-            String stars=progress.stars[stage]==0?(open?"출정 가능":"잠김"):repeat("★",progress.stars[stage]);
-            text(c,stars,pos[0],pos[1]+65,17,open?GOLD:0xff9da99f,true,false);
-            if(open)buttons.add(new Button(2020+stage,pos[0]-43,pos[1]-43,86,120,20,stage));
-        }
-        button(c,"계속하기  ·  "+(progress.highestUnlocked()+1)+"번째 전투",380,609,520,66,20,progress.highestUnlocked(),true,true);
-        text(c,"한 전투를 완료하면 다음 스테이지와 새로운 영웅이 열립니다.",640,706,17,IVORY,true,false);
-    }
-    private float[] node(int i){int col=i<5?i:9-i;return new float[]{220+col*210,i<5?317+(col%2)*12:466-(col%2)*12};}
     private static String repeat(String s,int count){StringBuilder b=new StringBuilder();for(int i=0;i<count;i++)b.append(s);return b.toString();}
-    private void armory(Canvas c){
-        art.draw(c,"mainmenu-background-hd","mainmenu-sky2.png",0,0,1280,720);rect(c,0,0,1280,720,0xbe102522);
-        header(c,"영웅의 무기고","영구 강화 · 능력치와 장비 외형 성장");
-        for(int i=0;i<7;i++){
-            float x=48+i*170;boolean selected=selectedUnit==i,open=progress.highestUnlocked()>=data.specs.get(i).unlock;
-            panel(c,x,121,159,112,selected?0xff405b46:0xc51b3031,selected?GOLD:0xff627361);
-            art.icon(c,i,tier(i),x+8,130,60,60);text(c,data.label(i),x+83,158,18,open?IVORY:MUTED,true,false);
-            text(c,open?"강화 "+progress.ranks[i]:"전투 "+(data.specs.get(i).unlock+1),x+83,191,16,open?GOLD:MUTED,true,false);
-            buttons.add(new Button(3020+i,x,121,159,112,30,i));
-        }
-        button(c,"성벽 강화",49,262,159,51,30,7,true,selectedUnit==7);
-        button(c,"채굴 강화",49,327,159,51,30,8,true,selectedUnit==8);
-        panel(c,245,262,935,392,0xe6192c2e,0xff867c50);
-        if(selectedUnit<7){
-            UnitSpec s=data.specs.get(selectedUnit);int rank=progress.ranks[selectedUnit];
-            art.actor(c,selectedUnit,tier(selectedUnit),"ready",clock,455,600,1.8f,false);
-            text(c,data.label(selectedUnit),690,318,34,GOLD,false,true);
-            text(c,"장비 단계 "+tier(selectedUnit)+" / 4  ·  강화 "+rank+" / 12",690,353,20,MUTED,false,false);
-            text(c,"체력     "+(int)(s.hp*(1+rank*.13)),690,402,23,IVORY,false,false);
-            text(c,"공격력   "+(int)(s.attack*(1+rank*.12)),690,443,23,IVORY,false,false);
-            text(c,"소환 비용   "+s.cost+" 보석",690,484,21,IVORY,false,false);
-            boolean open=progress.highestUnlocked()>=s.unlock;
-            button(c,open?(rank>=12?"최대 강화":"강화하기  ·  "+progress.upgradeCost(selectedUnit)):"전투 "+(s.unlock+1)+"에서 해금",690,541,386,65,31,selectedUnit,open&&rank<12&&progress.gems>=progress.upgradeCost(selectedUnit),true);
-            text(c,"3회 강화마다 원작의 다음 장비 외형으로 성장합니다.",690,630,16,MUTED,false,false);
-        }else{
-            boolean castle=selectedUnit==7;int rank=castle?progress.castleRank:progress.mineRank;
-            if(castle)art.fit(c,"castle-default-spritesheet-hd","goodcastle.png",292,325,320,278);else art.actor(c,7,1,"special",clock,450,590,1.8f,false);
-            text(c,castle?"레전다리아의 성벽":"광부의 작업장",690,329,32,GOLD,false,true);
-            text(c,"강화 "+rank+" / 12",690,373,22,MUTED,false,false);
-            text(c,castle?"성 체력  "+(1000+rank*180):"한 번에 채굴  "+(7+rank)+" 보석",690,429,23,IVORY,false,false);
-            text(c,castle?"다음 강화: 체력 +180":"다음 강화: 시작 보석 +8, 채굴량 +1",690,477,19,IVORY,false,false);
-            button(c,rank>=12?"최대 강화":"강화하기  ·  "+progress.upgradeCost(selectedUnit),690,541,386,65,31,selectedUnit,rank<12&&progress.gems>=progress.upgradeCost(selectedUnit),true);
-        }
-    }
-    private void scenery(Canvas c,int r){
-        int top=r==0?0xff93b3a2:r==1?0xffadc7d3:r==2?0xffd9b87e:r==3?0xff697b79:0xffa76c59;
-        p.setShader(new LinearGradient(0,85,0,520,top,GROUND[r],Shader.TileMode.CLAMP));c.drawRect(0,80,1280,545,p);p.setShader(null);
-        String atlas=SCENES[r]+"Scene-hd",prefix="Level"+(r+1),far=prefix+(r<2?"-L4":"-L5");
-        art.draw(c,atlas,far+"L.png",0,94,640,320);art.draw(c,atlas,far+"R.png",640,94,640,320);
-        String ground=prefix+(r==4?"-Layer4.png":"-Layer3.png");
-        art.draw(c,atlas,ground,0,268,1280,270);
-        rect(c,0,284,1280,246,(GROUND[r]&0x00ffffff)|0x66000000);
-        for(int lane=0;lane<3;lane++){
-            float y=laneY(lane);if(lane==selectedLane){rect(c,115,y-59,1055,76,0x22fff2a8);line(c,117,y+17,1165,y+17,0x55f9e5a0,1);}
-        }
-    }
-    private float laneY(int lane){return 327+lane*85;}
-    private void battle(Canvas c){
-        if(battle==null){screen=MAP;return;}int r=battle.stage/10;scenery(c,r);
-        String castle="castle-"+SCENES[r].toLowerCase(Locale.US)+"-spritesheet-hd";
-        if(!art.draw(c,castle,"goodcastle.png",-12,324,230,184))art.draw(c,"castle-default-spritesheet-hd","goodcastle.png",-12,324,230,184);
-        if(!art.draw(c,castle,"evilcastle.png",1065,320,230,184))art.draw(c,"castle-default-spritesheet-hd","evilcastle.png",1065,320,230,184);
-        for(int lane=0;lane<3;lane++){
-            if(!battle.paused&&battle.state==BattleEngine.PLAYING)buttons.add(new Button(4120+lane,205,laneY(lane)-60,875,79,41,lane));
-            for(BattleEngine.Actor a:battle.actors){
-                if(a.lane!=lane)continue;String state=a.hp<=0?"death":a.attacking?"primary":a.moving?"walk":"ready";
-                float sc=a.boss?.88f:.68f;art.actor(c,a.type,a.enemy?1:tier(a.type),state,a.animationAge,(float)a.x,laneY(lane),sc,!a.enemy&&battle.order<0&&a.moving);
-                if(a.hp>0&&(a.hp<a.maxHp||a.flash>0||a.boss))bar(c,(float)a.x-24,laneY(lane)-93,48,5,a.hp/a.maxHp,a.enemy?0xffd17d69:0xffa8d77d);
-                if(a.boss&&a.hp>0)text(c,"BOSS",(float)a.x,laneY(lane)-107,12,GOLD,true,false);
-            }
-        }
-        for(BattleEngine.Shot s:battle.shots){float f=(float)Math.min(1,s.age/.38),x=(float)(s.from+(s.to-s.from)*f),y=laneY(s.lane)-49;
-            p.setColor(s.type==1||s.type==14?0xffe7dbb1:s.enemy?0xffc681e4:0xffffd97c);c.drawCircle(x,y,s.type==1?3:6,p);
-        }
-        for(int i=0;i<battle.miners;i++)art.actor(c,7,1,((int)(battle.elapsed/2+i)%2)==0?"walk":"special",battle.elapsed+i,145+i*26+(float)Math.sin(battle.elapsed)*15,524,.53f,false);
-        for(BattleEngine.Gem g:battle.gemsOnField){float y=485-(float)Math.sin(g.age*5)*6;art.fit(c,"mainmenu-foreground-hd","main-menu-gems-diamond.png",(float)g.x,y,34,29);}
-        if(!battle.gemsOnField.isEmpty())buttons.add(new Button(6420,105,453,185,80,64,0));
-        if(battle.spellFlash>0)rect(c,0,94,1280,440,((int)(battle.spellFlash*90)<<24)|0xffd277);
-        rect(c,0,0,1280,91,0xf3102428);line(c,0,91,1280,91,0xffac9964,1);
-        button(c,"Ⅱ",24,20,62,49,45,0,true,false);button(c,speed+"×",100,20,63,49,61,0,true,false);
-        text(c,REGIONS[r]+"  "+(battle.stage%10+1)+" / 10",205,45,26,IVORY,false,true);
-        text(c,"적 진군  "+battle.wave+" / "+battle.totalWaves()+"    처치 "+battle.kills,205,73,16,MUTED,false,false);
-        text(c,(int)(battle.elapsed/60)+":"+String.format(Locale.US,"%02d",(int)battle.elapsed%60),646,49,25,GOLD,true,false);
-        art.fit(c,"mainmenu-foreground-hd","main-menu-gems-diamond.png",817,20,43,42);text(c,String.valueOf(battle.gems),879,51,31,GOLD,false,true);
-        text(c,"정수  "+battle.essence,1040,50,25,0xffa6d8dc,false,false);
-        bar(c,36,108,255,10,battle.playerCastle/battle.maxPlayerCastle,0xffa6d080);bar(c,990,108,255,10,battle.enemyCastle/battle.maxEnemyCastle,0xffcf8975);
-        text(c,"우리 성 "+(int)battle.playerCastle,38,140,16,IVORY,false,false);text(c,"적 성 "+(int)battle.enemyCastle,1000,140,16,IVORY,false,false);
-        if(battle.elapsed<13&&battle.stage==0){panel(c,350,153,580,52,0xd514292c,0xff849274);text(c,"레인을 누르고 기사를 소환하세요. 광부가 보석을 모읍니다.",640,186,18,IVORY,true,false);}
-        battleControls(c);
-        if(battle.state!=BattleEngine.PLAYING)result(c);else if(battle.paused)pause(c);
-    }
     private void bar(Canvas c,float x,float y,float w,float h,double value,int color){rect(c,x,y,w,h,0xcc142322);rect(c,x+1,y+1,(w-2)*(float)Math.max(0,Math.min(1,value)),h-2,color);}
-    private void battleControls(Canvas c){
-        rect(c,0,538,1280,182,0xfa12282b);line(c,0,538,1280,538,0xffa7935f,2);
-        boolean running=battle.state==BattleEngine.PLAYING&&!battle.paused;
-        button(c,"후퇴",25,549,90,38,42,-1,running,battle.order==-1);button(c,"대기",124,549,90,38,42,0,running,battle.order==0);button(c,"전진",223,549,90,38,42,1,running,battle.order==1);
-        text(c,"선택 레인 "+(selectedLane+1),358,576,18,GOLD,false,false);
-        button(c,"화염 25",669,549,167,38,43,0,running&&battle.essence>=25&&battle.spellCooldowns[0]<=0,false);
-        button(c,"치유 20",848,549,167,38,43,1,running&&battle.essence>=20&&battle.spellCooldowns[1]<=0,false);
-        button(c,"빙결 30",1027,549,167,38,43,2,running&&battle.essence>=30&&battle.spellCooldowns[2]<=0,false);
-        int minerCost=15+battle.miners*10;
-        panel(c,22,600,124,107,0xff2d453c,0xff7d8d68);art.icon(c,7,1,48,604,64,60);text(c,"광부 "+battle.miners+"/4",84,679,17,IVORY,true,false);text(c,battle.miners>=4?"최대":minerCost+" 보석",84,701,15,GOLD,true,false);
-        if(running&&battle.miners<4&&battle.gems>=minerCost)buttons.add(new Button(4420,22,600,124,107,44,0));
-        for(int i=0;i<7;i++){
-            float x=160+i*157;UnitSpec s=data.specs.get(i);boolean unlocked=battle.unlocked(i),ready=running&&unlocked&&battle.gems>=s.cost&&battle.cooldowns[i]<=0;
-            panel(c,x,600,145,107,ready?0xff355242:0xff243736,ready?0xffc9c184:0xff667765);art.icon(c,i,tier(i),x+8,602,60,64);
-            text(c,data.label(i),x+101,627,16,unlocked?IVORY:0xff98a69c,true,false);
-            text(c,unlocked?s.cost+" 보석":"잠김",x+101,655,16,unlocked?GOLD:0xff98a69c,true,false);
-            if(unlocked&&battle.cooldowns[i]>0){bar(c,x+12,683,120,7,1-battle.cooldowns[i]/Math.max(1.4,s.cooldown*.55),0xff84b8a4);text(c,String.format(Locale.US,"%.1fs",battle.cooldowns[i]),x+73,681,14,MUTED,true,false);}
-            else text(c,unlocked?(ready?"소환":"보석 부족"):"전투 "+(s.unlock+1),x+73,696,14,ready?IVORY:MUTED,true,false);
-            if(ready)buttons.add(new Button(4020+i,x,600,145,107,40,i));
-        }
-    }
     private void shade(Canvas c){rect(c,0,0,1280,720,0xaa081516);}
     private void pause(Canvas c){
         buttons.clear();shade(c);panel(c,410,192,460,347,0xfa193033,GOLD);
@@ -251,33 +112,21 @@ public final class WarView extends View {
         text(c,won?"승리!":"성을 잃었습니다",640,214,42,GOLD,true,true);
         int stars=won?progress.stars[battle.stage]:0;text(c,won?repeat("★",stars):"다시 군대를 정비해 보세요.",640,270,won?42:23,won?GOLD:MUTED,true,false);
         text(c,"처치 "+battle.kills+"    ·    "+(int)battle.elapsed+"초",640,329,22,IVORY,true,false);
-        text(c,won?"획득 보석  +"+reward:"광부를 늘리고 세 레인을 함께 지켜보세요.",640,371,23,won?GOLD:IVORY,true,false);
+        text(c,won?"획득 보석  +"+reward:"광부를 고용하고 상성에 맞춰 영웅을 배치해 보세요.",640,371,21,won?GOLD:IVORY,true,false);
         button(c,won&&battle.stage<data.plans.size()-1?"Next Battle":"Try Again",402,417,476,64,won&&battle.stage<data.plans.size()-1?47:46,0,true,true);
         button(c,"지도",402,503,226,54,1,MAP,true,false);button(c,"무기고",652,503,226,54,1,ARMORY,true,false);
     }
-    private void codex(Canvas c){
-        art.draw(c,"mainmenu-background-hd","mainmenu-sky2.png",0,0,1280,720);rect(c,0,0,1280,720,0xc0102426);header(c,"레전다리아 도감","원작 캐릭터 · 이동과 공격 애니메이션");
-        for(int i=0;i<16;i++){
-            float x=34+(i%8)*155,y=114+(i/8)*105;panel(c,x,y,143,93,i==selectedUnit?0xff456348:0xda1b3231,i==selectedUnit?GOLD:0xff6c7b64);
-            art.icon(c,i,1,x+8,y+7,62,61);text(c,data.label(i),x+72,y+80,15,IVORY,true,false);buttons.add(new Button(3020+i,x,y,143,93,30,i));
-        }
-        panel(c,112,353,1055,324,0xe91a3032,0xff9f8d5b);
-        UnitSpec s=data.specs.get(selectedUnit);boolean hero=selectedUnit<7;
-        art.actor(c,selectedUnit,codexTier,"walk",clock,340,635,1.42f,false);
-        art.actor(c,selectedUnit,codexTier,"primary",clock,560,635,1.42f,false);
-        text(c,data.label(selectedUnit),775,410,34,GOLD,false,true);
-        text(c,"체력 "+(int)s.hp+"    공격 "+(int)s.attack,775,455,23,IVORY,false,false);
-        text(c,"이동 "+(int)s.speed+"    사거리 "+(int)s.range,775,494,21,MUTED,false,false);
-        text(c,"이동",340,660,17,MUTED,true,false);text(c,"기본 공격",560,660,17,MUTED,true,false);
-        if(hero)for(int i=1;i<=4;i++)button(c,"장비 "+i,775+(i-1)*88,551,78,51,62,i,true,codexTier==i);
-        text(c,hero?"도감에서는 모든 장비 외형을 살펴볼 수 있습니다.":"적군 / 보조 유닛",775,636,16,MUTED,false,false);
-    }
     private void help(Canvas c){
-        rect(c,0,0,1280,720,0xff152a2c);header(c,"플레이 방법","원작 이미지로 다시 만든 오프라인 전투");
-        String[] titles={"01  보석을 모으세요","02  세 레인을 지키세요","03  정수로 전세를 뒤집으세요","04  영웅을 성장시키세요"};
-        String[][] lines={{"광부는 자동으로 보석을 모읍니다. 떨어진 보석을 누르면 바로 수집합니다.","전투 중 광부를 최대 네 명까지 늘릴 수 있습니다."},{"전장의 원하는 레인을 누르고, 아래 유닛을 눌러 소환하세요.","전진 · 대기 · 후퇴 명령으로 군대를 함께 지휘합니다."},{"적을 처치하면 정수가 쌓입니다. 화염 · 치유 · 빙결을 사용하세요.","적 성을 파괴하면 승리합니다. 우리 성을 잃으면 패배합니다."},{"승리 보석으로 무기고에서 영웅, 성벽, 채굴 능력을 강화하세요.","강화 세 단계마다 원작의 새로운 장비 이미지로 바뀝니다."}};
-        for(int i=0;i<4;i++){float y=126+i*122;text(c,titles[i],84,y+23,25,GOLD,false,true);text(c,lines[i][0],84,y+57,20,IVORY,false,false);text(c,lines[i][1],84,y+87,19,MUTED,false,false);}
-        text(c,"원작: Liv Games · 이미지/음원은 제공된 파일에서 추출 · 전투/캠페인 동작은 새로 구현했습니다.",84,670,17,MUTED,false,false);
+        rect(c,0,0,1280,720,0xff152a2c);header(c,"플레이 방법","원작 전투 상성 · 버프/경직 · 오프라인 복원");
+        String[] titles={"01  보석과 광부","02  유닛 지휘와 상성","03  필살기와 마법책","04  무기고 성장"};
+        String[][] lines={
+            {"광부(Miney)를 고용하면 7초마다 보석을 채굴합니다. 떨어진 보석을 눌러 바로 수집하세요.","보석으로 영웅을 소환하고, 무기고에서 성벽(최대 6단계)과 채굴량(최대 5단계)을 강화하세요."},
+            {"유닛을 눌러 선택하고 레인·적을 터치해 이동/공격합니다. 상단 버튼으로 전진·방어·후퇴·집결을 지시하세요.","원작 상성: 근접 > 원거리(1.3x) · 원거리 > 마법(1.4x) · 마법 > 근접(1.15x). 강타/치명타 시 경직이 발생합니다."},
+            {"적을 처치해 정수가 차면 우측 하단 필살기 버튼이 빛납니다. 영웅마다 화상·빙결·스턴·오라 효과를 발동합니다.","우측 상단 마법책은 재사용 대기시간으로 화살비(원거리) · 화염폭풍(화상) · 빙결폭풍(5초 빙결)을 시전합니다."},
+            {"승리 보석으로 공격·체력·방어를 강화하고, 문스톤으로 새 영웅 해금과 상위 장비 외형을 개방하세요.","장비 단계가 오르면 원작 고티어 애니메이션과 특수 버프/스턴 효과가 함께 해금됩니다."}
+        };
+        for(int i=0;i<4;i++){float y=126+i*122;text(c,titles[i],84,y+23,24,GOLD,false,true);text(c,lines[i][0],84,y+57,18,IVORY,false,false);text(c,lines[i][1],84,y+87,17,MUTED,false,false);}
+        text(c,"원작: Liv Games · 이미지/음원은 정적 검증 후 추출 · 전투/AI/UI는 클린룸으로 새로 구현했습니다.",84,670,16,MUTED,false,false);
         button(c,"모험 시작",1030,638,183,53,1,MAP,true,true);
     }
     private void scene(Canvas c,String name){
@@ -341,7 +190,12 @@ public final class WarView extends View {
             }
             int max=data.units.get(selectedUnit).optJSONArray("variants").length();button(c,"Next Armor  ·  "+(s.gearCost+tier(selectedUnit)-1)+" Moonstone",681,606,459,51,77,selectedUnit,tier(selectedUnit)<max&&progress.moonstones>=s.gearCost+tier(selectedUnit)-1,true);
         }
-        button(c,"Castle",42,420,167,51,78,7,true,false);button(c,"Miney",42,489,167,51,78,8,true,false);
+        int cRank=progress.castleRank,cMax=progress.supportMax(7),cCost=progress.supportCost(7);
+        int mRank=progress.mineRank,mMax=progress.supportMax(8),mCost=progress.supportCost(8);
+        text(c,"Castle Lv "+cRank+"/"+cMax,126,392,16,GOLD,true,false);
+        button(c,cRank>=cMax?"MAX":cCost+" Gems",28,402,196,51,78,7,cRank<cMax&&progress.gems>=cCost,false);
+        text(c,"Miney Lv "+mRank+"/"+mMax,126,488,16,GOLD,true,false);
+        button(c,mRank>=mMax?"MAX":mCost+" Gems",28,498,196,51,78,8,mRank<mMax&&progress.gems>=mCost,false);
     }
     private void originalCodex(Canvas c){
         rect(c,0,0,1280,720,INK);header(c,"Heroes of Legendaria","Original unit artwork and animations");
@@ -351,7 +205,7 @@ public final class WarView extends View {
         text(c,data.label(selectedUnit),864,385,32,GOLD,true,true);text(c,"Original Armor",864,430,20,IVORY,true,false);
         int max=data.units.get(selectedUnit).optJSONArray("variants").length();for(int i=1;i<=max;i++)button(c,""+i,768+(i-1)%3*70,465+(i-1)/3*64,61,50,62,i,true,codexTier==i);
     }
-    private void options(Canvas c){scene(c,"title");shade(c);panel(c,371,155,538,412,0xf5213436,GOLD);text(c,"Options",640,220,36,GOLD,true,true);button(c,music?"Music: On":"Music: Off",440,272,400,60,60,0,true,false);button(c,"How to Play",440,356,400,60,1,HELP,true,false);button(c,"Back",440,458,400,60,1,HOME,true,false);}
+    private void options(Canvas c){scene(c,"title");shade(c);panel(c,371,155,538,412,0xf5213436,GOLD);text(c,"Options",640,220,36,GOLD,true,true);button(c,music?"Sound & Music: On":"Sound & Music: Off",440,272,400,60,60,0,true,false);button(c,"How to Play",440,356,400,60,1,HELP,true,false);button(c,"Back",440,458,400,60,1,HOME,true,false);}
     private void modes(Canvas c){scene(c,"props");shade(c);panel(c,329,135,622,470,0xf5213436,GOLD);text(c,"Game Modes",640,200,37,GOLD,true,true);button(c,"Campaign",421,239,440,61,1,MAP,true,true);button(c,"Armory",421,323,440,61,1,ARMORY,true,false);button(c,"Heroes",421,407,440,61,1,CODEX,true,false);button(c,"Back",421,510,440,54,1,HOME,true,false);}
     private float worldX(OriginalBattle b,double x){return (float)((x-b.camera)*2.25);}
     private float originalLane(double lane){return (float)(720-(52+45*lane)*2.25);}
@@ -373,16 +227,36 @@ public final class WarView extends View {
     private void spriteButton(Canvas c,String frame,float x,float y,float size,int action,int param,boolean enabled){
         art.fit(c,"hud-spritesheet-hd",frame,x,y,size,size);if(!enabled)rect(c,x,y,size,size,0x660b2020);else buttons.add(new Button(action*100+param+20,x,y,size,size,action,param));
     }
+    private static int statusColor(BattleEngine.Actor a){
+        if(a.stunTime>0)return "freeze".equals(a.statusTag)?0xff6ce0ff:0xfff5d759;
+        if("burn".equals(a.statusTag))return 0xffff7838;
+        if("poison".equals(a.statusTag))return 0xff68d85c;
+        if("fear".equals(a.statusTag)||"confuse".equals(a.statusTag))return 0xffd278ff;
+        if("buff".equals(a.statusTag))return 0xffffe57f;
+        return 0;
+    }
     private void originalBattle(Canvas c){
-        if(!(battle instanceof OriginalBattle)){battle(c);return;}OriginalBattle b=(OriginalBattle)battle;sourceTerrain(c,b);
-        if(b.plan.playerCastle)art.draw(c,"castle-default-spritesheet-hd","goodcastle.png",worldX(b,0)-40,originalLane(0)-310,474*1.0f,348*1.0f);
-        if(b.plan.enemyHp>0)art.draw(c,"castle-default-spritesheet-hd","evilcastle.png",worldX(b,b.plan.width)-475,originalLane(0)-315,516,368);
+        if(battle==null){screen=MAP;return;}
+        OriginalBattle b=battle;sourceTerrain(c,b);
+        String castleAtlas="castle-"+SCENES[b.plan.region].toLowerCase(Locale.US)+"-spritesheet-hd";
+        if(b.plan.playerCastle){
+            if(!art.draw(c,castleAtlas,"goodcastle.png",worldX(b,0)-40,originalLane(0)-310,474,348))
+                art.draw(c,"castle-default-spritesheet-hd","goodcastle.png",worldX(b,0)-40,originalLane(0)-310,474,348);
+        }
+        if(b.plan.enemyHp>0){
+            if(!art.draw(c,castleAtlas,"evilcastle.png",worldX(b,b.plan.width)-475,originalLane(0)-315,516,368))
+                art.draw(c,"castle-default-spritesheet-hd","evilcastle.png",worldX(b,b.plan.width)-475,originalLane(0)-315,516,368);
+        }
         for(int lane=2;lane>=0;lane--)for(BattleEngine.Actor a:b.actors)if(a.lane==lane){
             float x=worldX(b,a.x),feet=originalLane(a.laneVisual);if(x<-350||x>1630)continue;
             String state=a.hp<=0?"death":a.specialTime>0?"special":a.attacking?"primary":a.moving?"walk":"ready";
-            if(a.sprite!=null){String atlas=data.spriteAtlas(b.plan.region,a.sprite);if(atlas!=null)art.fit(c,atlas,a.sprite,x-60,feet-100,120,100);}else art.actor(c,a.type,a.enemy?a.tier:Progress.hero(a.type)?Math.max(a.tier,tier(a.type)):a.tier,state,a.animationAge,x,feet,(float)(1.125*a.sizeScale),a.enemy?!a.faceLeft:a.faceLeft);
+            float jitter=a.hitStun>0?(float)(Math.sin(clock*55)*4):0;
+            if(a.sprite!=null){String atlas=data.spriteAtlas(b.plan.region,a.sprite);if(atlas!=null)art.fit(c,atlas,a.sprite,x-60+jitter,feet-100,120,100);}
+            else art.actor(c,a.type,a.baseEnemy?a.tier:Progress.hero(a.type)?Math.max(a.tier,tier(a.type)):a.tier,state,a.animationAge,x+jitter,feet,(float)(1.125*a.sizeScale),a.baseEnemy?!a.faceLeft:a.faceLeft);
             if(a==b.selected&&a.hp>0){art.fit(c,"hud-spritesheet-hd","hud-target.png",x-34,feet-18,68,45);}
             if(a.hp>0&&a.hp<a.maxHp)bar(c,x-35,feet-120,70,7,a.hp/a.maxHp,a.enemy?0xffd17d69:0xffa8d77d);
+            int sc=a.hp>0?statusColor(a):0;
+            if(sc!=0){p.setStyle(Paint.Style.FILL);p.setColor(sc);c.drawCircle(x,feet-132,6,p);}
         }
         for(BattleEngine.Shot s:b.shots){float f=(float)Math.min(1,s.age/s.duration),x=worldX(b,s.from+(s.to-s.from)*f),y=originalLane(s.lane)-58;p.setColor(s.enemy?0xffa59b7a:GOLD);c.drawCircle(x,y,4,p);}
         for(int i=0;i<b.miners;i++)art.actor(c,7,1,((int)b.elapsed/4+i)%2==0?"walk":"special",b.elapsed+i,270+i*45,307,1.0f,false);
@@ -393,19 +267,29 @@ public final class WarView extends View {
         if(b.state!=BattleEngine.PLAYING)result(c);else if(b.paused)pause(c);else if(b.cue!=null)dialogue(c,b);
     }
     private void originalHud(Canvas c,OriginalBattle b){
-        double hp=b.selected!=null&&b.selected.plot?b.selected.hp: b.playerCastle,max=b.selected!=null&&b.selected.plot?b.selected.maxHp:b.maxPlayerCastle;
-        art.draw(c,"hud-spritesheet-hd","hud-meter-backing.png",10,12,202,41);bar(c,46,20,158,11,hp/max,0xffc6534e);art.fit(c,"hud-spritesheet-hd","hud-meter-healthIcon.png",8,13,38,38);
+        double hp=b.selected!=null&&b.selected.plot?b.selected.hp:b.playerCastle,max=b.selected!=null&&b.selected.plot?b.selected.maxHp:b.maxPlayerCastle;
+        art.draw(c,"hud-spritesheet-hd","hud-meter-backing.png",10,12,202,41);bar(c,46,20,158,11,hp/Math.max(1,max),0xffc6534e);art.fit(c,"hud-spritesheet-hd","hud-meter-healthIcon.png",8,13,38,38);
         art.draw(c,"hud-spritesheet-hd","hud-meter-backing.png",10,55,202,41);bar(c,46,65,158,11,b.essence/100.0,0xff67a1ca);art.fit(c,"hud-spritesheet-hd","hud-meter-manaIcon.png",8,56,38,38);
         art.fit(c,"hud-spritesheet-hd","hud-gems-front-topaz.png",251,10,34,42);text(c,""+b.gems,300,43,29,GOLD,false,true);
         spriteButton(c,"icon-production-attack.png",378,10,61,42,1,true);spriteButton(c,"icon-group-defense.png",449,10,61,42,0,true);spriteButton(c,"icon-group-left.png",520,10,61,42,-1,true);spriteButton(c,"icon-group-formup.png",591,10,61,80,0,true);
+        if(b.plan.enemyHp>0){
+            art.draw(c,"hud-spritesheet-hd","hud-meter-backing.png",870,12,202,41);
+            bar(c,906,20,158,11,b.enemyCastle/Math.max(1,b.maxEnemyCastle),0xffd95b43);
+            art.fit(c,"hud-spritesheet-hd","hud-meter-healthIcon.png",868,13,38,38);
+            text(c,"적 성 "+(int)Math.ceil(b.enemyCastle),971,71,16,IVORY,true,false);
+        }
         spriteButton(c,spellBook?"icon-spellbook-open.png":"icon-spellbook.png",1108,8,70,81,0,true);spriteButton(c,"hud-pause.png",1190,8,74,45,0,true);
         if(spellBook)for(int i=0;i<3;i++)spriteButton(c,new String[]{"icon-spell-arrows.png","icon-spell-fire.png","icon-spell-ice.png"}[i],1020-i*92,87,81,43,i,b.spellCooldowns[i]<=0);
-        if(b.plan.mining)spriteButton(c,b.miningReady()?"icon-miner.png":"icon-miner-disabled.png",24,585,112,44,0,b.miningReady());
         int count=b.plan.tutorial()?0:b.loadout.length;
         for(int i=0;i<count;i++){int type=b.loadout[i];float x=25+i*115;art.icon(c,type,tier(type),x,598,105,100);text(c,""+data.specs.get(type).cost,x+52,710,23,GOLD,true,true);if(b.cooldowns[type]>0){rect(c,x,598,105,(float)(100*b.cooldowns[type]/Math.max(.01,data.specs.get(type).cooldown)),0x990b2020);}else if(b.gems>=data.specs.get(type).cost)buttons.add(new Button(4020+type,x,598,105,112,40,type));}
-        if(count>0&&b.plan.mining){buttons.removeIf(button->button.action==44);spriteButton(c,b.miningReady()?"icon-miner.png":"icon-miner-disabled.png",25+count*115,598,100,44,0,b.miningReady());}
-        art.fit(c,"hud-spritesheet-hd","icon-special-bg.png",1125,565,145,145);art.fit(c,"hud-spritesheet-hd","icon-special-rays.png",1125,565,145,145);art.fit(c,"hud-spritesheet-hd","icon-special-sunfront.png",1125,565,145,145);buttons.add(new Button(8220,1125,565,145,145,82,0));
-        if(b.selected!=null){text(c,data.label(b.selected.type),1197,550,19,GOLD,true,true);text(c,""+data.specs.get(b.selected.type).specialCost,1197,716,18,GOLD,true,false);}
+        if(b.plan.mining){float mx=count==0?24:25+count*115,my=count==0?585:598,ms=count==0?112:100;spriteButton(c,b.miningReady()?"icon-miner.png":"icon-miner-disabled.png",mx,my,ms,44,0,b.miningReady());}
+        boolean spReady=b.specialReady();
+        art.fit(c,"hud-spritesheet-hd","icon-special-bg.png",1125,565,145,145);
+        if(spReady)art.fit(c,"hud-spritesheet-hd","icon-special-rays.png",1125,565,145,145);
+        art.fit(c,"hud-spritesheet-hd","icon-special-sunfront.png",1125,565,145,145);
+        if(spReady)buttons.add(new Button(8220,1125,565,145,145,82,0));
+        else rect(c,1125,565,145,145,0x880b2020);
+        if(b.selected!=null){text(c,data.label(b.selected.type),1197,550,19,spReady?GOLD:MUTED,true,true);text(c,""+data.specs.get(b.selected.type).specialCost,1197,716,18,spReady?GOLD:MUTED,true,false);}
     }
     private void wrapped(Canvas c,String value,float x,float y,float width,float size,int color,int max){p.setTypeface(sans);p.setTextSize(size);String line="";int row=0;for(String word:value.split("\\s+")){String next=line.isEmpty()?word:line+" "+word;if(p.measureText(next)>width&&!line.isEmpty()){text(c,line,x,y+row*(size+7),size,color,false,false);if(++row>=max)return;line=word;}else line=next;}if(!line.isEmpty()&&row<max)text(c,line,x,y+row*(size+7),size,color,false,false);}
     private void dialogue(Canvas c,OriginalBattle b){
@@ -415,34 +299,32 @@ public final class WarView extends View {
     }
     private void action(int action,int param){
         switch(action){
-            case 1:screen=param;if(param==MAP)region=data.plans.get(Math.min(progress.highestUnlocked(),data.plans.size()-1)).region;if(param==HOME)homeStage=1;if(param==ARMORY&&!Progress.hero(selectedUnit))selectedUnit=0;if(param==CODEX){selectedUnit=0;codexTier=1;}break;
-            case 10:region=param;break;
-            case 20:begin(param);break;
-            case 30:selectedUnit=param;codexTier=1;break;
-            case 31:if(progress.upgrade(param)){activity.save(progress);message("강화 완료");}break;
+            case 1:activity.sfx("click");screen=param;if(param==MAP)region=data.plans.get(Math.min(progress.highestUnlocked(),data.plans.size()-1)).region;if(param==HOME)homeStage=1;if(param==ARMORY&&!Progress.hero(selectedUnit))selectedUnit=0;if(param==CODEX){selectedUnit=0;codexTier=1;}break;
+            case 10:activity.sfx("click");region=param;break;
+            case 20:activity.sfx("click");begin(param);break;
+            case 30:activity.sfx("click");selectedUnit=param;codexTier=1;break;
             case 40:if(battle!=null&&!battle.spawn(param,selectedLane))message("보석과 소환 대기 시간을 확인하세요.");break;
-            case 41:selectedLane=param;break;
-            case 42:if(battle!=null&&!battle.paused&&battle.state==BattleEngine.PLAYING){if(battle instanceof OriginalBattle)((OriginalBattle)battle).commandOrder(param);else battle.order=param;}break;
+            case 42:if(battle!=null&&!battle.paused&&battle.state==BattleEngine.PLAYING){battle.commandOrder(param);activity.sfx("click");}break;
             case 43:if(battle!=null)battle.castSpell(param);break;
             case 44:if(battle!=null)battle.hireMiner();break;
-            case 45:if(battle!=null)battle.paused=!battle.paused;lastNanos=0;break;
+            case 45:if(battle!=null){battle.paused=!battle.paused;activity.sfx("click");}lastNanos=0;break;
             case 46:if(battle!=null)begin(battle.stage);break;
             case 47:if(battle!=null)begin(battle.stage+1);break;
             case 60:setMusic(!music);break;
             case 61:speed=speed==1?2:1;break;
-            case 62:codexTier=param;break;
+            case 62:activity.sfx("click");codexTier=param;break;
             case 64:if(battle!=null)battle.collectGems();break;
-            case 70:homeStage=param;screen=HOME;break;
-            case 71:if(loadout.contains(param))loadout.remove(param);else if(heroUnlocked(param)&&loadout.size()<data.plans.get(pendingStage).slots)loadout.add(param);break;
-            case 72:if(!loadout.isEmpty())startBattle(pendingStage);break;
-            case 75:if(progress.buyHero(param,data.specs.get(param).moonstonePrice))activity.save(progress);break;
-            case 76:{JSONObject upgrades=data.units.get(selectedUnit).optJSONObject("upgrades");JSONObject u=upgrades==null?null:upgrades.optJSONObject(new String[]{"attackPoints","hitPoints","defensePoints"}[param]);if(u!=null&&progress.upgradeStat(selectedUnit,param,u.optInt("baseCost",40),u.optInt("costMultiplier",2)))activity.save(progress);break;}
-            case 77:if(progress.upgradeGear(param,data.units.get(param).optJSONArray("variants").length(),data.specs.get(param).gearCost))activity.save(progress);break;
-            case 78:if(progress.upgradeSupport(param))activity.save(progress);else message(param==7?"Castle: 250 Gems, maximum 6 upgrades":"Mining yield: 125 Gems, maximum 5 upgrades");break;
-            case 80:if(battle instanceof OriginalBattle){OriginalBattle b=(OriginalBattle)battle;b.selected=null;b.selectedType=-1;}break;
-            case 81:spellBook=!spellBook;break;
-            case 82:if(battle instanceof OriginalBattle)((OriginalBattle)battle).special();break;
-            case 83:if(battle instanceof OriginalBattle){((OriginalBattle)battle).acknowledge();lastNanos=0;}break;
+            case 70:activity.sfx("click");homeStage=param;screen=HOME;break;
+            case 71:activity.sfx("click");if(loadout.contains(param))loadout.remove(param);else if(heroUnlocked(param)&&loadout.size()<data.plans.get(pendingStage).slots)loadout.add(param);break;
+            case 72:if(!loadout.isEmpty()){activity.sfx("click");startBattle(pendingStage);}break;
+            case 75:if(progress.buyHero(param,data.specs.get(param).moonstonePrice)){activity.save(progress);activity.sfx("upgrade");}break;
+            case 76:{JSONObject upgrades=data.units.get(selectedUnit).optJSONObject("upgrades");JSONObject u=upgrades==null?null:upgrades.optJSONObject(new String[]{"attackPoints","hitPoints","defensePoints"}[param]);if(u!=null&&progress.upgradeStat(selectedUnit,param,u.optInt("baseCost",40),u.optInt("costMultiplier",2))){activity.save(progress);activity.sfx("upgrade");}break;}
+            case 77:if(progress.upgradeGear(param,data.units.get(param).optJSONArray("variants").length(),data.specs.get(param).gearCost)){activity.save(progress);activity.sfx("upgrade");}break;
+            case 78:if(progress.upgradeSupport(param)){activity.save(progress);activity.sfx("upgrade");message(param==7?"성벽 강화 완료 (Lv "+progress.castleRank+"/"+progress.supportMax(7)+")":"채굴 강화 완료 (Lv "+progress.mineRank+"/"+progress.supportMax(8)+")");}else message(param==7?"성벽 강화: "+progress.supportCost(7)+" Gems (최대 6단계)":"채굴 강화: "+progress.supportCost(8)+" Gems (최대 5단계)");break;
+            case 80:if(battle!=null)battle.formUp();break;
+            case 81:activity.sfx("click");spellBook=!spellBook;break;
+            case 82:if(battle!=null)battle.special();break;
+            case 83:if(battle!=null){battle.acknowledge();activity.sfx("click");lastNanos=0;}break;
             default:break;
         }
     }
@@ -450,21 +332,21 @@ public final class WarView extends View {
         float x=(event.getX()-offsetX)/scale,y=(event.getY()-offsetY)/scale;
         if(event.getActionMasked()==MotionEvent.ACTION_DOWN){pressed=-1;dragging=false;downX=lastDragX=x;downY=y;for(int i=buttons.size()-1;i>=0;i--){Button b=buttons.get(i);if(b.contains(x,y)){pressed=b.id;break;}}return true;}
         if(event.getActionMasked()==MotionEvent.ACTION_MOVE&&pressed<0&&battleInputAllowed()){
-            OriginalBattle b=(OriginalBattle)battle;if(Math.abs(x-downX)>20)dragging=true;if(dragging&&b.scrollSpeed<=0)b.camera=Math.max(0,Math.min(b.plan.width-1280/2.25,b.camera+(lastDragX-x)/2.25));lastDragX=x;invalidate();return true;
+            if(Math.abs(x-downX)>20)dragging=true;if(dragging&&battle.scrollSpeed<=0)battle.camera=Math.max(0,Math.min(battle.plan.width-1280/2.25,battle.camera+(lastDragX-x)/2.25));lastDragX=x;invalidate();return true;
         }
         if(event.getActionMasked()==MotionEvent.ACTION_UP){int id=pressed;pressed=-1;boolean hit=false;for(int i=buttons.size()-1;i>=0;i--){Button b=buttons.get(i);if(b.id==id&&b.contains(x,y)){action(b.action,b.param);performClick();hit=true;break;}}
             if(!hit&&id<0&&!dragging&&battleInputAllowed()){
-                OriginalBattle b=(OriginalBattle)battle;double wx=x/2.25+b.camera;int lane=0;float distance=Float.MAX_VALUE;for(int i=0;i<3;i++){float d=Math.abs(y-originalLane(i));if(d<distance){distance=d;lane=i;}}
-                BattleEngine.Actor chosen=null;double best=70;for(BattleEngine.Actor a:b.actors)if(a.hp>0&&(a.enemy?!a.untargetable:a.selectable)){double d=Math.hypot(worldX(b,a.x)-x,(originalLane(a.laneVisual)-40-y)*.7);if(d<best){best=d;chosen=a;}}
-                if(chosen!=null){if(chosen.enemy)b.target(chosen);else b.selectActor(chosen);}else b.moveSelected(wx,lane);selectedLane=lane;performClick();
+                double wx=x/2.25+battle.camera;int lane=0;float distance=Float.MAX_VALUE;for(int i=0;i<3;i++){float d=Math.abs(y-originalLane(i));if(d<distance){distance=d;lane=i;}}
+                BattleEngine.Actor chosen=null;double best=70;for(BattleEngine.Actor a:battle.actors)if(a.hp>0&&(a.enemy?!a.untargetable:a.selectable)){double d=Math.hypot(worldX(battle,a.x)-x,(originalLane(a.laneVisual)-40-y)*.7);if(d<best){best=d;chosen=a;}}
+                if(chosen!=null){if(chosen.enemy)battle.target(chosen);else battle.selectActor(chosen);}else battle.moveSelected(wx,lane);selectedLane=lane;performClick();
             }dragging=false;invalidate();return true;}
         if(event.getActionMasked()==MotionEvent.ACTION_CANCEL){pressed=-1;return true;}return true;
     }
-    private boolean battleInputAllowed(){if(screen!=BATTLE||!(battle instanceof OriginalBattle)||battle.paused||battle.state!=BattleEngine.PLAYING)return false;BattlePlan.Cue cue=((OriginalBattle)battle).cue;return cue==null||!"chat".equals(cue.kind);}
+    private boolean battleInputAllowed(){if(screen!=BATTLE||battle==null||battle.paused||battle.state!=BattleEngine.PLAYING)return false;BattlePlan.Cue cue=battle.cue;return cue==null||!"chat".equals(cue.kind);}
     @Override public boolean performClick(){super.performClick();return true;}
     @Override public boolean onKeyDown(int key,KeyEvent event){
         if(screen==BATTLE&&battle!=null){
-            if(key>=KeyEvent.KEYCODE_1&&key<=KeyEvent.KEYCODE_7){int slot=key-KeyEvent.KEYCODE_1;if(battle instanceof OriginalBattle){int[] types=((OriginalBattle)battle).loadout;if(slot<types.length)action(40,types[slot]);}else action(40,slot);return true;}
+            if(key>=KeyEvent.KEYCODE_1&&key<=KeyEvent.KEYCODE_7){int slot=key-KeyEvent.KEYCODE_1;int[] types=battle.loadout;if(slot<types.length)action(40,types[slot]);return true;}
             if(key==KeyEvent.KEYCODE_DPAD_UP){selectedLane=Math.max(0,selectedLane-1);return true;}
             if(key==KeyEvent.KEYCODE_DPAD_DOWN){selectedLane=Math.min(2,selectedLane+1);return true;}
             if(key==KeyEvent.KEYCODE_SPACE){action(45,0);return true;}

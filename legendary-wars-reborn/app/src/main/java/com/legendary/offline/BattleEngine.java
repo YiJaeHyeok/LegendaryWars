@@ -112,15 +112,24 @@ public class BattleEngine {
     }
     public void collectGems(){if(paused||state!=PLAYING)return;for(Gem g:gemsOnField)gems=Math.min(9999,gems+g.value);gemsOnField.clear();}
     public int claimReward(){if(state!=VICTORY||rewardClaimed)return 0;rewardClaimed=true;return progress.complete(stage,playerCastle/maxPlayerCastle>.75?3:playerCastle/maxPlayerCastle>.4?2:1);}
+    public static final class Buff {
+        public final String name,status;
+        public double remaining,dps,hps,speedScalor,hasteScalor,attackScalor,defenseScalor,rangeScalor,lifeDrainPercent;
+        public boolean stun,root,fear,charm;
+        public Actor source;
+        public Buff(String name,String status,double duration){this.name=name;this.status=status==null?"":status;this.remaining=duration;}
+    }
     public static final class Actor {
-        public final int type;public final boolean enemy;public int lane;public double x,hp,maxHp,attack,defense,speed,range,interval;
-        public double age,animationAge,attackClock,deathAge,flash;public boolean moving,attacking,boss;
-        public String scriptId,sprite;public int tier=1;public boolean plot,faceLeft,hunt;public double goal=Double.NaN,laneVisual,windup,specialTime,sizeScale=1;public Actor target,pending;public boolean pendingCastle;
-        public double haste,rangeScalor,attackScalor,attackAge;public int hitIndex;public boolean attackActive,usingSpecial,retreat;public String ai="attack";
+        public final int type;public boolean enemy;public final boolean baseEnemy;public int lane;public double x,hp,maxHp,attack,defense,speed,range,interval;
+        public double baseAttack,baseDefense,baseSpeed,baseRange,baseHaste;
+        public double age,animationAge,attackClock,deathAge,flash,hitStun,stunTime;public boolean moving,attacking,boss,rooted,feared,charmed;
+        public String scriptId,sprite,statusTag="";public int tier=1;public boolean plot,faceLeft,hunt;public double goal=Double.NaN,laneVisual,windup,specialTime,sizeScale=1,homeX=Double.NaN,huntLimit;public Actor target,pending;public boolean pendingCastle;
+        public double haste,rangeScalor,attackScalor,attackAge,lifeDrain;public int hitIndex;public boolean attackActive,usingSpecial,retreat;public String ai="attack",savedAi;
+        public final List<Buff> buffs=new ArrayList<>();
         public final Set<Actor> specialHits=Collections.newSetFromMap(new IdentityHashMap<Actor,Boolean>());
         public final List<BattlePlan.Zone> zones=new ArrayList<>();public final Set<BattlePlan.Zone> usedZones=Collections.newSetFromMap(new IdentityHashMap<BattlePlan.Zone,Boolean>());public boolean selectable=true,untargetable,matchScroll,collected;
-        public Actor(int type,boolean enemy,int lane,double x,double hp,double attack,double defense,double speed,double range,double interval){this.type=type;this.enemy=enemy;this.lane=lane;this.x=x;this.hp=hp;this.maxHp=hp;this.attack=attack;this.defense=defense;this.speed=speed;this.range=range;this.interval=interval;}
+        public Actor(int type,boolean enemy,int lane,double x,double hp,double attack,double defense,double speed,double range,double interval){this.type=type;this.enemy=enemy;this.baseEnemy=enemy;this.lane=lane;this.x=x;this.homeX=x;this.hp=hp;this.maxHp=hp;this.attack=this.baseAttack=attack;this.defense=this.baseDefense=defense;this.speed=this.baseSpeed=speed;this.range=this.baseRange=range;this.interval=interval;}
     }
     public static final class Gem{public final int value;public final double x;public double age;Gem(int value,double x){this.value=value;this.x=x;}}
-    public static final class Shot{public final double from,to;public final int lane,type;public final boolean enemy;public double age,duration=.38,damage;public Actor source,target;Shot(double from,double to,int lane,boolean enemy,int type){this.from=from;this.to=to;this.lane=lane;this.enemy=enemy;this.type=type;}}
+    public static final class Shot{public final double from,to;public final int lane,type;public final boolean enemy;public double age,duration=.38,damage;public int damageType=UnitSpec.RANGED;public boolean critical;public UnitSpec.BuffDef[] buffs=new UnitSpec.BuffDef[0];public Actor source,target;Shot(double from,double to,int lane,boolean enemy,int type){this.from=from;this.to=to;this.lane=lane;this.enemy=enemy;this.type=type;}}
 }
