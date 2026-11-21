@@ -23,6 +23,7 @@ public final class WarView extends View {
     private float scale=1,offsetX,offsetY;private long lastNanos;private double clock;
     private String notice="",lastMusicTrack="";private double noticeUntil;
     private int homeStage,pendingStage;private final LinkedHashSet<Integer> loadout=new LinkedHashSet<>();private boolean spellBook,dragging;private float downX,downY,lastDragX;
+    private double tapFxUntil,tapWorldX;private int tapLane=1;
 
     public WarView(MainActivity activity,GameData data,Progress progress){
         super(activity);this.activity=activity;this.data=data;this.progress=progress;art=new Artwork(activity.getAssets(),data);
@@ -247,30 +248,65 @@ public final class WarView extends View {
             if(!art.draw(c,castleAtlas,"evilcastle.png",worldX(b,b.plan.width)-475,originalLane(0)-315,516,368))
                 art.draw(c,"castle-default-spritesheet-hd","evilcastle.png",worldX(b,b.plan.width)-475,originalLane(0)-315,516,368);
         }
+        // Active lane highlight (for non-tutorial unit summoning clarity)
+        if(!b.plan.tutorial()&&b.state==BattleEngine.PLAYING){
+            float ly=originalLane(selectedLane);
+            rect(c,0,ly-52,1280,62,0x1dfff3b0);
+            line(c,0,ly+10,1280,ly+10,0x44f5dd84,1.5f);
+        }
+        // Tap-to-move ground ripple feedback
+        if(clock<tapFxUntil){
+            float frac=(float)((tapFxUntil-clock)/.45);
+            float rx=worldX(b,tapWorldX),ry=originalLane(tapLane)-6;
+            p.setStyle(Paint.Style.STROKE);p.setStrokeWidth(3f);p.setColor((((int)(frac*210))<<24)|0xffe799);
+            c.drawOval(rx-26*(1.35f-frac*.5f),ry-10*(1.35f-frac*.5f),rx+26*(1.35f-frac*.5f),ry+10*(1.35f-frac*.5f),p);
+            p.setStyle(Paint.Style.FILL);
+        }
         for(int lane=2;lane>=0;lane--)for(BattleEngine.Actor a:b.actors)if(a.lane==lane){
             float x=worldX(b,a.x),feet=originalLane(a.laneVisual);if(x<-350||x>1630)continue;
-            String state=a.hp<=0?"death":a.specialTime>0?"special":a.attacking?"primary":a.moving?"walk":"ready";
+            String state=a.hp<=0?"death":a.specialTime>0?"special":a.attacking?"primary":(a.moving||Math.abs(a.lane-a.laneVisual)>.02)?"walk":"ready";
             float jitter=a.hitStun>0?(float)(Math.sin(clock*55)*4):0;
             if(a.sprite!=null){String atlas=data.spriteAtlas(b.plan.region,a.sprite);if(atlas!=null)art.fit(c,atlas,a.sprite,x-60+jitter,feet-100,120,100);}
-            else art.actor(c,a.type,a.baseEnemy?a.tier:Progress.hero(a.type)?Math.max(a.tier,tier(a.type)):a.tier,state,a.animationAge,x+jitter,feet,(float)(1.125*a.sizeScale),a.baseEnemy?!a.faceLeft:a.faceLeft);
+            else art.actor(c,a.type,a.baseEnemy?a.tier:Progress.hero(a.type)?Math.max(a.tier,tier(a.type)):a.tier,state,a.animationAge,x+jitter,feet,(float)(1.125*a.sizeScale),a.faceLeft);
             if(a==b.selected&&a.hp>0){art.fit(c,"hud-spritesheet-hd","hud-target.png",x-34,feet-18,68,45);}
+            if(b.selected!=null&&b.selected.target==a&&a.hp>0){
+                p.setStyle(Paint.Style.STROKE);p.setStrokeWidth(3f);p.setColor(0xddff5252);
+                c.drawOval(x-30,feet-14,x+30,feet+10,p);p.setStyle(Paint.Style.FILL);
+            }
             if(a.hp>0&&a.hp<a.maxHp)bar(c,x-35,feet-120,70,7,a.hp/a.maxHp,a.enemy?0xffd17d69:0xffa8d77d);
             int sc=a.hp>0?statusColor(a):0;
             if(sc!=0){p.setStyle(Paint.Style.FILL);p.setColor(sc);c.drawCircle(x,feet-132,6,p);}
         }
         for(BattleEngine.Shot s:b.shots){float f=(float)Math.min(1,s.age/s.duration),x=worldX(b,s.from+(s.to-s.from)*f),y=originalLane(s.lane)-58;p.setColor(s.enemy?0xffa59b7a:GOLD);c.drawCircle(x,y,4,p);}
-        for(int i=0;i<b.miners;i++)art.actor(c,7,1,((int)b.elapsed/4+i)%2==0?"walk":"special",b.elapsed+i,270+i*45,307,1.0f,false);
-        for(BattleEngine.Gem g:b.gemsOnField)art.fit(c,"hud-spritesheet-hd","hud-gems-front-topaz.png",(float)g.x*1.2f,270-(float)Math.sin(g.age*5)*6,35,40);
-        if(!b.gemsOnField.isEmpty())buttons.add(new Button(6420,215,215,450,130,64,0));
+        // Animated Miney walking back and forth between castle gate (115) and mine spot (235) in world coords
+        for(int i=0;i<b.miners;i++){
+            double phase=b.minerPhase(i);
+            double startX=115+i*18,mineX=235+i*18;
+            double mx;String mState;boolean mLeft;
+            if(phase<.33){mx=startX+(mineX-startX)*(phase/.33);mState="walk";mLeft=false;}
+            else if(phase<.67){mx=mineX;mState="special";mLeft=false;}
+            else{mx=mineX-(mineX-startX)*((phase-.67)/.33);mState="walk";mLeft=true;}
+            float sx=worldX(b,mx);
+            if(sx>-120&&sx<1400)art.actor(c,7,1,mState,b.elapsed+i,sx,307,1.0f,mLeft);
+        }
+        float minGemX=Float.MAX_VALUE,maxGemX=-Float.MAX_VALUE;
+        for(BattleEngine.Gem g:b.gemsOnField){
+            float gx=worldX(b,g.x);minGemX=Math.min(minGemX,gx);maxGemX=Math.max(maxGemX,gx);
+            if(gx>-60&&gx<1340)art.fit(c,"hud-spritesheet-hd","hud-gems-front-topaz.png",gx-18,268-(float)Math.sin(g.age*5)*6,36,40);
+        }
+        if(!b.gemsOnField.isEmpty())buttons.add(new Button(6420,Math.max(0,minGemX-70),210,Math.min(1280,maxGemX-minGemX+160),130,64,0));
         if(b.spellFlash>0)rect(c,0,0,1280,720,((int)(b.spellFlash*90)<<24)|0xffd277);
         originalHud(c,b);
         if(b.state!=BattleEngine.PLAYING)result(c);else if(b.paused)pause(c);else if(b.cue!=null)dialogue(c,b);
     }
     private void originalHud(Canvas c,OriginalBattle b){
         double hp=b.selected!=null&&b.selected.plot?b.selected.hp:b.playerCastle,max=b.selected!=null&&b.selected.plot?b.selected.maxHp:b.maxPlayerCastle;
-        art.draw(c,"hud-spritesheet-hd","hud-meter-backing.png",10,12,202,41);bar(c,46,20,158,11,hp/Math.max(1,max),0xffc6534e);art.fit(c,"hud-spritesheet-hd","hud-meter-healthIcon.png",8,13,38,38);
-        art.draw(c,"hud-spritesheet-hd","hud-meter-backing.png",10,55,202,41);bar(c,46,65,158,11,b.essence/100.0,0xff67a1ca);art.fit(c,"hud-spritesheet-hd","hud-meter-manaIcon.png",8,56,38,38);
+        art.draw(c,"hud-spritesheet-hd","hud-meter-backing.png",10,10,204,40);bar(c,48,21,154,14,hp/Math.max(1,max),0xffc6534e);art.fit(c,"hud-spritesheet-hd","hud-meter-healthIcon.png",12,13,34,34);
+        art.draw(c,"hud-spritesheet-hd","hud-meter-backing.png",10,56,204,40);bar(c,48,67,154,14,b.essence/100.0,0xff67a1ca);art.fit(c,"hud-spritesheet-hd","hud-meter-manaIcon.png",12,59,34,34);
         art.fit(c,"hud-spritesheet-hd","hud-gems-front-topaz.png",251,10,34,42);text(c,""+b.gems,300,43,29,GOLD,false,true);
+        if(b.order==1){p.setStyle(Paint.Style.STROKE);p.setStrokeWidth(3f);p.setColor(GOLD);c.drawCircle(408.5f,40.5f,32,p);p.setStyle(Paint.Style.FILL);}
+        if(b.order==0){p.setStyle(Paint.Style.STROKE);p.setStrokeWidth(3f);p.setColor(GOLD);c.drawCircle(479.5f,40.5f,32,p);p.setStyle(Paint.Style.FILL);}
+        if(b.order==-1){p.setStyle(Paint.Style.STROKE);p.setStrokeWidth(3f);p.setColor(GOLD);c.drawCircle(550.5f,40.5f,32,p);p.setStyle(Paint.Style.FILL);}
         spriteButton(c,"icon-production-attack.png",378,10,61,42,1,true);spriteButton(c,"icon-group-defense.png",449,10,61,42,0,true);spriteButton(c,"icon-group-left.png",520,10,61,42,-1,true);spriteButton(c,"icon-group-formup.png",591,10,61,80,0,true);
         if(b.plan.enemyHp>0){
             art.draw(c,"hud-spritesheet-hd","hud-meter-backing.png",870,12,202,41);
@@ -332,13 +368,13 @@ public final class WarView extends View {
         float x=(event.getX()-offsetX)/scale,y=(event.getY()-offsetY)/scale;
         if(event.getActionMasked()==MotionEvent.ACTION_DOWN){pressed=-1;dragging=false;downX=lastDragX=x;downY=y;for(int i=buttons.size()-1;i>=0;i--){Button b=buttons.get(i);if(b.contains(x,y)){pressed=b.id;break;}}return true;}
         if(event.getActionMasked()==MotionEvent.ACTION_MOVE&&pressed<0&&battleInputAllowed()){
-            if(Math.abs(x-downX)>20)dragging=true;if(dragging&&battle.scrollSpeed<=0)battle.camera=Math.max(0,Math.min(battle.plan.width-1280/2.25,battle.camera+(lastDragX-x)/2.25));lastDragX=x;invalidate();return true;
+            if(Math.abs(x-downX)>20)dragging=true;if(dragging&&battle.scrollSpeed<=0)battle.panCamera(battle.camera+(lastDragX-x)/2.25);lastDragX=x;invalidate();return true;
         }
         if(event.getActionMasked()==MotionEvent.ACTION_UP){int id=pressed;pressed=-1;boolean hit=false;for(int i=buttons.size()-1;i>=0;i--){Button b=buttons.get(i);if(b.id==id&&b.contains(x,y)){action(b.action,b.param);performClick();hit=true;break;}}
             if(!hit&&id<0&&!dragging&&battleInputAllowed()){
                 double wx=x/2.25+battle.camera;int lane=0;float distance=Float.MAX_VALUE;for(int i=0;i<3;i++){float d=Math.abs(y-originalLane(i));if(d<distance){distance=d;lane=i;}}
-                BattleEngine.Actor chosen=null;double best=70;for(BattleEngine.Actor a:battle.actors)if(a.hp>0&&(a.enemy?!a.untargetable:a.selectable)){double d=Math.hypot(worldX(battle,a.x)-x,(originalLane(a.laneVisual)-40-y)*.7);if(d<best){best=d;chosen=a;}}
-                if(chosen!=null){if(chosen.enemy)battle.target(chosen);else battle.selectActor(chosen);}else battle.moveSelected(wx,lane);selectedLane=lane;performClick();
+                BattleEngine.Actor chosen=null;double best=90;for(BattleEngine.Actor a:battle.actors)if(a.hp>0&&(a.enemy?!a.untargetable:a.selectable)){double d=Math.hypot(worldX(battle,a.x)-x,(originalLane(a.laneVisual)-40-y)*.7);if(d<best){best=d;chosen=a;}}
+                if(chosen!=null){if(chosen.enemy)battle.target(chosen);else battle.selectActor(chosen);}else{battle.moveSelected(wx,lane);tapWorldX=wx;tapLane=lane;tapFxUntil=clock+.45;}selectedLane=lane;performClick();
             }dragging=false;invalidate();return true;}
         if(event.getActionMasked()==MotionEvent.ACTION_CANCEL){pressed=-1;return true;}return true;
     }

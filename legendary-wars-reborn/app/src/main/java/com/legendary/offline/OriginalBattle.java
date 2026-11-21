@@ -19,7 +19,7 @@ public final class OriginalBattle extends BattleEngine {
     private final double[] minerTimers=new double[8];
     private final Random random=new Random(0x4c574152L);
     private final List<BattlePlan.Event> scriptEvents=new ArrayList<>();
-    private double minerCooldown,freeze,chatEnd=-1,lastActivity;
+    private double minerCooldown,freeze,chatEnd=-1,lastActivity,manualCamUntil;
     private boolean lastSpecialReady;
     public OriginalBattle(List<UnitSpec>s,int stage,Progress progress,BattlePlan plan,int[]loadout){
         super(s,stage,progress);this.plan=plan;this.loadout=loadout.clone();
@@ -71,6 +71,13 @@ public final class OriginalBattle extends BattleEngine {
     public boolean special(){
         if(!specialReady())return false;
         UnitSpec s=specs.get(selected.type);
+        // Auto-face nearest enemy in lane (or nearest enemy overall) before launching directional special
+        Actor nearest=null;double best=Double.MAX_VALUE;
+        for(Actor t:actors)if(t.hp>0&&!t.untargetable&&t.enemy!=selected.enemy){
+            double d=Math.abs(t.x-selected.x)+(t.lane==selected.lane?0:500);
+            if(d<best){best=d;nearest=t;}
+        }
+        if(nearest!=null)selected.faceLeft=nearest.x<selected.x;
         essence-=s.specialCost;UnitSpec.Attack sp=s.profile(selected.tier,true);
         selected.specialTime=sp.interval/UnitSpec.scale(1,selected.haste);selected.animationAge=0;selected.usingSpecial=true;selected.attackActive=true;selected.attackAge=0;selected.hitIndex=0;selected.specialHits.clear();
         if(sp.selfBuff!=null)applySelfOrAuraBuff(selected,sp.selfBuff);
@@ -105,6 +112,8 @@ public final class OriginalBattle extends BattleEngine {
     private void arm(BattlePlan.Trigger t,String event){if(t==null)return;arm(t.parent,event);if((t.type+":"+(t.target==null?"":t.target)).equals(event)&&conditions(t.conditions)){double parent=t.parent==null?0:activation(t.parent);if(parent>=0&&elapsed>=parent+t.parentTime)triggered.putIfAbsent(t.key(),elapsed);}}
     private boolean eventReady(String key){for(BattlePlan.Event e:scriptEvents){BattlePlan.Trigger t=e.trigger;if(t!=null&&(t.type+":"+(t.target==null?"":t.target)).equals(key)&&!triggered.containsKey(t.key())&&!conditions(t.conditions))return false;}return true;}
     public boolean miningReady(){return !paused&&!chatting()&&state==PLAYING&&plan.mining&&miners<1&&minerCooldown<=0&&eventReady("hudEvent:mining");}
+    public double minerPhase(int i){return i>=0&&i<minerTimers.length?(minerTimers[i]%7.0)/7.0:0;}
+    public void panCamera(double nextCamera){camera=Math.max(0,Math.min(Math.max(0,plan.width-1280/2.25),nextCamera));manualCamUntil=elapsed+2.5;}
     public int flag(String id){return flags.getOrDefault(id,0);}
     private double right(){return plan.mode.equals("scrolling")?camera+570:plan.width;}
     public void applyBuff(Actor source,Actor target,UnitSpec.BuffDef def){
@@ -194,6 +203,14 @@ public final class OriginalBattle extends BattleEngine {
         dt=Math.min(.05,dt);elapsed+=dt;
         schedule();
         camera+=scrollSpeed*dt;
+        if(plan.tutorial()&&scrollSpeed<=0&&elapsed>=manualCamUntil&&selected!=null&&selected.hp>0){
+            double minCam=0,maxCam=Math.max(0,plan.width-1280/2.25);
+            double targetCam=camera;
+            if(selected.x<camera+150)targetCam=selected.x-150;
+            else if(selected.x>camera+410)targetCam=selected.x-410;
+            targetCam=Math.max(minCam,Math.min(maxCam,targetCam));
+            camera+=Math.signum(targetCam-camera)*Math.min(Math.abs(targetCam-camera),260*dt);
+        }
         for(int i=0;i<cooldowns.length;i++)cooldowns[i]=Math.max(0,cooldowns[i]-dt);
         for(int i=0;i<3;i++)spellCooldowns[i]=Math.max(0,spellCooldowns[i]-dt);
         freeze=Math.max(0,freeze-dt);spellFlash=Math.max(0,spellFlash-dt);minerCooldown=Math.max(0,minerCooldown-dt);
@@ -205,6 +222,7 @@ public final class OriginalBattle extends BattleEngine {
             a.hitStun=Math.max(0,a.hitStun-dt);
             double laneDelta=a.lane-a.laneVisual;a.laneVisual+=Math.signum(laneDelta)*Math.min(Math.abs(laneDelta),Math.max(10,a.speed)*dt/45);
             if(a.hp<=0){if(a.deathAge==0)dead(a);a.deathAge+=dt;continue;}
+            if(plan.tutorial()&&a.plot&&!a.enemy&&a.hp<a.maxHp&&elapsed-lastActivity>=2.5)a.hp=Math.min(a.maxHp,a.hp+6*dt);
             updateBuffs(a,dt);
             if(a.hp<=0){a.deathAge+=dt;continue;}
             if((a.enemy&&freeze>0)||a.stunTime>0){a.moving=false;a.attacking=false;continue;}
@@ -224,15 +242,15 @@ public final class OriginalBattle extends BattleEngine {
             double nearest=target==null?Double.MAX_VALUE:Math.abs(a.x-target.x);
             if(target==null)for(Actor t:actors)if(t.hp>0&&!t.untargetable&&t.enemy!=a.enemy&&t.lane==a.lane){double d=Math.abs(t.x-a.x);if(d<nearest){nearest=d;target=t;}}
             if((a.hunt||"hunt".equals(a.ai))&&target==null){
-                double limit=a.huntLimit>0?a.huntLimit:(a.savedAi!=null?220:Double.MAX_VALUE);
-                double best=limit;
+                double best=a.savedAi!=null?260:Double.MAX_VALUE;
                 for(Actor t:actors)if(t.hp>0&&!t.untargetable&&t.enemy!=a.enemy){double d=Math.abs(t.x-a.x)+Math.abs(t.lane-a.lane)*45;if(d<best){best=d;target=t;}}
                 if(target!=null){a.lane=target.lane;a.goal=target.x;nearest=Math.abs(a.x-target.x);}
                 else if(a.savedAi!=null){a.ai=a.savedAi;a.savedAi=null;a.hunt="hunt".equals(a.ai);if("guard".equals(a.ai)&&!Double.isNaN(a.homeX))a.goal=a.homeX;}
             }
-            boolean inRange=target!=null&&target.lane==a.lane&&Math.abs(target.laneVisual-a.laneVisual)<.25&&nearest<=a.range+15;
+            boolean offscreenEnemy=plan.tutorial()&&a.enemy&&(a.x<camera+16||a.x>camera+552);
+            boolean inRange=!offscreenEnemy&&target!=null&&target.lane==a.lane&&Math.abs(target.laneVisual-a.laneVisual)<.25&&nearest<=a.range+15;
             boolean atCastle=(!a.enemy&&plan.enemyHp>0||a.enemy&&plan.playerCastle)&&Math.abs((a.enemy?80:plan.width-80)-a.x)<=a.range+30;
-            a.attacking=inRange||atCastle;a.moving=false;
+            a.attacking=inRange||atCastle;a.moving=Math.abs(a.lane-a.laneVisual)>.02;
             if(a.attacking&&a.specialTime<=0){if(!a.attackActive&&a.attackClock<=0){a.attackClock=a.interval;a.animationAge=0;a.attackAge=0;a.hitIndex=0;a.attackActive=true;a.usingSpecial=false;a.pending=inRange?target:null;a.pendingCastle=!inRange&&atCastle;if(target!=null)a.faceLeft=target.x<a.x;}}
             else if(!a.attackActive&&a.specialTime<=0){if(a.target!=null&&a.target.hp>0)a.goal=a.target.x;move(a,dt);}
         }
@@ -247,9 +265,10 @@ public final class OriginalBattle extends BattleEngine {
         boolean spNow=specialReady();if(spNow&&!lastSpecialReady)pushSfx("specialReady");lastSpecialReady=spNow;
     }
     private void move(Actor a,double dt){
-        if(a.rooted||a.speed<=0){a.moving=false;return;}
-        if(Double.isNaN(a.goal)){if(a.enemy&&!a.ai.equals("guard"))a.goal=80;else return;}
-        double d=a.goal-a.x;if(Math.abs(d)<2){a.goal=Double.NaN;a.moving=false;return;}
+        boolean laneChanging=Math.abs(a.lane-a.laneVisual)>.02;
+        if(a.rooted||a.speed<=0){a.moving=laneChanging;return;}
+        if(Double.isNaN(a.goal)){if(a.enemy&&!a.ai.equals("guard"))a.goal=80;else{a.moving=laneChanging;return;}}
+        double d=a.goal-a.x;if(Math.abs(d)<2){a.goal=Double.NaN;a.moving=laneChanging;return;}
         a.faceLeft=d<0;a.x+=Math.signum(d)*Math.min(Math.abs(d),a.speed*dt);if(scrollSpeed<=0)a.x=Math.max(40,Math.min(plan.width-40,a.x));else if(a.matchScroll)a.x=Math.max(camera+40,Math.min(right()-40,a.x));a.moving=true;
     }
     private void zones(){
@@ -294,15 +313,15 @@ public final class OriginalBattle extends BattleEngine {
         }
     }
     private void damage(Actor attacker,Actor target,double amount,int damageType,boolean critical){
-        if(target.hp<=0)return;
+        if(target.hp<=0||target.usingSpecial)return;
         UnitSpec ts=specs.get(target.type);
         double mitigated=UnitSpec.mitigate(amount,target.defense,!target.attacking&&!target.moving);
         double dealt=UnitSpec.applyTypeMatchup(mitigated,damageType,ts.armorType);
         target.hp-=dealt;target.flash=.15;lastActivity=elapsed;
         if(attacker!=null&&attacker.hp>0&&attacker.lifeDrain>0&&dealt>0)attacker.hp=Math.min(attacker.maxHp,attacker.hp+dealt*attacker.lifeDrain);
         if(target.hp>0){
-            // Hit stun (flinch) on critical hit or heavy hit >= 25% maxHp, respecting buffImmune and active specials
-            if(!ts.buffImmune&&!target.usingSpecial&&target.stunTime<=0&&(critical||dealt>=target.maxHp*.25))target.hitStun=Math.max(target.hitStun,.18);
+            // Hit stun (flinch) on critical hit or heavy hit >= 30% maxHp, respecting buffImmune, plot heroes, and active specials
+            if(!ts.buffImmune&&!target.plot&&!target.usingSpecial&&target.stunTime<=0&&(critical||dealt>=target.maxHp*.30))target.hitStun=Math.max(target.hitStun,.18);
             wakeOnHit(target,attacker);
         }else{
             target.animationAge=0;dead(target);
@@ -325,7 +344,7 @@ public final class OriginalBattle extends BattleEngine {
             if(elapsed+.00001<at||actors.size()>=160)continue;
             if(s.unit.equals("goodcastle")||s.unit.equals("evilcastle")){spawned[i]=true;continue;}
             if(s.unit.equals("miney")&&s.team==0&&s.zones.isEmpty()&&plan.mining){hireMiner();spawned[i]=true;continue;}
-            double x=Double.isNaN(s.x)?(s.left?camera+60:right()-60):s.x+(scrollSpeed>0?camera:0);
+            double x=Double.isNaN(s.x)?(plan.tutorial()?(s.left?160:1200):(s.left?(scrollSpeed>0?camera+60:100):right()-60)):s.x+(scrollSpeed>0?camera:0);
             Actor a=make(s.type,s.team!=0,Math.max(0,Math.min(2,s.lane)),x,s.hp,s.attack,s.speed,s.tier);a.scriptId=s.id;a.sprite=s.sprite;a.plot=s.plot;a.hunt=s.hunt;a.sizeScale=s.scale;a.ai=s.ai;a.haste=a.baseHaste=s.haste;a.attackScalor=s.attack;a.rangeScalor=s.range;a.range=a.baseRange=UnitSpec.scale(a.range,s.range);a.interval/=UnitSpec.scale(1,s.haste);a.hp+=s.addHp*s.hp;a.maxHp=a.hp;
             a.selectable=s.selectable;a.untargetable=s.untargetable;a.zones.addAll(s.zones);
             if(a.enemy&&!a.ai.equals("guard"))a.goal=s.left?right()-80:camera+80;actors.add(a);if(!a.enemy&&(a.plot||a.ai.equals("marchRight")))selected=a;
