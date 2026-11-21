@@ -1,0 +1,17 @@
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): true
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+Signer #1 certificate DN: CN=Legendary Offline Local Build, O=Personal Restoration, C=KR
+Signer #1 certificate SHA-256 digest: b68bcdb3e08321ac851d131d82f4225eb3695374ee9a27e5dbc410c040eefb18
+Signer #1 certificate SHA-1 digest: ca9d30581c1ae6578b48b96036e3f5541e401fb8
+Signer #1 certificate MD5 digest: 9b031067abfbc13fdc142103e0393773
+Signer #1 key algorithm: RSA
+Signer #1 key size (bits): 2048
+Signer #1 public key SHA-256 digest: 9d59fbc86be6ed74420f4e704aa7f54ce93d18eaa6cedf08576e572fc5525f5c
+Signer #1 public key SHA-1 digest: 7841bcb624a2dedf5b85b2ae17cc4a7d54025ea4
+Signer #1 public key MD5 digest: 26c90ca523fea4b87b259d1280da72fb

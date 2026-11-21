@@ -1,0 +1,42 @@
+{
+  "evidence_id": "ev_dd3206d6fea5cc10f9c9cd0fa683a120e7083093acd3aca881db00d2c9100aac",
+  "subject": {
+    "name": "legendary-wars-offline.apk",
+    "digest": {
+      "sha256": "d8cb51bb5eee9beb70be868a372676e2cdc7f822ecf6ee469c212a74bda345e1"
+    },
+    "format": "apk"
+  },
+  "operation": "inspect_android_package",
+  "summary": {
+    "engine": {
+      "name": "jadx-headless-mcp",
+      "version": "0.7.1"
+    },
+    "package_name": "com.legendary.offline",
+    "version_name": "0.3.0",
+    "version_code": "3",
+    "min_sdk": "26",
+    "target_sdk": "35",
+    "permissions": [],
+    "components": {
+      "status": "complete",
+      "items": [
+        {
+          "kind": "activity",
+          "declared_name": "com.legendary.offline.MainActivity",
+          "exported": true,
+          "actions": [
+            "android.intent.action.MAIN"
+          ],
+          "categories": [
+            "android.intent.category.LAUNCHER"
+          ]
+        }
+      ]
+    },
+    "class_count": 11,
+    "resource_count": 223,
+    "signature_verification": "not_performed"
+  }
+}
