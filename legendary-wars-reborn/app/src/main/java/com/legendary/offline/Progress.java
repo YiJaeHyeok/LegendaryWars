@@ -53,5 +53,8 @@ public final class Progress {
     public boolean upgradeGear(int type,int maxTier,int basePrice){if(!hero(type))return false;int price=Math.max(1,basePrice)+gear[type]-1;if(gear[type]>=maxTier||moonstones<price)return false;moonstones-=price;gear[type]++;return true;}
     public int statCost(int type,int stat,int base,int multiplier){if(!hero(type)||stat<0||stat>2)return Integer.MAX_VALUE;return Math.max(1,base+stats[type][stat]*multiplier);}
     public boolean upgradeStat(int type,int stat,int base,int multiplier){int cost=statCost(type,stat,base,multiplier);if(!hero(type)||stat<0||stat>2||stats[type][stat]>=10||gems<cost)return false;gems-=cost;stats[type][stat]++;ranks[type]=Math.max(ranks[type],stats[type][stat]);return true;}
-    public boolean upgradeSupport(int type){int cost=type==7?250:125,max=type==7?6:5,rank=type==7?castleRank:mineRank;if(type!=7&&type!=8||rank>=max||gems<cost+rank)return false;gems-=cost+rank;if(type==7)castleRank++;else mineRank++;return true;}
+    public int supportMax(int type){return type==7?6:type==8?5:0;}
+    public int supportRank(int type){return type==7?castleRank:type==8?mineRank:0;}
+    public int supportCost(int type){if(type!=7&&type!=8)return Integer.MAX_VALUE;int base=type==7?250:125;return base*(supportRank(type)+1);}
+    public boolean upgradeSupport(int type){int max=supportMax(type),rank=supportRank(type),cost=supportCost(type);if(max==0||rank>=max||gems<cost)return false;gems-=cost;if(type==7)castleRank++;else mineRank++;return true;}
 }

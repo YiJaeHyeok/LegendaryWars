@@ -1,0 +1,8 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'com.legendary.offline'
+    compileSdk 35
+    defaultConfig { applicationId 'com.legendary.offline'; minSdk 26; targetSdk 35; versionCode 3; versionName '0.3.0' }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_1_8; targetCompatibility JavaVersion.VERSION_1_8 }
+    androidResources { noCompress += ['wav','ogg','mp3'] }
+}

@@ -17,7 +17,7 @@ try {
     & (Join-Path $buildTools 'aapt2.exe') compile --dir (Join-Path $project 'app\src\main\res') -o (Join-Path $output 'resources.zip')
     Check-Step 'Resources'
     $unsigned=Join-Path $output 'unsigned.apk'
-    & (Join-Path $buildTools 'aapt2.exe') link -o $unsigned -I $androidJar --manifest (Join-Path $project 'app\src\main\AndroidManifest.xml') --java (Join-Path $output 'generated') --min-sdk-version 26 --target-sdk-version 35 --version-code 2 --version-name '0.2.0' (Join-Path $output 'resources.zip')
+    & (Join-Path $buildTools 'aapt2.exe') link -o $unsigned -I $androidJar --manifest (Join-Path $project 'app\src\main\AndroidManifest.xml') --java (Join-Path $output 'generated') --min-sdk-version 26 --target-sdk-version 35 --version-code 3 --version-name '0.3.0' (Join-Path $output 'resources.zip')
     Check-Step 'Resource linking'
     $src=@(Get-ChildItem -LiteralPath (Join-Path $project 'app\src\main\java'),(Join-Path $output 'generated') -Recurse -Filter '*.java' | ForEach-Object {$_.FullName})
     & (Join-Path $jdkRoot 'bin\javac.exe') --release 8 -Xlint:-options -encoding UTF-8 -classpath $androidJar -d (Join-Path $output 'classes') @src
