@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
 import {fileURLToPath} from 'node:url';
-import {Archive,hash,crc32,validatePng,validateFont,validateVorbis,validateMp3} from './asset-safety.mjs';
+import {Archive,hash,crc32,validatePng,validateFont,validateVorbis,validateMp3,validateWav} from './asset-safety.mjs';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const apkPath=path.join(path.dirname(root),'dist/legendary-wars-offline.apk');
@@ -25,7 +25,7 @@ for(const name of zip.entries.keys()){
   if(name.endsWith('.dex')&&name!=='classes.dex')throw Error('Unexpected code file');
   if(name.startsWith('assets/')){
     const b=read(name);if(!expected.has(name)||hash(b)!==expected.get(name))throw Error('Asset provenance mismatch '+name);
-    if(name.endsWith('.png'))validatePng(b);if(name.endsWith('.ogg'))validateVorbis(b);if(name.endsWith('.mp3'))validateMp3(b);if(name.endsWith('.ttf'))validateFont(b);assetCount++;
+    if(name.endsWith('.png'))validatePng(b);if(name.endsWith('.ogg'))validateVorbis(b);if(name.endsWith('.mp3'))validateMp3(b);if(name.endsWith('.wav'))validateWav(b);if(name.endsWith('.ttf'))validateFont(b);assetCount++;
   }
 }
 if(assetCount!==expected.size)throw Error('Missing approved asset');

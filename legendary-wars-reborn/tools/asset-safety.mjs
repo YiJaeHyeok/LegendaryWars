@@ -34,6 +34,27 @@ export function validateMp3(b){
   if(frames<2||p!==b.length)throw Error('Incomplete MP3 frames');return {frames};
 }
 
+export function validateWav(b){
+  if(b.length<44||b.length>12_000_000||b.toString('ascii',0,4)!=='RIFF'||b.toString('ascii',8,12)!=='WAVE'||b.readUInt32LE(4)+8!==b.length)throw Error('Invalid WAV container');
+  let p=12,fmt=false,samples=false,channels=0,sampleRate=0,bitsPerSample=0,dataBytes=0;
+  while(p+8<=b.length){
+    const n=b.readUInt32LE(p+4);if(p+8+n>b.length)throw Error('WAV chunk bounds');
+    const id=b.toString('ascii',p,p+4);
+    if(id==='fmt '){
+      if(n<16)throw Error('WAV fmt too short');
+      const formatTag=b.readUInt16LE(p+8);
+      if(![1,3,17].includes(formatTag))throw Error('Unsupported WAV format');
+      channels=b.readUInt16LE(p+10);sampleRate=b.readUInt32LE(p+12);bitsPerSample=b.readUInt16LE(p+22);
+      if(channels<1||channels>2||sampleRate<8000||sampleRate>96000)throw Error('Invalid WAV audio params');
+      fmt=true;
+    }
+    if(id==='data'){samples=true;dataBytes=n;}
+    p+=8+n+(n&1);
+  }
+  if(!fmt||!samples||dataBytes<1)throw Error('Incomplete WAV');
+  return {channels,sampleRate,bitsPerSample,dataBytes};
+}
+
 export function validateVorbis(b){
   if(b.length<60||b.length>12_000_000)throw Error('Invalid Ogg size');
   let p=0,pages=0,serial=null,sequence=0;

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parsePlist, atlasFrame, validatePng, safeName,validateFont,validateMp3 } from './asset-safety.mjs';
+import { parsePlist, atlasFrame, validatePng, safeName,validateFont,validateMp3,validateWav } from './asset-safety.mjs';
 
 test('external entities cannot become parsed values',()=>{
   assert.throws(()=>parsePlist('<!DOCTYPE plist [<!ENTITY x SYSTEM "file:///private">]><plist><string>&x;</string></plist>'),/entity|doctype/i);
@@ -32,4 +32,9 @@ test('font file with a table outside its bytes is refused',()=>{
 });
 test('an executable renamed as music cannot be imported',()=>{
   assert.throws(()=>validateMp3(Buffer.from('MZ this is not MPEG audio')),/MP3|MPEG/i);
+});
+test('an executable or truncated container disguised as WAV is refused',()=>{
+  assert.throws(()=>validateWav(Buffer.from('MZ pretend wav file with lots of padding bytes 01234567890123456789')),/WAV/i);
+  const bad=Buffer.alloc(44);bad.write('RIFF',0);bad.writeUInt32LE(36,4);bad.write('WAVE',8);bad.write('fmt ',12);bad.writeUInt32LE(16,16);bad.writeUInt16LE(1,20);bad.writeUInt16LE(1,22);bad.writeUInt32LE(22050,24);bad.writeUInt16LE(16,34);bad.write('data',36);bad.writeUInt32LE(999,40);
+  assert.throws(()=>validateWav(bad),/bounds/i);
 });

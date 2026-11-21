@@ -42,6 +42,63 @@ public final class OriginalEngineTest {
         BattlePlan pickups=new BattlePlan();pickups.mining=true;BattlePlan.Spawn miner=new BattlePlan.Spawn();miner.type=7;miner.unit="miney";miner.team=0;miner.ai="guard";miner.x=300;BattlePlan.Zone zone=new BattlePlan.Zone();zone.flag="mineyRescued";zone.actor="courier";miner.zones.add(zone);pickups.spawns.add(miner);
         BattlePlan.Spawn courier=new BattlePlan.Spawn();courier.type=0;courier.unit="u0";courier.team=0;courier.id="courier";courier.ai="marchRight";courier.x=300;pickups.spawns.add(courier);
         b=new OriginalBattle(specs(),0,new Progress(),pickups,new int[]{0});ticks(b,.1);ok(b.miners==0&&b.flag("mineyRescued")==1,"rescue miner is a one-time zone pickup, not a mine purchase");ticks(b,1);ok(b.flag("mineyRescued")==1,"collected rescue cannot increment twice");
+        // --- v0.3.0 Combat Depth, AI, Buff/Stun, Progress & SFX assertions ---
+        // 1. Native 0x4b297c damage/armor type matchup
+        ok(UnitSpec.applyTypeMatchup(100,UnitSpec.MELEE,UnitSpec.RANGED)==130,"melee vs ranged deals 1.30x");
+        ok(UnitSpec.applyTypeMatchup(100,UnitSpec.RANGED,UnitSpec.MAGIC)==140,"ranged vs magic deals 1.40x");
+        ok(UnitSpec.applyTypeMatchup(100,UnitSpec.MAGIC,UnitSpec.MELEE)==115,"magic vs melee deals 1.15x");
+        ok(UnitSpec.applyTypeMatchup(100,UnitSpec.MELEE,UnitSpec.SIEGE)==0,"non-siege vs armorType==3 deals 0");
+        ok(UnitSpec.applyTypeMatchup(100,UnitSpec.SIEGE,UnitSpec.SIEGE)==100,"siege bypasses armorType==3 immunity");
+        // 2. Hit stun & hard stun + buffImmune
+        List<UnitSpec> combatSpecs=specs();
+        combatSpecs.get(0).damageType=UnitSpec.MELEE;combatSpecs.get(0).armorType=UnitSpec.MELEE;
+        combatSpecs.get(8).damageType=UnitSpec.RANGED;combatSpecs.get(8).armorType=UnitSpec.RANGED;
+        combatSpecs.get(9).buffImmune=true;combatSpecs.get(9).charmImmune=true;
+        BattlePlan arena=new BattlePlan();arena.initialGems=100;arena.playerCastle=true;arena.width=1700;
+        b=new OriginalBattle(combatSpecs,0,new Progress(),arena,new int[]{0});
+        BattleEngine.Actor victim=new BattleEngine.Actor(8,true,1,500,100,10,0,30,25,1);victim.ai="guard";victim.homeX=500;
+        BattleEngine.Actor immune=new BattleEngine.Actor(9,true,1,520,100,10,0,30,25,1);immune.ai="guard";
+        b.actors.add(victim);b.actors.add(immune);
+        UnitSpec.BuffDef stunDef=new UnitSpec.BuffDef();stunDef.name="testStun";stunDef.status="stun";stunDef.duration=2;stunDef.stun=2;
+        b.applyBuff(null,victim,stunDef);b.applyBuff(null,immune,stunDef);
+        ok(victim.stunTime>1.5&&immune.stunTime==0,"hard stun applies to normal unit and is blocked by buffImmune");
+        double stunX=victim.x;victim.goal=400;ticks(b,.5);ok(victim.x==stunX,"stunned unit cannot move");
+        // 3. Buffs: DoT (burn), speed scalor, fear, charm + restore
+        UnitSpec.BuffDef burnDef=new UnitSpec.BuffDef();burnDef.name="Fire";burnDef.status="burn";burnDef.duration=2;burnDef.dps=20;
+        b.applyBuff(null,victim,burnDef);double hpBeforeBurn=victim.hp;ticks(b,1);ok(victim.hp<hpBeforeBurn-15,"burn DoT ticks health down");
+        UnitSpec.BuffDef slowDef=new UnitSpec.BuffDef();slowDef.name="slow";slowDef.duration=2;slowDef.speedScalor=-1;
+        b.applyBuff(null,victim,slowDef);ok(Math.abs(victim.speed-15)<.01,"negative speedScalor divides speed");
+        UnitSpec.BuffDef charmDef=new UnitSpec.BuffDef();charmDef.name="charm";charmDef.status="confuse";charmDef.duration=.5;
+        b.applyBuff(null,victim,charmDef);b.applyBuff(null,immune,charmDef);
+        ok(!victim.enemy&&immune.enemy,"charm flips team on vulnerable unit and respects charmImmune");
+        ticks(b,.6);ok(victim.enemy,"charm expiration restores original team");
+        // 4. AI state transitions: Guard hurt -> Hunt + callsForHelp wakes nearby guard -> target dies -> restores Guard
+        b=new OriginalBattle(combatSpecs,0,new Progress(),arena,new int[]{0});
+        BattleEngine.Actor heroA=new BattleEngine.Actor(0,false,1,400,200,40,0,30,40,1);heroA.ai="guard";heroA.homeX=400;
+        BattleEngine.Actor guard1=new BattleEngine.Actor(8,true,1,425,200,10,0,30,25,1);guard1.ai="guard";guard1.homeX=425;
+        BattleEngine.Actor guard2=new BattleEngine.Actor(8,true,1,520,200,10,0,30,25,1);guard2.ai="guard";guard2.homeX=520;
+        b.actors.add(heroA);b.actors.add(guard1);b.actors.add(guard2);
+        ticks(b,1.2);
+        ok("hunt".equals(guard1.ai)&&"guard".equals(guard1.savedAi),"guarding unit switches to temporary hunt when hurt");
+        ok("hunt".equals(guard2.ai)&&"guard".equals(guard2.savedAi),"nearby guarding ally wakes up via callsForHelp");
+        heroA.hp=0;ticks(b,.2);
+        ok("guard".equals(guard1.ai)&&guard1.savedAi==null,"unit restores savedAi when hunt target is lost");
+        // FormUp rally
+        b=new OriginalBattle(combatSpecs,0,new Progress(),arena,new int[]{0});
+        BattleEngine.Actor f1=new BattleEngine.Actor(0,false,0,300,100,10,0,30,25,1);
+        BattleEngine.Actor f2=new BattleEngine.Actor(0,false,2,500,100,10,0,30,25,1);
+        b.actors.add(f1);b.actors.add(f2);b.selectActor(f2);b.formUp();
+        ok(f1.goal>450&&"guard".equals(f1.ai)&&b.selected==null,"formUp rallies friendly units toward rally point");
+        // 5. Progress support cost scaling & SFX / specialReady
+        Progress sp=new Progress();sp.gems=1000;
+        ok(sp.supportCost(7)==250&&sp.supportCost(8)==125,"initial support upgrade costs");
+        ok(sp.upgradeSupport(7)&&sp.castleRank==1&&sp.gems==750&&sp.supportCost(7)==500,"castle upgrade scales by 250*(rank+1)");
+        ok(sp.upgradeSupport(8)&&sp.mineRank==1&&sp.gems==625&&sp.supportCost(8)==250,"miner upgrade scales by 125*(rank+1)");
+        b=new OriginalBattle(combatSpecs,0,new Progress(),arena,new int[]{0});
+        b.spawn(0,1);ok(!b.specialReady(),"special button inactive without essence");
+        b.essence=50;ok(b.specialReady(),"special button active with sufficient essence");
+        ok(b.special(),"special activates when ready");
+        List<String> sfx=b.drainSfx();ok(sfx.contains("spawn")&&sfx.contains("special"),"battle emits SFX keys for spawn and special");
         System.out.println("PASS "+count+" original scenario/economy/migration assertions");
     }
     private static String csv(int n,int value){StringBuilder b=new StringBuilder();for(int i=0;i<n;i++){if(i>0)b.append(',');b.append(value);}return b.toString();}

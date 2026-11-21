@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {Archive,parsePlist,validatePng,atlasFrame,hash,validateFont,validateMp3,validateVorbis} from './asset-safety.mjs';
+import {Archive,parsePlist,validatePng,atlasFrame,hash,validateFont,validateMp3,validateVorbis,validateWav} from './asset-safety.mjs';
 import {compileOriginalCampaign} from './original-campaign.mjs';
 import {compileOriginalLayout} from './original-layout.mjs';
 import {compileScenes} from './compile-scenes.mjs';
@@ -37,10 +37,50 @@ const heroes=[['knighty','Knighty',0],['elfy','Elfy',2],['dwarfy','Dwarfy',9],['
 const enemies=['skully','zombie','wolfy','vampy','troll','gargoyle','skullyarcher','reaper'];
 const ordered=[...heroes.slice(0,7),['miney','Miney',0],...enemies.map(x=>[x,x,0]),...heroes.slice(7)];
 const known=new Set(ordered.map(x=>x[0]));for(const id of Object.keys(original))if(!known.has(id))ordered.push([id,id,0]);
+const MAGIC_UNITS=new Set(['wizard','unicorn','phoenix','phoenix-s','healer','sprite','faun','vampy','vampybat','vampyboss','reaper','reaperboss','lich','necro','medusa','fairy','dragon','icedragon','magmadragon','crystaldragon','sanddragon','bonedragon']);
+const RANGED_UNITS=new Set(['elfy','skullyarcher','centaur','spidey','spideyboss','necrospiderpet']);
+function parseTypeCode(name,fallback){
+  if(name==='melee')return 0;if(name==='ranged')return 1;if(name==='magic')return 2;if(name==='siege')return 3;if(name==='neutral')return 4;
+  return fallback;
+}
+function inferRoleType(id,hasProjectile){
+  if(MAGIC_UNITS.has(id))return 2;
+  if(RANGED_UNITS.has(id)||hasProjectile)return 1;
+  return 0;
+}
+function parseChance(raw){
+  if(raw===undefined||raw===null||raw==='')return 1;
+  const n=Number(raw);if(!Number.isFinite(n)||n<=0)return 1;
+  return n>1?Math.min(1,n/100):n;
+}
+function normalizeBuff(b,selfBuff=false){
+  if(!b||typeof b!=='object')return null;
+  const unitMod=String(b.unitModifier??''),attr=b.unitModifierAttributes??{};
+  const aura=unitMod==='FaunAura'&&attr.auraBuff?attr.auraBuff:null;
+  const src=aura??b;
+  const duration=Math.max(0,Number(b.duration??src.duration)||0);
+  const dps=Math.max(0,Number(src.dps)||0),hps=Math.max(0,Number(src.hps)||0);
+  const stun=Math.max(0,Number(src.stun)||0),root=src.root===true;
+  const speedScalor=Number(src.speedScalor)||0,hasteScalor=Number(src.hasteScalor)||0,attackScalor=Number(src.attackScalor)||0,defenseScalor=Number(src.defenseScalor)||0,rangeScalor=Number(src.rangeScalor)||0;
+  const lifeDrainPercent=Number(src.lifeDrainPercent)||0;
+  const status=String(src.status??b.status??(unitMod==='FearBuff'?'fear':unitMod==='CharmBuff'?'confuse':stun>0?'stun':dps>0?'poison':''));
+  const chance=parseChance(b.percentChanceToApply??src.percentChanceToApply);
+  const name=String(src.name??b.name??(status||'buff'));
+  if(!duration&&!stun&&!dps&&!hps&&!speedScalor&&!hasteScalor&&!attackScalor&&!defenseScalor&&!rangeScalor&&!lifeDrainPercent&&!root&&status!=='fear'&&status!=='confuse')return null;
+  return {name,status,duration:Math.max(duration,stun),chance,dps,hps,stun,root,speedScalor,hasteScalor,attackScalor,defenseScalor,rangeScalor,lifeDrainPercent,selfBuff,friendlyAura:aura?attr.friendly!==false:false,auraRadius:aura?Math.max(0,Number(attr.radius)||120):0};
+}
 function combat(def={}){
   const fps=Math.max(1,Math.min(120,Number(def.fps)||15)),count=Math.max(1,Number(def.frameNumber)||1),power=def.powerData??{};
   const hits=Object.entries(def.events??{}).filter(([name,e])=>/^(hit|fire|areaEffect)\d*$/.test(name)&&e&&Number.isFinite(Number(e.frame))).map(([name,e])=>({time:Math.max(0,Number(e.frame)-1)/fps,projectileSpeed:Number(e.projectileSpeed)||0,heal:e.heal===true,area:name.startsWith('areaEffect'),radius:Number(e.explosionRadius)||0})).sort((a,b)=>a.time-b.time);
-  return {fps,frames:count,interval:count/fps,range:Number(power.range)||30,type:String(def.type??'attack'),hitAllLanes:power.hitAllLanes===true,hits,activationCost:Number(def.activationCost)||0,speedScalor:Number(power.speedScalor)||0};
+  const buffs=[];
+  for(const raw of (power.buffs??def.buffs??[])){const nb=normalizeBuff(raw,false);if(nb)buffs.push(nb);}
+  if(def.events?.custom?.arguments?.targetBuff){const nb=normalizeBuff(def.events.custom.arguments.targetBuff,false);if(nb)buffs.push(nb);}
+  if(power.hitHandler?.arguments?.buff){const nb=normalizeBuff(power.hitHandler.arguments.buff,false);if(nb)buffs.push(nb);}
+  let selfBuff=null;
+  if(def.events?.buff?.buff)selfBuff=normalizeBuff(def.events.buff.buff,true);
+  if(!selfBuff&&Array.isArray(def.endEvents)){for(const ev of def.endEvents){if(ev?.data?.buff){selfBuff=normalizeBuff(ev.data.buff,true);break;}}}
+  const stallStun=Number(def.events?.stall?.stunLength)||0;
+  return {fps,frames:count,interval:count/fps,range:Number(power.range)||30,type:String(def.type??'attack'),hitAllLanes:power.hitAllLanes===true,hits,activationCost:Number(def.activationCost)||0,speedScalor:Number(power.speedScalor)||0,damageType:power.damageType??null,buffs,selfBuff,stallStun};
 }
 for(const [id,label,unlock] of ordered){
   const u=original[id];if(!u)throw Error('Missing unit '+id);
@@ -76,25 +116,44 @@ for(const [id,label,unlock] of ordered){
   }
   const range=Number(animations.primary?.powerData?.range)||30;
   const roster=layout.battleHud.unitSelection.roster.find(h=>h.id===id),primary=variants[0].states.primary;
-  data.units.push({id,label,unlock,hero:!!roster,moonstonePrice:roster?.initialUpgrade?Number(roster.initialUpgradePrice)||1:0,hp:Number.isFinite(Number(p.hitPoints))?Number(p.hitPoints):100,attack:Number(p.attackPoints)||0,defense:Number(p.defensePoints)||0,critChance:Number(p.critChance)||0,speed:Number(p.speed)||0,cost:Number(p.production?.cost)||0,cooldown:Number(p.production?.cooldown)||0,range,interval:combat(animations.primary).interval,hitDelay:primary?(primary.hitFrame-1)/primary.fps:.3,specialCost:Number.isFinite(Number(animations.special?.activationCost))?Number(animations.special.activationCost):10,specialDamage:Number(p.specialPoints)||p.attackPoints||10,reward:Number(p.rewardPoints)||0,gearCost:Number(p.moonStone?.dUpgradeCost)||1,healer:id==='healer',upgrades:p.upgrades??{},variants});
+  const primaryCombat=combat(animations.primary);
+  const hasProj=primaryCombat.hits.some(h=>h.projectileSpeed>0);
+  const inferred=inferRoleType(id,hasProj);
+  const damageType=parseTypeCode(p.damageType,inferred),armorType=parseTypeCode(p.armorType,inferred);
+  data.units.push({id,label,unlock,hero:!!roster,moonstonePrice:roster?.initialUpgrade?Number(roster.initialUpgradePrice)||1:0,hp:Number.isFinite(Number(p.hitPoints))?Number(p.hitPoints):100,attack:Number(p.attackPoints)||0,defense:Number(p.defensePoints)||0,critChance:Number(p.critChance)||0,speed:Number(p.speed)||0,cost:Number(p.production?.cost)||0,cooldown:Number(p.production?.cooldown)||0,range,interval:primaryCombat.interval,hitDelay:primary?(primary.hitFrame-1)/primary.fps:.3,specialCost:Number.isFinite(Number(animations.special?.activationCost))?Number(animations.special.activationCost):10,specialDamage:Number(p.specialPoints)||p.attackPoints||10,reward:Number(p.rewardPoints)||0,gearCost:Number(p.moonStone?.dUpgradeCost)||1,healer:id==='healer',damageType,armorType,buffImmune:p.buffImmune===true,charmImmune:p.charmImmune===true,huntLimit:Number(p.huntLimit)||0,upgrades:p.upgrades??{},variants});
 }
 for(const name of ['mainmenu-background-hd','mainmenu-foreground-hd','worldmapsheet1','worldmapsheet2','worldmapsheet3-hd','armory-shopdesk-hd','armory-units-spritesheet1-hd','unit-selection-spritesheet-hd','hud-spritesheet-hd'])atlas(name);
 for(const region of ['Grass','Snow','Desert','Swamp','Volcano','Netherworld']){atlas(region+'Scene-hd');if(apk.entries.has('assets/'+region+'SceneScrolling-hd.plist'))atlas(region+'SceneScrolling-hd');atlas('castle-'+region.toLowerCase()+'-spritesheet-hd');}
 for(const extra of ['SkyhavenSceneScrolling-hd','SkyhavenSceneScrolling2-hd','armory-spritesheet-hd','armory-units-spritesheet2-hd','armory-units-spritesheet3-hd','scrollnode-vertical-spritesheet-hd','scrollnode-horizontal-spritesheet-hd','fx-spritesheet-hd'])atlas(extra);
 atlas('castle-default-spritesheet-hd');
-function wav(b){
-  if(b.length<44||b.toString('ascii',0,4)!=='RIFF'||b.toString('ascii',8,12)!=='WAVE'||b.readUInt32LE(4)+8!==b.length)throw Error('Invalid WAV container');
-  let p=12,fmt=false,samples=false;
-  while(p+8<=b.length){const n=b.readUInt32LE(p+4);if(p+8+n>b.length)throw Error('WAV bounds');const id=b.toString('ascii',p,p+4);
-    if(id==='fmt '){if(n<16||![1,3,17].includes(b.readUInt16LE(p+8)))throw Error('Unsupported WAV format');fmt=true;}
-    if(id==='data')samples=true;p+=8+n+(n&1);
-  }
-  if(!fmt||!samples)throw Error('Incomplete WAV');
-}
-for(const name of ['Armory.wav','Knight_1st_attack.wav','Elf_1st_attack.wav','Knight_Death.wav','mono_Upgrade_tier.wav']){
-  if(!obb.entries.has('assets/'+name))continue;
-  const b=obb.read('assets/'+name);wav(b);fs.writeFileSync(path.join(output,'audio',name),b);
-  provenance.push({source:'obb',path:'assets/'+name,sha256:hash(b),use:'validated WAV'});
+for(const existing of fs.readdirSync(path.join(output,'audio')))if(existing.endsWith('.wav'))fs.unlinkSync(path.join(output,'audio',existing));
+const sfxMap={
+  melee:'mono_Knight_1st_attack.wav',
+  ranged:'mono_Elf_1st_attack.wav',
+  arrowHit:'mono_Arrowhit.wav',
+  magic:'mono_Wizard_attack_fire.wav',
+  heroDeath:'mono_Knight_Death.wav',
+  enemyDeath:'mono_Skeleton_Death.wav',
+  special:'mono_Knight_special.wav',
+  specialReady:'mono_Special_Ready.wav',
+  spellArrows:'mono_Rainofarrows.wav',
+  spellFire:'mono_Firestorm.wav',
+  spellIce:'mono_Icestorm.wav',
+  gem:'mono_Gem_touch1.wav',
+  spawn:'mono_Create.wav',
+  miner:'mono_Minertouch.wav',
+  click:'mono_Buttonclick.wav',
+  upgrade:'mono_Upgrade_tier.wav',
+  victory:'mono_Victory.wav',
+  defeat:'mono_defeat_laugh.wav'
+};
+data.sfx={};
+for(const [key,name] of Object.entries(sfxMap)){
+  if(!obb.entries.has('assets/'+name))throw Error('Missing curated SFX '+name);
+  const b=obb.read('assets/'+name),info=validateWav(b);
+  fs.writeFileSync(path.join(output,'audio',name),b);
+  provenance.push({source:'obb',path:'assets/'+name,sha256:hash(b),use:'validated WAV',...info});
+  data.sfx[key]='audio/'+name;
 }
 data.music={};
 for(const name of ['TitleScreen.mp3','Overworld.mp3','Armory.mp3','GrassLevel.mp3','SnowLevel.mp3','DesertLevel.mp3','SwampLevel.mp3','VolcanoLevel.mp3','Netherworld_Level.mp3','SkyHaven.mp3']){

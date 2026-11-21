@@ -48,6 +48,11 @@ public final class RecoveredScenarioTest {
         ok(UnitSpec.mitigate(100,50,true)==50&&UnitSpec.mitigate(100,50,false)==75&&UnitSpec.mitigate(100,999,true)==25,"native percentage defense and minimum quarter damage");
         ok(UnitSpec.roll(100,0,false)==75&&UnitSpec.roll(100,.99999,false)==100&&UnitSpec.roll(100,0,true)==150,"native random damage interval and doubled critical roll");
         ok(knight.profile(1,true).speedScalor==.5&&d.specs.get(d.type("golem")).profile(1,true).speedScalor==4,"original special movement scalors are retained");
+        ok(d.specs.get(d.type("caty")).damageType==UnitSpec.SIEGE&&d.specs.get(d.type("caty")).armorType==UnitSpec.MELEE,"source Caty siege damageType and melee armorType recovered");
+        ok(d.specs.get(d.type("elfy")).damageType==UnitSpec.RANGED&&d.specs.get(d.type("wizard")).damageType==UnitSpec.MAGIC,"source Elfy ranged and Wizard magic types assigned");
+        ok(d.specs.get(d.type("golem")).buffImmune&&d.specs.get(d.type("troll")).buffImmune&&!knight.buffImmune,"source buffImmune flags recovered");
+        ok(d.specs.get(d.type("dwarfy")).profile(2,true).buffs.length>0&&"burn".equals(d.specs.get(d.type("dwarfy")).profile(2,true).buffs[0].status),"source tier-2 Dwarfy special burn buff recovered");
+        ok(d.json.optJSONObject("sfx")!=null&&d.json.optJSONObject("sfx").length()==18,"curated 18 validated WAV SFX entries packaged");
         Progress rescueProgress=new Progress();for(int i=0;i<4;i++)rescueProgress.stars[i]=3;
         b=new OriginalBattle(d.specs,4,rescueProgress,d.plans.get(4),new int[0]);step(b,.3);ok(b.selected!=null&&"introelfy".equals(b.selected.scriptId)&&b.scrollSpeed==125,"original scrolling speed and controlled Elfy are applied");
         for(int tick=0;tick<10800&&b.state==BattleEngine.PLAYING&&b.flag("elfysRecruited")<10;tick++){
