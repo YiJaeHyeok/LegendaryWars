@@ -210,18 +210,44 @@ public final class WarView extends View {
     private void modes(Canvas c){scene(c,"props");shade(c);panel(c,329,135,622,470,0xf5213436,GOLD);text(c,"Game Modes",640,200,37,GOLD,true,true);button(c,"Campaign",421,239,440,61,1,MAP,true,true);button(c,"Armory",421,323,440,61,1,ARMORY,true,false);button(c,"Heroes",421,407,440,61,1,CODEX,true,false);button(c,"Back",421,510,440,54,1,HOME,true,false);}
     private float worldX(OriginalBattle b,double x){return (float)((x-b.camera)*2.25);}
     private float originalLane(double lane){return (float)(720-(52+45*lane)*2.25);}
+    private static final int[] SKY_COLORS={0xff8ec5e8,0xffb7d3e6,0xffe3c896,0xff5a6f5c,0xff4a2520,0xff381c2e,0xff99cce6};
+    private static double alignInset(String align){
+        if(align==null||align.isEmpty())return 0;
+        int end=align.lastIndexOf('}');if(end<=0)return 0;
+        int start=align.lastIndexOf('{',end-1);if(start<0)return 0;
+        String[] parts=align.substring(start+1,end).split(",");
+        try{return Double.parseDouble(parts[parts.length-1].trim());}catch(NumberFormatException e){return 0;}
+    }
+    private String resolveLayerAtlas(int r,String preferred,String frame){
+        if(art.frame(preferred,frame)!=null)return preferred;
+        String base=SCENES[Math.max(0,Math.min(SCENES.length-1,r))];
+        String[] cands={base+"Scene-hd",base+"Scene2-hd",base+"SceneScrolling-hd",base+"SceneScrolling2-hd","GrassScene-hd"};
+        for(String a:cands)if(art.frame(a,frame)!=null)return a;
+        return null;
+    }
     private void sourceTerrain(Canvas c,OriginalBattle b){
-        int r=b.plan.region;rect(c,0,0,1280,720,r==5?0xff7d5362:r==6?0xffacc9d0:0xffd0c19c);
+        int r=Math.max(0,Math.min(SCENES.length-1,b.plan.region));
+        rect(c,0,0,1280,720,b.scrollSpeed>0?SKY_COLORS[r]:(r==5?0xff7d5362:r==6?0xffacc9d0:0xffd0c19c));
         JSONObject planJson=data.json.optJSONObject("campaign").optJSONArray("levels").optJSONObject(b.stage);JSONArray layers=planJson.optJSONArray("layers");
         if(layers!=null){ArrayList<JSONObject> sorted=new ArrayList<>();for(int i=0;i<layers.length();i++)sorted.add(layers.optJSONObject(i));sorted.sort((a,z)->Double.compare(a.optDouble("z",0),z.optDouble("z",0)));
             for(JSONObject layer:sorted){String frame=layer.optString("frame"),atlas=layer.optString("sheet","");if(atlas.isEmpty())atlas=SCENES[r]+"Scene";if(!atlas.endsWith("-hd"))atlas+="-hd";
-                JSONObject f=art.frame(atlas,frame);if(f==null){atlas=SCENES[r]+"Scene-hd";f=art.frame(atlas,frame);}if(f==null)continue;
+                atlas=resolveLayerAtlas(r,atlas,frame);if(atlas==null)continue;
+                JSONObject f=art.frame(atlas,frame);if(f==null)continue;
                 JSONArray size=f.optJSONArray("size"),position=layer.optJSONArray("position"),anchor=layer.optJSONArray("anchor"),ratio=layer.optJSONArray("ratio");
                 float w=(float)size.optDouble(0)*1.125f,h=(float)size.optDouble(1)*1.125f;
                 double x=position==null?0:position.optDouble(0),y=position==null?0:position.optDouble(1),ax=anchor==null?0:anchor.optDouble(0),ay=anchor==null?0:anchor.optDouble(1);
-                String align=layer.optString("align","");if(align.toLowerCase(Locale.US).contains("top"))y=320;
-                double camera=layer.optBoolean("onScreen")?0:(b.scrollSpeed>0?b.camera%1700:b.camera)*(ratio==null?1:ratio.optDouble(0,1));
-                art.draw(c,atlas,frame,(float)((x-camera)*2.25-ax*w),(float)(720-y*2.25-(1-ay)*h),w,h);
+                String align=layer.optString("align","");boolean topAlign=align.toLowerCase(Locale.US).contains("top");
+                float topY=topAlign?(float)(alignInset(align)*2.25):(float)(720-y*2.25-(1-ay)*h);
+                double pr=ratio==null?1:ratio.optDouble(0,1);
+                if(b.scrollSpeed>0&&w>=640){
+                    if(pr==1){if(frame.contains("_BG"))pr=.25;else if(frame.contains("_MG"))pr=.5;}
+                    double scrollPx=layer.optBoolean("onScreen")?0:b.camera*pr*2.25;
+                    float startX=(float)(-(((scrollPx%w)+w)%w));
+                    for(float dx=startX;dx<1280f;dx+=w)art.draw(c,atlas,frame,dx,topY,w,h);
+                }else{
+                    double camera=layer.optBoolean("onScreen")?0:b.camera*pr;
+                    art.draw(c,atlas,frame,(float)((x-camera)*2.25-ax*w),topY,w,h);
+                }
             }
         }
     }

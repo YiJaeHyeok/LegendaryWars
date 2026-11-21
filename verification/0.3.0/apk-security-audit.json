@@ -1,8 +1,8 @@
 {
   "apkPath": "legendary-wars-offline.apk",
-  "apkSha256": "a4a968613276bee82a111ec464ff030b3dd9415aeb47c5a4c486926407591701",
-  "bytes": 92901465,
-  "approvedAssets": 216,
+  "apkSha256": "466d51922b402360cd09f893673002caa936a6ffb73e9d8b8e5ce499470eb66c",
+  "bytes": 94831274,
+  "approvedAssets": 223,
   "declaredClasses": [
     "Lcom/legendary/offline/Artwork$1;",
     "Lcom/legendary/offline/Artwork$2;",
